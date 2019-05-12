@@ -1,0 +1,151 @@
+conky.config = {
+	use_xft = true,
+	background = true,
+	font = 'Liberation Sans:size=8',
+	override_utf8_locale = true,
+
+	text_buffer_size = 2048,
+	update_interval = 1,
+	total_run_times = 0,
+	double_buffer = true,
+	no_buffers = true,
+	net_avg_samples = 1,
+	cpu_avg_samples = 1,
+
+  gap_x = 1410,
+  gap_y = 10,
+	minimum_width = 300, minimum_height = 600,
+	maximum_width = 350, 
+	alignment = 'top_right',
+	own_window_class = 'Conky',
+	own_window = true,
+	own_window_type = 'override',
+	own_window_transparent = true,
+	own_window_colour = '#808080',
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+	border_inner_margin = 0,
+	border_outer_margin = 0,
+
+	font = 'caviar dreams:size=10',
+	xftalpha = 0.5,
+	uppercase = false,
+
+-- Defining colors
+	default_color = '#cccccc',
+-- Shades of Gray
+	color1 = '#DDDDDD',
+	color2 = '#AAAAAA',
+	color3 = '#888888',
+-- Orange
+	color4 = '#EF5A29',
+-- Green
+	color5 = '#77B753',
+--Red
+	color7 = '#00BFFF',
+--red
+	color8 = '#00FF00',
+
+-- Loading lua script for drawning rings
+	lua_draw_hook_post = 'main',
+
+--# System information using conky capabilities
+
+-- Header with base system info
+	own_window_argb_value = 0,
+	own_window_colour = '#cccccc',
+
+};
+
+conky.text = [[
+##############
+# - SYSTEM - #
+############## 
+$alignc${color0}${font Liberation Sans:style=Bold:size=12}$nodename
+${font Ubuntu:bold:size=10}${color4}SYSTEM INFO ${hr 2}
+${offset 45}${font Poky:size=10}${color6}A${voffset -1}${font DroidSans:size=9}${color6}Kernel Version${alignr}${font DroidSans:size=9}$sysname $kernel
+${offset 45}${font Poky:size=10}${color6}B${voffset -1}${font DroidSans:size=9}${color6}System Uptime${alignr}${font DroidSans:size=9}$uptime
+${offset 45}${font Poky:size=10}${color6}g${voffset -2}${font DroidSans:size=9}${color6}System${offset 3}Load${alignr}${font DroidSans:size=9}${loadavg}${font}
+${offset 45}${font Poky:size=10}${color6}i${voffset -1}${font DroidSans:size=9}${color6}Processor${alignr}${font DroidSans:size=9}${execi 1000 cat /proc/cpuinfo | awk '/model name/ {gsub(/\([^)]+\)/,""); print $4, $5, $6}' | uniq}${font}
+##############
+# - CLOCKS - #
+##############
+${font Ubuntu:size=10:bold}${color4}CLOCKS ${hr 2}
+#${offset 45}${font DroidSans:size=9}${color6}Bangkok $alignr ${tztime Asia/Bangkok %H:%M}
+${offset 45}${font DroidSans:size=9}${color6}Italy $alignr ${tztime Europe/Rome %H:%M}
+${offset 45}${font DroidSans:size=9}${color6}San Francisko $alignr ${tztime US/Pacific %H:%M}
+${offset 45}${font DroidSans:size=9}${color6}New York $alignr ${tztime America/New_York %H:%M}
+${offset 45}${font DroidSans:size=9}${color6}Montevideo $alignr ${tztime America/Montevideo %H:%M}
+###########
+# - ETH - #
+###########
+${font Ubuntu:size=10:bold}${color4}ETH ${hr 2}
+${offset 45}${voffset -1}${font DroidSans:size=9}${color6}Price:${alignr}${font DroidSans:size=9}${texeci 300 curl https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{price: .data.quotes.EUR.price}' | grep "price" | tail  -n1 | grep -Eo "[0-9]+\.[0-9]+" | xargs printf "%.2f"} EUR
+${offset 45}${voffset -1}${font DroidSans:size=9}${color6}1h change:${alignr}${font DroidSans:size=9}${texeci 300 curl https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_1h: .data.quotes.EUR.percent_change_1h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+${offset 45}${voffset -1}${font DroidSans:size=9}${color6}24h change${alignr}${font DroidSans:size=9}${texeci 300 curl https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_24h: .data.quotes.EUR.percent_change_24h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+${offset 45}${voffset -1}${font DroidSans:size=9}${color6}7d change:${alignr}${font DroidSans:size=9}${texeci 300 curl https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_7d: .data.quotes.EUR.percent_change_7d}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+${offset 45}${voffset -1}${font DroidSans:size=9}${color6}Last updated:${alignr}${font DroidSans:size=9}${texeci 300 date -d @$(curl https://api.coinmarketcap.com/v1/ticker/ethereum/ | grep "last_updated" | grep -o '[0-9]*')}
+#################
+# - CPU STATS - #
+#################
+${font Ubuntu:size=10:bold}${color4}CPU STATS ${hr 2}
+${offset 15}${font DroidSans:bold:size=8}${color7}Core${goto 140}Usage${alignr 75}Temp${alignr}Freqs${font}
+${voffset 3}${offset 30}${font StyleBats:size=10}${color2}A${voffset -1}${font DroidSans:size=8}${color6}${offset 5}Core 0${goto 150}${font DroidSans:size=8}${cpu cpu0}%${alignr 60}${font DroidSans:size=8}${execi 2 sensors | grep 'Core 0' | awk '{print $3}' | cut -c2-3}°C${alignr}${freq_g 0}GHz${font}
+${offset 30}${font StyleBats:size=10}${color2}A${voffset -1}${font DroidSans:size=8}${color6}${offset 5}Core 1${goto 150}${font DroidSans:size=8}${cpu cpu1}%${alignr 60}${font DroidSans:size=8}${execi 2 sensors | grep 'Core 0' | awk '{print $3}' | cut -c2-3}°C${alignr}${freq_g 1}GHz${font}
+${offset 30}${font StyleBats:size=10}${color2}A${voffset -1}${font DroidSans:size=8}${color6}${offset 5}Core 2${goto 150}${font DroidSans:size=8}${cpu cpu2}%${alignr 60}${font DroidSans:size=8}${execi 2 sensors | grep 'Core 1' | awk '{print $3}' | cut -c2-3}°C${alignr}${freq_g 2}GHz${font}
+${offset 30}${font StyleBats:size=10}${color2}A${voffset -1}${font DroidSans:size=8}${color6}${offset 5}Core 3${goto 150}${font DroidSans:size=8}${cpu cpu3}%${alignr 60}${font DroidSans:size=8}${execi 2 sensors | grep 'Core 1' | awk '{print $3}' | cut -c2-3}°C${alignr}${freq_g 3}GHz${font}
+##############
+# - NVIDIA - #
+##############
+${font Ubuntu:size=10:bold}${color4}GPU ${hr 2}${font}${color}
+${voffset -4}${color2}${font Poky:size=17}N${font DroidSans:size=8}${color6}${goto 32}${voffset -8}${execi 600 nvidia-settings -q gpus | grep "\[gpu:0\]" | cut -d "(" -f2 | tr -d "\)"}: ${font DroidSans:size=8}${color6}${execi 20 nvidia-settings -q [gpu:0]/GPUCurrentClockFreqs -t}${alignr}${execi 20 nvidia-settings -q [gpu:0]/GPUCoreTemp -t}°C${font}${color}
+${offset 30}${font DroidSans:size=8}${color6}Video RAM:${alignr}${exec nvidia-settings -q VideoRam -t} KB\
+${offset 30}${font DroidSans:size=8}${color6}Driver Version:${alignr}${exec nvidia-settings -q NvidiaDriverVersion -t}${font}${color}
+#####################
+# - TOP PROCESSES - #
+#####################
+${font Ubuntu:size=10:bold}${color4}TOP PROCESSES ${hr 2}
+${offset 30}${font DroidSans:bold:size=8}${color7}name${goto 140}cpu usage${alignr 55}PID${alignr}memory${font}
+${offset 30}${font StyleBats:size=10}${color2}h${voffset -1}${font DroidSans:size=8}${color6}${offset 5}${top name 1}${goto 150}${font DroidSans:size=8}${top cpu 1}${alignr 60}${font DroidSans:size=8}${top pid 1}${alignr}${top mem_res 1}${font}
+${offset 30}${font StyleBats:size=10}${color2}h${voffset -1}${font DroidSans:size=8}${color6}${offset 5}${top name 2}${goto 150}${font DroidSans:size=8}${top cpu 2}${alignr 60}${font DroidSans:size=8}${top pid 2}${alignr}${top mem_res 2}${font}
+${offset 30}${font StyleBats:size=10}${color2}h${voffset -1}${font DroidSans:size=8}${color6}${offset 5}${top name 3}${goto 150}${font DroidSans:size=8}${top cpu 3}${alignr 60}${font DroidSans:size=8}${top pid 3}${alignr}${top mem_res 3}${font}
+${offset 30}${font StyleBats:size=10}${color2}h${voffset -1}${font DroidSans:size=8}${color6}${offset 5}${top name 4}${goto 150}${font DroidSans:size=8}${top cpu 4}${alignr 60}${font DroidSans:size=8}${top pid 4}${alignr}${top mem_res 4}${font}
+${offset 30}${font StyleBats:size=10}${color2}h${voffset -1}${font DroidSans:size=8}${color6}${offset 5}${top name 5}${goto 150}${font DroidSans:size=8}${top cpu 5}${alignr 60}${font DroidSans:size=8}${top pid 5}${alignr}${top mem_res 5}${font}
+###################
+# - RAM AND SWAP- #
+###################
+${font Ubuntu:size=10:bold}${color4}MEMORY STATS ${hr 2}
+${offset 30}${font DroidSans:bold:size=8}${color7}RAM used${goto 145}Free${alignr 50}SWAP used${alignr}Free${font}
+${offset 30}${font DroidSans:size=8}${color6}${offset 5}${memperc}%${goto 140}${font DroidSans:size=8}${memeasyfree}${alignr 45}${font DroidSans:size=8}${swapperc}%${alignr}${font DroidSans:size=8}${swapmax}
+############
+# - DISKS- #
+############
+${font Ubuntu:size=10:bold}${color4}DISKS ${hr 2}
+#${diskiograph 25,170 666666 666666}${voffset -15}
+${color2}${voffset -4}${font Poky:size=17}y${font DroidSans:size=8}${color6}${goto 32}${voffset -8}${font Ubuntu:size=10:bold}${color7}Free:  ${font DroidSans:size=8}${color6}${fs_free /}${goto 180}${font DroidSans:size=12}${color8} /root    ${alignr}${font Ubuntu:size=10:bold}${color7}Used:  ${font DroidSans:size=8}${color6}${fs_used /}
+${offset 30}${font Ubuntu:size=10:bold}${color7}Free:  ${font DroidSans:size=8}${color6}${fs_free /home}${goto 180}${font DroidSans:size=12}${color8} /home ${alignr}${font Ubuntu:size=10:bold}${color7}Used:  ${font DroidSans:size=8}${color6}${fs_used /home}
+###############
+# - NETWORK - #
+###############
+${font Ubuntu:size=10:bold}${color4}NETWORK ${hr 2}
+${offset 30}${font DroidSans:size=8}${color6}IP WiFi $alignr ${addr wlp1s0}
+${offset 30}${if_empty ${exec cat /proc/net/wireless | grep wlp1s0}}
+${else}Signal: ${wireless_link_qual wlp1s0}% ${alignr}${wireless_link_bar 8,60 wlp1s0}
+${offset 30}Dow. $alignr ${downspeed wlp1s0} kb/s
+${offset 30}Up. $alignr ${upspeed wlp1s0} kb/s
+${offset 30}Downloaded: $alignr  ${totaldown wlp1s0}
+${offset 30}Uploaded: $alignr  ${totalup wlp1s0}${endif}
+${color4}${hr 1}
+${offset 30}${font DroidSans:size=8}${color6}IP LAN $alignr ${addr enp2s0}
+${offset 30}${if_empty ${exec cat /proc/net/arp | grep enp2s0}}
+${else}Dow. $alignr ${downspeed enp2s0} kb/s
+${offset 30}Up. $alignr ${upspeed eth1} kb/s
+${offset 30}Downloaded: $alignr  ${totaldown enp2s0}
+${offset 30}Uploaded: $alignr  ${totalup enp2s0}${endif}
+${font}${color}
+
+]];
