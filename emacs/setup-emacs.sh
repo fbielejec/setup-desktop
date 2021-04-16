@@ -1,5 +1,9 @@
 #!/bin/bash
 
+####
+# emacs25 with configs
+####
+
 echo "################################################################" 
 echo "Installing emacs..."
 

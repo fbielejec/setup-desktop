@@ -1,164 +1,184 @@
 #!/bin/bash
 
+echo "################################################################"
+echo "###################    B E G I N      ##########################"
+
+sudo apt-get update
+
+#################################
+#--- track orhpaned packages ---#
+#################################
+
+cd ./deborphan
+
+./setup-deborphan.sh
+
+cd ../
+
 ######################
 #--- applications ---#
 ######################
 
-# cd ./applications
+cd ./applications
 
-# ./install-applications.sh
+./install-applications.sh
 
-# cd ../
+cd ../
 
 ############
 #--- i3 ---#
 ############
 
-# cd ./i3
+cd ./i3
 
-# ./100-install-dependencies.sh
+./100-install-dependencies.sh
 
-# ./110-install-xcb-util-xrm.sh
+./110-install-xcb-util-xrm.sh
 
-# ./120-install-i3-gaps-next.sh
+./120-install-i3-gaps-next.sh
 
-# ./130-install-extra-software-needed-on-i3.sh
+./130-install-extra-software-needed-on-i3.sh
 
-# ./140-copy-i3-files-to-config-i3-folder.sh
+./140-copy-i3-files-to-config-i3-folder.sh
 
-# cd ../
+./150-copy-feh-background-folder.sh
+
+cd ../
 
 ###############
 #--- conky ---#
 ###############
 
-# cd ./conky
+cd ./conky
 
-# ./setup-conky.sh
+./setup-conky.sh
 
-# cd ../
+cd ../
 
 ################
 #--- chrome ---#
 ################
 
-# cd ./chrome
+cd ./chrome
 
-# ./install-google-chrome.sh
+./install-google-chrome.sh
 
-# cd ../
+cd ../
 
 ##############
 #--- java ---#
 ##############
 
-# cd ./java
+cd ./java
 
-# ./setup-java.sh
+./setup-java.sh
 
-# cd ../
+cd ../
 
 ##############
 #--- node ---#
 ##############
 
-# cd ./node
+cd ./node
 
-# ./setup-node.sh
+./setup-node.sh
 
-# cd ../
+cd ../
 
 ##############
 #--- fish ---#
 ##############
 
 # cd ./fish
-
 # ./setup-fish.sh
-
 # ./setup-fish.fish
-
 # cd ../
+
+##############
+#--- bash ---#
+##############
+
+# TODO: copy bashrc
 
 #############
 #--- git ---#
 #############
 
-# cd ./git
+cd ./git
 
-# ./setup-git.sh
+./setup-git.sh
 
-# cd ../
+cd ../
 
 ###############
 #--- fonts ---#
 ###############
 
-# cd ./fonts
+cd ./fonts
 
-# ./install-fonts.sh
+./install-fonts.sh
 
-# cd ../
+cd ../
 
 ###############
 #--- emacs ---#
 ###############
 
-# cd ./emacs
+cd ./emacs
 
-# ./setup-emacs.sh
+./setup-emacs.sh
 
-# cd ../
+cd ../
 
 #################
 #--- android ---#
 #################
 
-# cd ./android
+cd ./android
 
-# ./setup-android.sh
+./setup-android.sh
 
-# cd ../
+cd ../
 
 ##############
 #--- solc ---#
 ##############
 
-# cd ./solc
+cd ./solc
 
-# ./install-solc.sh
+./install-solc.sh
 
-# cd ../
+cd ../
 
 #################
 #--- clojure ---#
 #################
 
-# cd ./clojure
+cd ./clojure
 
-# ./setup-clojure.sh
+./setup-clojure.sh
 
-# cd ../
+cd ../
 
 ##############
 #--- caja ---#
 ##############
 
-# cd ./caja
+cd ./caja
 
-# ./setup-caja.sh
+./setup-caja.sh
 
-# cd ../
+cd ../
 
 #############
 #--- ssh ---#
 #############
 
-# cd ./ssh
+cd ./ssh
 
-# ./setup-ssh.sh
+./setup-ssh.sh
 
-# cd ../
+cd ../
 
 ################
 #--- docker ---#
@@ -170,8 +190,52 @@ cd ./docker
 
 cd ../
 
+###############
+#--- slack ---#
+###############
 
+cd ./slack
 
+./setup-slack.sh
+
+cd ../
+
+####################
+#--- virtualbox ---#
+####################
+
+cd ./virtualbox
+
+./setup-virtualbox.sh
+
+cd ../
+
+#####################
+#--- ledger-live ---#
+#####################
+
+cd ./ledger_live
+
+./setup-ledger-live.sh
+
+cd ../
+
+##############
+#--- rofi ---#
+##############
+
+./rofi/setup-rofi.sh
+
+#################
+#--- nordvpn ---#
+#################
+
+./vpn/setup_vpn.sh
+
+#################
+#--- arduino ---#
+#################
+# TODO
 
 echo "################################################################"
 echo "###################    T H E   E N D      ######################"

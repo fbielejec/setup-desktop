@@ -47,20 +47,19 @@ ${font Arial:bold:size=8}${color Tan1}SYSTEM ${color DarkSlateGray} ${hr 3}
 # - CLOCKS - #
 ##############
 ${font Arial:bold:size=8}${color Tan1}CLOCKS ${color DarkSlateGray} ${hr 3}
-${font Arial:bold:size=8}${color DarkSlateGray}Bangkok $alignr $font${color gold1}${tztime Asia/Bangkok %H:%M}
-${font Arial:bold:size=8}${color DarkSlateGray}Italy $alignr $font${color gold1}${tztime Europe/Rome %H:%M}
-${font Arial:bold:size=8}${color DarkSlateGray}San Francisko $alignr $font${color gold1}${tztime US/Pacific %H:%M}
 ${font Arial:bold:size=8}${color DarkSlateGray}Montevideo $alignr $font${color gold1}${tztime America/Montevideo %H:%M}
+${font Arial:bold:size=8}${color DarkSlateGray}Bangkok $alignr $font${color gold1}${tztime Asia/Bangkok %H:%M}
+${font Arial:bold:size=8}${color DarkSlateGray}San Francisko $alignr $font${color gold1}${tztime US/Pacific %H:%M}
 ###########
-# - ETH - #
+# - BTC - #
 ###########
-# ${font Arial:bold:size=8}${color Tan1}ETH ${color DarkSlateGray}${hr 3}
-# ${font Arial:bold:size=8}${color DarkSlateGray}Price: $alignr$font${color gold1}${texeci 300 curl https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{price: .data.quotes.EUR.price}' | grep "price" | tail  -n1 | grep -Eo "[0-9]+\.[0-9]+" | xargs printf "%.2f"} EUR
-# ${font Arial:bold:size=8}${color DarkSlateGray}1h change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_1h: .data.quotes.EUR.percent_change_1h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
-# ${font Arial:bold:size=8}${color DarkSlateGray}24h change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_24h: .data.quotes.EUR.percent_change_24h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
-# ${font Arial:bold:size=8}${color DarkSlateGray}7d change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_7d: .data.quotes.EUR.percent_change_7d}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
-# ${font Arial:bold:size=8}${color DarkSlateGray}Last updated: $alignr$font${color gold1}${texeci 300 date -d @$(curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{last_updated: .data.last_updated}' | grep "last_updated" | grep -o '[0-9]*')}
-# #${font Arial:bold:size=8}${color DarkSlateGray}Last updated: $alignr$font${color gold1}${texeci 300 date -d @$(curl https://api.coinmarketcap.com/v1/ticker/ethereum/ | grep "last_updated" | grep -o '[0-9]*')}
+${font Arial:bold:size=8}${color Tan1}BTC ${color DarkSlateGray}${hr 3}
+${font Arial:bold:size=8}${color DarkSlateGray}Price: $alignr$font${color gold1}${texeci 300 curl -H "X-CMC_PRO_API_KEY: 02aa9e26-1c2e-4bf4-94c6-f9f32a6311d7" -H "Accept: application/json" -d "symbol=BTC&convert=EUR" -G https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest | jq '{price: .data.BTC.quote.EUR.price}' | grep "price" | tail  -n1 | grep -Eo "[0-9]+\.[0-9]+" | xargs printf "%.2f"} EUR
+#${font Arial:bold:size=8}${color DarkSlateGray}1h change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_1h: .data.quotes.EUR.percent_change_1h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+#${font Arial:bold:size=8}${color DarkSlateGray}24h change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_24h: .data.quotes.EUR.percent_change_24h}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+#${font Arial:bold:size=8}${color DarkSlateGray}7d change: $alignr$font${color gold1}${texeci 300 curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{percent_change_7d: .data.quotes.EUR.percent_change_7d}' | grep -Eo '[+-]?[0-9]+([.][0-9]+)?' | tail -n1}%
+#${font Arial:bold:size=8}${color DarkSlateGray}Last updated: $alignr$font${color gold1}${texeci 300 date -d @$(curl -X GET https://api.coinmarketcap.com/v2/ticker/1027/\?convert=EUR | jq '{last_updated: .data.last_updated}' | grep "last_updated" | grep -o '[0-9]*')}
+#${font Arial:bold:size=8}${color DarkSlateGray}Last updated: $alignr$font${color gold1}${texeci 300 date -d @$(curl https://api.coinmarketcap.com/v1/ticker/ethereum/ | grep "last_updated" | grep -o '[0-9]*')}
 ##################
 # - PROCESSORS - #
 ##################

@@ -1,4 +1,4 @@
-#### Configuration file for i3 window manager (4.x) 
+#### Configuration file for i3 window manager (4.x)
 ### http://i3wm.org/
 ## Please see http://i3wm.org/docs/userguide.html for a complete reference!
 #
@@ -20,7 +20,7 @@
 
 
 # All personal preferences are mentioned below the title personal settings
-# Here are all the standard i3 settings 
+# Here are all the standard i3 settings
 
 
 # Mod4 = windows key on keyboard or super key
@@ -85,7 +85,7 @@ bindsym $mod+Shift+Right move right
 
 ################### TILING PARAMETERS ##############################
 
-# orientation for new workspaces 
+# orientation for new workspaces
 default_orientation horizontal
 
 # split in horizontal orientation
@@ -106,7 +106,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Ctrl+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+q focus parent
+bindsym $mod+p focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -180,7 +180,7 @@ bindsym $mod+Ctrl+Left resize grow width 10 px or 10 ppt
 # Tab = TAB key
 
 # Screen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20  
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20
 
 #bindsym --release Shift+Print exec scrot -s '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/'
@@ -208,10 +208,10 @@ bindsym $mod+Control+Shift+k focus parent, focus parent, focus parent, focus par
 # from ttf-chromeos-fonts
 # font pango:Cousine 13
 # font pango:Arimo 11
-# font pango:Sans 13 
+# font pango:Sans 13
 # font pango:Noto Mono Regular 13
 # font pango:DroidSansMono 13
-font pango:Noto Mono Regular 13
+font pango:Noto Mono Regular 10
 
 
 ################### TERMINAL ######################
@@ -233,7 +233,7 @@ font pango:Noto Mono Regular 13
 
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18' 
+bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18'
 
 # start alternative menu j4-dmenu based on desktop files in /usr/share/applications
 #bindsym $mod+shift+d exec j4-dmenu-desktop --dmenu="dmenu -fn 'DroidSansMono:bold:pixelsize=16' -nb '#fdf6e3' -nf '#586c75' -sf '#fdf6e3' -sb '#FFAF00'"
@@ -248,24 +248,24 @@ bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18'
 # setting variables for later use
 # use xrandr to know the names of your monitors
 # use this line to tell which monitor is on the right
-# silver
-#exec --no-startup-id xrandr --output LVDS1 --primary --left-of HDMI1 --auto
-# alienware
-exec --no-startup-id xrandr --output HDMI-1-1 --auto --primary --left-of eDP-1-1
+
 # blacky
-#exec --no-startup-id xrandr --output HDMI-2 --auto --primary --left-of eDP-1
+# exec --no-startup-id xrandr --output HDMI-2 --auto --primary --left-of eDP-1
 
-# silver
-#set $firstMonitor LVDS1
-#set $secondMonitor HDMI1
+# meerkat
+# exec --no-startup-id xrandr --output HDMI-1 --off --output DP-2 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1 --primary --mode 1920x1080 --pos 1080x0 --rotate normal
 
-#alienware 
-set $firstMonitor HDMI-1-1
-set $secondMonitor eDP-1-1
+# meerkat with razer
+exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
+exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off
 
-# blacky 
+# blacky
 #set $firstMonitor HDMI-2
 #set $secondMonitor eDP-1
+
+# meerkat
+set $firstMonitor HDMI-0
+set $secondMonitor DP-1-1
 
 workspace 1 output $firstMonitor
 workspace 2 output $firstMonitor
@@ -275,7 +275,7 @@ workspace 5 output $firstMonitor
 workspace 6 output $firstMonitor
 workspace 7 output $firstMonitor
 workspace 8 output $firstMonitor
-workspace 9 output $firstMonitor
+workspace 9 output $secondMonitor
 workspace 10 output $secondMonitor
 
 # switch to workspace
@@ -358,7 +358,7 @@ exec pasystray
 
 # USER APPLICATIONS
 
-exec kupfer
+# exec kupfer
 exec parcellite
 #exec firefox
 #for_window [class="Firefox"] focus
@@ -374,7 +374,8 @@ exec conky
 exec --no-startup-id /usr/bin/gnome-keyring-daemon #--start --components=pkcs11
 
 # restore the background
-exec --no-startup-id /home/filip/.fehbg
+#exec --no-startup-id feh --bg-scale ~/.fehbg.png
+exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/Dropbox/flemish_classics/
 
 # faster navigation
 exec --no-startup-id "xset r rate 250 60"
@@ -400,8 +401,10 @@ exec --no-startup-id "xset r rate 250 60"
 #bindsym control+mod1+t exec terminator; focus
 #bindsym control+mod1+t exec gnome-terminal; focus
 #bindsym control+mod1+n exec cinnamon-settings
- 
+
 bindsym Ctrl+mod1+l exec i3lock -i ~/.config/i3/lockscreen.png -t -n -e -f
+
+bindsym $mod+space exec --no-startup-id "rofi -modi window,drun,combi,find:/home/filip/.config/rofi/finder.sh,files:/home/filip/.config/rofi/files.sh -show combi -theme zenburn"
 
 ################### SHORTCUTS WORKSPACES ######################
 
@@ -409,7 +412,7 @@ bindsym Ctrl+mod1+l exec i3lock -i ~/.config/i3/lockscreen.png -t -n -e -f
 # next/previous workspace
 
 bindsym Mod1+Tab workspace next
-bindsym Mod1+Shift+Tab workspace prev
+bindsym Mod1+Shift+Tab workspace prev`
 bindsym $mod+Tab workspace back_and_forth
 
 #navigate workspaces next / previous
@@ -423,7 +426,7 @@ for_window [urgent=latest] focus
 ################### SCREENSHOTS ######################
 
 
-bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
+bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/'
 bindsym Control+Print exec gnome-screenshot -i
 
 
@@ -455,8 +458,8 @@ for_window [title="^Terminator Preferences$"] floating enable
 for_window [class="Font-manager"] floating enable
 for_window [class="System-config-printer.py"] floating enable
 for_window [class="Nitrogen"] floating enable
-for_window [title="Copying"] floating enable  
-for_window [title="Deleting"] floating enable  
+for_window [title="Copying"] floating enable
+for_window [title="Deleting"] floating enable
 for_window [title="Moving"] floating enable
 for_window [class="Unetbootin.elf"] floating enable
 for_window [class="Galculator"] floating enable
@@ -482,9 +485,6 @@ popup_during_fullscreen smart
 # favorite wallpaper
 #bindsym mod1+f exec variety -f
 
-# restore last wallpaper
-exec --no-startup-id ~/.fehbg &
-
 ################### MODE_SYSTEM ######################
 
 
@@ -508,19 +508,21 @@ mode "$mode_system" {
 ################### AUDIO ######################
 
 
-bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master '5%+'"
-bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master '5%-'"
-bindsym XF86AudioMute exec "amixer -D pulse set Master toggle"
-bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" 
-bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" 
-bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
-bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+# bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master '5%+'"
+# bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master '5%-'"
+bindsym $mod+l exec "amixer -D pulse sset Master '5%+'"
+bindsym $mod+q exec "amixer -D pulse sset Master '5%-'"
 
+bindsym XF86AudioMute exec "amixer -D pulse set Master toggle"
+# bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+# bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+# bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+# bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
 
 ################### BAR ######################
 
 
-# bar toggle, hide or show 
+# bar toggle, hide or show
 bindsym $mod+b bar mode toggle
 
 
@@ -553,16 +555,16 @@ new_float 1pixel
 
 
 # get the mouse out of the way with unclutter
-exec unclutter 
+exec unclutter
 
 
 
 ################### BAR APPEARANCE ######################
 
-
 bar {
 
-    # type status_command i3status without the config file and 
+    output $firstMonitor
+    # type status_command i3status without the config file and
     # you will get the standard i3status bar
     # this is the standard statusbar with my personal settings
     status_command i3status -c ~/.config/i3/i3status.conf
@@ -581,10 +583,10 @@ bar {
     # documentation : https://i3wm.org/docs/user-contributed/conky-i3bar.html
     # conky configuration is in conky-i3statusbar
     # status_command ~/.config/i3/start-conky-i3statusbar.sh
-	
+
     height 25
     workspace_buttons yes
-    
+
     colors {
             background #2F2F2F
             statusline #eeeeee
@@ -595,6 +597,7 @@ bar {
             inactive_workspace    #a9a9a9 #5f676a #a9a9a9
             urgent_workspace      #4A4A4A #4A4A4A #a9a9a9
             }
+    font pango:Noto Mono Regular 6            
     }
 
 # DarkGrey background with white text - not focus grey background - black text
@@ -668,7 +671,7 @@ client.urgent           #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
 # class                    border  backgr. text
 # client.focused           #2B6473 #2B6473 #FFA000
 # client.focused_inactive  #004050 #004050 #FFA000
-# client.unfocused         #004050 #004050 #cccccc 
+# client.unfocused         #004050 #004050 #cccccc
 # client.urgent            #900000 #900000 #ffffff
 
 
@@ -744,4 +747,3 @@ client.urgent           #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
 ###########################################################################
 #if you want transparency on non-focused windows
 exec_always compton --config ~/.config/i3/compton.conf
-

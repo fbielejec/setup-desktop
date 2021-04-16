@@ -17,3 +17,9 @@ echo "Setting default Java version..."
 
 echo 3 | sudo update-alternatives --config java
 java -version
+
+echo "################################################################" 
+echo "Instaling maven..."
+
+sudo apt-get install maven
+mvn --version

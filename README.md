@@ -1,5 +1,7 @@
 # Scripted setup of a working Linux environment
 
+Tested with Linux Mint 19
+
 - i3
 - conky
 - chrome
@@ -9,13 +11,14 @@
 - git
 - fonts
 - emacs
-- android
+- android studio
 - solc
-- clojure + lein + boot + rebel-readline
 - caja + open-terminal-here
+- clojure + lein + boot + rebel-readline
 - ssh (keychain)
+- separate deborphan etc script (run first)
 - docker + docker-compose
-
-virtualbox
-slack
-separate deborphan etc script (run first)
+- slack
+- virtualbox
+- ledger live (+ symlink in /usr/bin)
+- dropbox (caja-dropbox)

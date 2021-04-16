@@ -1,5 +1,5 @@
 set -g -x PATH /usr/local/bin $PATH
- 
+
 # Add node directories
 #set PATH /home/filip/.nvm $PATH
 
@@ -28,16 +28,16 @@ set -g theme_color_scheme zenburn
 # Auto-launching ssh-agent in fish shell
 setenv SSH_ENV $HOME/.ssh/environment
 
-function start_agent                                                                                                                                                                    
+function start_agent
     echo "Initializing new SSH agent ..."
     ssh-agent -c | sed 's/^echo/#echo/' > $SSH_ENV
     echo "succeeded"
-    chmod 600 $SSH_ENV 
+    chmod 600 $SSH_ENV
     . $SSH_ENV > /dev/null
     ssh-add
 end
 
-function test_identities                                                                                                                                                                
+function test_identities
     ssh-add -l | grep "The agent has no identities" > /dev/null
     if [ $status -eq 0 ]
         ssh-add
@@ -47,19 +47,26 @@ function test_identities
     end
 end
 
-if [ -n "$SSH_AGENT_PID" ] 
+if [ -n "$SSH_AGENT_PID" ]
     ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
     if [ $status -eq 0 ]
         test_identities
-    end  
+    end
 else
     if [ -f $SSH_ENV ]
         . $SSH_ENV > /dev/null
-    end  
+    end
     ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
     if [ $status -eq 0 ]
         test_identities
-    else 
+    else
         start_agent
-    end  
+    end
 end
+
+# fish doesn't find node without it
+node --version > /dev/null &
+
+# Rust paths
+set -gx PATH $HOME/.cargo/bin $PATH;
+set --export RUST_SRC_PATH /home/filip/.rustup/toolchains/stable-x86_64-unknown-linux-gnu;

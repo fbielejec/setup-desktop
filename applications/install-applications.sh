@@ -8,16 +8,18 @@ cmd=(sudo apt-get install -y
 ##############
 #---SYSTEM---#
 ##############
-deborphan
-localepurge
-checkinstall
-debfoster
+# deborphan
+# localepurge
+# checkinstall
+# debfoster
 dconf-editor
-#localepurge
+# localepurge
 #sysv-rc-conf
 #prelink
 #preload
 #readahead-fedora
+bleachbit
+
 #####################
 #---VIDEO EDITING---#
 #####################
@@ -35,7 +37,8 @@ gftp
 # dark reader
 #)
 
-#firefox(
+firefox
+#(
 # adblock plus
 # ghostery
 # DownThemAll
@@ -64,6 +67,9 @@ automake
 libtool
 sqlitebrowser
 jq
+ack-grep
+ngrok
+postgresql-client
 #avrdude
 #gcc-avr
 #avr-libc
@@ -78,9 +84,9 @@ texlive-fonts-extra
 fonts-lmodern
 bibtool
 
-##############
-#---SAFETY---#
-##############
+################
+#---SECURITY---#
+################
 keepassx
 #TrueCrypt / tcplay
 #Prey (prey-config.py, https://preyproject.com, dependencies: scrot, mpg123, lshw)
@@ -102,7 +108,13 @@ nmap
 #---OTHER---#
 #############
 #launchy
-#kupfer
+
+rofi
+# kupfer
+# for taking screenshots in i3
+scrot
+# for recording screen
+kazam
 #gpsbabel
 #gpsbabel-gui
 calibre
@@ -122,10 +134,10 @@ pdfshuffler
 audacious
 transmission-gtk
 parcellite
-bleachbit
 #mtpaint
 gparted
-
+caja-dropbox
+cheese
 ##########################
 #---DEB, SOURCES, BINS---#
 ##########################

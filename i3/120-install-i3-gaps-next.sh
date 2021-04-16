@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 set -e
 #
 ##################################################################################################################
@@ -15,6 +15,7 @@ echo "##################################################"
 
 rm -rf /tmp/Airblader
 
+# TODO : or use https://github.com/i3/i3
 git clone https://github.com/Airblader/i3.git /tmp/Airblader
 cd /tmp/Airblader
 

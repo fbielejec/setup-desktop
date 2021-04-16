@@ -1,0 +1,191 @@
+/*-*- mode: css; -*-*/
+/** ROFI Color theme */
+
+configuration {
+    modi: "combi";
+	  combi-modi:	"window,drun,run,ssh";
+	  me-select-entry: "MouseSecondary";
+	  me-accept-entry: "MousePrimary";
+	  scroll-method: 1;
+    // The display name of this browser
+    display-ssh: "ssh";
+    // The display name of this browser
+    display-run: "#! ";
+    // The display name of this browser
+    display-drun: "drun:";
+    // The display name of this browser
+    display-window: "window:";
+    display-combi: "combi：";
+    /* display-find: "find：";     */
+    show-icons: true;
+}
+
+/**
+ * User: Qball
+ * Copyright: Dave Davenport
+ */
+* {
+    foreground: #dcdccc;
+    backlight: #ccffeedd;
+    background-color: transparent;
+    dark: #434443;
+    // Black
+    black:       #3F3F3F;
+    black-2:  #4f4f4f;
+    tblack-2:  #3f3f3fcc;
+    //
+    // Red
+    red:         #CC9393;
+    red-2:    #9C6363;
+    //
+    // Green
+    green:       #7F9F7F;
+    green-2:  #5F7F5F;
+    //
+    // Yellow
+    yellow:      #F0DFAF;
+    yellow-2: #D0BF8F;
+    //
+    // Blue
+    blue:        #8CD0D3;
+    blue-2:   #6CA0A3;
+    //
+    // Magenta
+    magenta:      #DC8CC3;
+    magenta-2: #CB7BB2;
+    //
+    // Cyan
+    cyan:      #93E0E3;
+    tcyan:     #93E0E3de;
+    cyan-2: #82CFD2;
+    //
+    // White
+    white:      #DCDCCC;
+    white-2: #FFFFEF;
+    //
+    // Bold, Italic, Underline
+    highlight:  underline bold #ffffff;
+
+    transparent: rgba(0,0,0,0);
+    font: "SauceCodePro Nerd Font 14";
+}
+#window {
+    location: center;
+    anchor: center;
+    transparency: "screenshot";
+    padding: 10px;
+    border: 0px;
+    radius: 15px;
+    color: @magenta;
+    background-color: @transparent;
+    spacing: 0;
+    children:  [vertb, mainbox];
+    orientation: horizontal;
+    font: "SauceCodePro Nerd Font 10";
+}
+
+#mainbox {
+    spacing: 0;
+    children: [ inputbar, message, listview ];
+}
+
+#message {
+    border-color: @foreground;
+    border:  0px 2px 2px 2px;
+//    border-radius: 10px;
+    padding: 5;
+    background-color: @yellow;
+    font: "SauceCodePro Nerd Font 10";
+    color: @black;
+}
+
+#inputbar {
+    color: @foreground;
+    padding: 11px;
+    background-color: @dark;
+    border: 2px 2px 2px 2px;
+    border-radius:  15px 15px 0px 0px;
+    border-color: @foreground;
+    font: "SauceCodePro Nerd Font 10";
+}
+#entry,prompt,case-indicator {
+    text-font: inherit;
+    text-color:inherit;
+}
+#listview {
+    padding: 8px;
+    border-radius: 0px 0px 15px 15px;
+    border-color: @foreground;
+    border: 0px 2px 2px 2px;
+    background-color: #1c1c1ccc;
+    dynamic: true;
+    // lines: 20;
+}
+#element {
+    padding: 3px;
+    vertical-align: 0.5;
+//    border: 2px;
+//    border-radius: 4px;
+    background-color: transparent;
+    color: @foreground;
+    font:inherit;
+}
+#element selected.normal {
+    background-color: @black;
+}
+#element normal active {
+    foreground: @red-2;
+}
+#element normal urgent {
+    foreground: @red;
+}
+#element alternate normal {
+}
+#element alternate active {
+    foreground: @red;
+}
+#element alternate urgent {
+    foreground: @red;
+}
+#element selected active {
+    background-color: @black;
+    foreground: @foreground;
+}
+#element selected urgent {
+    background-color: @red-2;
+    foreground: @foreground;
+}
+#element normal normal {
+
+}
+
+#vertb {
+    expand: false;
+    children: [ dummy0, sidebar, dummy1  ];
+}
+#dummy0,  dummy1 {
+    expand: true;
+}
+
+#sidebar {
+    expand: false;
+    orientation: vertical;
+    spacing: 0px;
+    border: 0px 0px 0px 0px;
+}
+#button {
+    font: "FontAwesome 26";
+    padding: 6px;
+    border: 2px 0px 2px 2px;
+    border-radius: 4px 0px 0px 4px;
+    background-color: @tblack-2;
+    border-color: @foreground;
+    color: @foreground;
+    horizontal-align: 0.5;
+}
+#button selected normal {
+    color: @dark;
+    border: 2px 0px 2px 2px;
+    background-color: @backlight;
+    border-color: @foreground;
+}

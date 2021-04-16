@@ -18,8 +18,6 @@ set -e
 #sudo apt install -y vlc 
 #sudo apt install -y evolution
 
-
-
 echo "#########################################################"
 echo "Everything to work comfortably in i3 will be installed"
 echo "#########################################################"
@@ -78,6 +76,7 @@ sudo apt-get install -y breeze-cursor-theme
 # https://wiki.archlinux.org/index.php/Gmrun
 # sudo apt-get install -y gmrun
 
+# dunst: lightweight replacement for the notification daemons
 # https://dunst-project.org/
 # sudo apt-get install -y dunst
 

@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# This script opens a gnome-terminal in the current directory.
+#
+# Distributed under the terms of GNU GPL version 2 or later
+#
+# Original author: Keith Conger <acid@twcny.rr.com>
+#
+# Sourced from
+# https://forums.linuxmint.com/viewtopic.php?p=773382&sid=9939ce160bd97313f849367231eb721a#p773382
+# http://g-scripts.sourceforge.net/nautilus-scripts/Execute/Open%20terminal/terminal-here
+#
+# Put this file in your ~/.config/caja/scripts/ directory.
+# You need to have caja-actions installed to use scripts.
+
+cd $CAJA_SCRIPT_CURRENT_URI
+exec mate-terminal
