@@ -211,7 +211,7 @@ bindsym $mod+Control+Shift+k focus parent, focus parent, focus parent, focus par
 # font pango:Sans 13
 # font pango:Noto Mono Regular 13
 # font pango:DroidSansMono 13
-font pango:Noto Mono Regular 10
+font pango:Noto Mono Regular 6 #10 #6
 
 
 ################### TERMINAL ######################
@@ -255,9 +255,19 @@ bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18'
 # meerkat
 # exec --no-startup-id xrandr --output HDMI-1 --off --output DP-2 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1 --primary --mode 1920x1080 --pos 1080x0 --rotate normal
 
-# meerkat with razer
 exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
-exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off
+
+# meerkat with razer
+#exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off
+
+# meerkat with razer (all displays GPU)
+# exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+
+# meerkat with razer (no mac on KVM, all displays GPU)
+# exec xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+
+# meerkat latest
+exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
 
 # blacky
 #set $firstMonitor HDMI-2
@@ -265,7 +275,7 @@ exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-1-1 --off --out
 
 # meerkat
 set $firstMonitor HDMI-0
-set $secondMonitor DP-1-1
+set $secondMonitor DVI-D-0
 
 workspace 1 output $firstMonitor
 workspace 2 output $firstMonitor
@@ -348,14 +358,15 @@ bindsym $mod+Shift+10 move container to workspace 10
 # num lock activated
 exec_always --no-startup-id numlockx on
 exec --no-startup-id nm-applet
-exec caja-dropbox start
+#exec caja-dropbox start
+exec synology-cloud-station-drive
 #exec variety
-exec mintupdate-launcher
+# exec mintupdate-launcher
 #exec volti
 exec pasystray
-#exec blueberry-tray
-
-
+exec blueberry-tray
+exec discord
+exec slack
 # USER APPLICATIONS
 
 # exec kupfer
@@ -597,7 +608,8 @@ bar {
             inactive_workspace    #a9a9a9 #5f676a #a9a9a9
             urgent_workspace      #4A4A4A #4A4A4A #a9a9a9
             }
-    font pango:Noto Mono Regular 6            
+
+    font pango:Noto Mono Regular 6
     }
 
 # DarkGrey background with white text - not focus grey background - black text

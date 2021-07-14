@@ -37,7 +37,7 @@ gftp
 # dark reader
 #)
 
-firefox
+#firefox
 #(
 # adblock plus
 # ghostery
@@ -65,11 +65,11 @@ git
 autoconf
 automake
 libtool
-sqlitebrowser
+#sqlitebrowser
 jq
 ack-grep
-ngrok
-postgresql-client
+#ngrok
+#postgresql-client
 #avrdude
 #gcc-avr
 #avr-libc

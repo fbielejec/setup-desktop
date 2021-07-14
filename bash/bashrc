@@ -134,6 +134,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# added by travis gem
+#[ -f /home/filip/.travis/travis.sh ] && source /home/filip/.travis/travis.sh
+
 # for Arduino Makefiles
 export ARDUINO_DIR=/home/filip/Programs/arduino-1.8.12
 export ARDMK_DIR=/home/filip/Dropbox/ArduinoProjects/Arduino-Makefile
@@ -166,12 +169,15 @@ export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System
 # for python 3.7 (altinstall)
 export PATH="$HOME/.local/bin:$PATH"
 
-# for aws-glue libs
-export JUPYTER_DEFAULT_DIR=/home/filip/Dropbox/Python
-
 # for Go
 export GOPATH=$HOME/go/
 export PATH="$GOPATH/bin:$PATH"
 
+# for Confluent (Kafka) client
+export PATH="$HOME/Programs/confluent-hub-client-latest/bin:$PATH"
+
 # for secrets to export
 source $HOME/.secrets
+
+# for QMK
+export QMK_HOME='~/qmk_firmware'
