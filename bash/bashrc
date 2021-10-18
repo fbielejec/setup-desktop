@@ -170,8 +170,9 @@ export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System
 export PATH="$HOME/.local/bin:$PATH"
 
 # for Go
-export GOPATH=$HOME/go/
-export PATH="$GOPATH/bin:$PATH"
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 # for Confluent (Kafka) client
 export PATH="$HOME/Programs/confluent-hub-client-latest/bin:$PATH"

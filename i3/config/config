@@ -193,26 +193,26 @@ bindsym $mod+Control+Shift+k focus parent, focus parent, focus parent, focus par
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # choose your font
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# font -misc-fixed-bold-r-normal-*-15-140-75-75-c-90-iso10646-1
-# font pango:DejaVu Sans Mono 12
-# font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font -misc-fixed-bold-r-normal-*-15-140-75-75-c-90-iso10646-1
+font pango:DejaVu Sans Mono 12
+font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
 # font pango:Droid Sans Mono Dotted 12
 # font pango:hermit 12
 # font pango:Inconsolata 15
 # font pango:monospace 12
 # font pango:SourceCodePro-SemiBold 11
 # font pango:Source Code Pro for Powerline, FontAwesome Regular, Icons 9
-# font pango:Terminus 14px
-# font pango:UbuntuMono-regular 12
+font pango:Terminus 14px
+#font pango:UbuntuMono-regular 12
 # from ttf-chromeos-fonts
 # font pango:Cousine 13
 # font pango:Arimo 11
 # font pango:Sans 13
 # font pango:Noto Mono Regular 13
 # font pango:DroidSansMono 13
-font pango:Noto Mono Regular 6 #10 #6
-
+#font pango:Noto Mono Regular 6 #10 #6
+#font pango:Ubuntu-regular 12
 
 ################### TERMINAL ######################
 
@@ -257,25 +257,26 @@ bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18'
 
 exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
 
-# meerkat with razer
-#exec --no-startup-id xrandr --output DVI-D-0 --off --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off
-
-# meerkat with razer (all displays GPU)
-# exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
-
-# meerkat with razer (no mac on KVM, all displays GPU)
+# meerkat with razer (no KVM, all displays GPU)
 # exec xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
 
-# meerkat latest
-exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+# meerkat meerkat with razer (KVM + all displays GPU)
+# exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
+
+# weebeastie
+exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
 # blacky
 #set $firstMonitor HDMI-2
 #set $secondMonitor eDP-1
 
 # meerkat
+#set $firstMonitor HDMI-0
+#set $secondMonitor DP-0
+
+# weebeastie
 set $firstMonitor HDMI-0
-set $secondMonitor DVI-D-0
+set $secondMonitor DP-0
 
 workspace 1 output $firstMonitor
 workspace 2 output $firstMonitor
@@ -359,7 +360,8 @@ bindsym $mod+Shift+10 move container to workspace 10
 exec_always --no-startup-id numlockx on
 exec --no-startup-id nm-applet
 #exec caja-dropbox start
-exec synology-cloud-station-drive
+exec synology-drive
+# exec synology-cloud-station-drive
 #exec variety
 # exec mintupdate-launcher
 #exec volti
@@ -386,7 +388,7 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon #--start --components=pkcs11
 
 # restore the background
 #exec --no-startup-id feh --bg-scale ~/.fehbg.png
-exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/Dropbox/flemish_classics/
+#exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/CloudStation/flemish_classics/
 
 # faster navigation
 exec --no-startup-id "xset r rate 250 60"
@@ -415,7 +417,11 @@ exec --no-startup-id "xset r rate 250 60"
 
 bindsym Ctrl+mod1+l exec i3lock -i ~/.config/i3/lockscreen.png -t -n -e -f
 
-bindsym $mod+space exec --no-startup-id "rofi -modi window,drun,combi,find:/home/filip/.config/rofi/finder.sh,files:/home/filip/.config/rofi/files.sh -show combi -theme zenburn"
+#bindsym $mod+space exec --no-startup-id rofi -modi window,drun,combi,find:/home/filip/.config/rofi/finder.sh,files:/home/filip/.config/rofi/files.sh -show combi -theme zenburn
+
+# bindsym $mod+space exec --no-startup-id ~/.config/i3/scripts/rofi.sh
+bindsym $mod+g exec --no-startup-id ~/.config/i3/scripts/rofi.sh 
+bindsym $mod+space exec --no-startup-id ~/.config/i3/scripts/rofi.sh 
 
 ################### SHORTCUTS WORKSPACES ######################
 
@@ -439,8 +445,6 @@ for_window [urgent=latest] focus
 
 bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/'
 bindsym Control+Print exec gnome-screenshot -i
-
-
 
 ################### FLOATING OR TILED ######################
 
@@ -595,7 +599,6 @@ bar {
     # conky configuration is in conky-i3statusbar
     # status_command ~/.config/i3/start-conky-i3statusbar.sh
 
-    height 25
     workspace_buttons yes
 
     colors {
@@ -609,7 +612,7 @@ bar {
             urgent_workspace      #4A4A4A #4A4A4A #a9a9a9
             }
 
-    font pango:Noto Mono Regular 6
+    #font pango:Noto Mono Regular 10
     }
 
 # DarkGrey background with white text - not focus grey background - black text
