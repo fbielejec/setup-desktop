@@ -131,26 +131,27 @@ else
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# added by travis gem
-#[ -f /home/filip/.travis/travis.sh ] && source /home/filip/.travis/travis.sh
+source $NVM_DIR/nvm.sh
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+nvm use 17.0.0
 
 # for Arduino Makefiles
-export ARDUINO_DIR=/home/filip/Programs/arduino-1.8.12
-export ARDMK_DIR=/home/filip/Dropbox/ArduinoProjects/Arduino-Makefile
+export ARDUINO_DIR=$HOME/Programs/arduino-1.8.12
+export ARDMK_DIR=$HOME/CloudStation/ArduinoProjects/Arduino-Makefile
 
 # for Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-export CARGO_HOME="/home/filip/.cargo"
+export CARGO_HOME="$HOME/.cargo"
+export RA_LOG="rust_analyzer=info"
+. "$HOME/.cargo/env"
 
 # for Android
-export ANDROID="$HOME/Android"
-export ANDROID_HOME="$ANDROID/Sdk"
-export ANDROID_NDK="$ANDROID/android-ndk-r19c"
-export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:${PATH}
+#export ANDROID="$HOME/Android"
+#export ANDROID_HOME="$ANDROID/Sdk"
+#export ANDROID_NDK="$ANDROID/android-ndk-r19c"
+#export PATH=$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:${PATH}
 # export SHADOW_HOST=10.0.2.2 # 192.168.1.12
 
 # for OpenCV
@@ -161,24 +162,28 @@ export PKG_CONFIG_PATH=/opt/opencv/latest/lib/pkgconfig:$PKG_CONFIG_PATH
 export OPENCV_TEST_DATA_PATH=/opt/opencv/latest/opencv_extra-master/testdata
 
 # for gradle
-export GRADLE_HOME=/opt/gradle/gradle-4.6
-export PATH=${GRADLE_HOME}/bin:${PATH}
+#export GRADLE_HOME=/opt/gradle/gradle-4.6
+#export PATH=${GRADLE_HOME}/bin:${PATH}
 #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));')"
 
-# for python 3.7 (altinstall)
+# for python
 export PATH="$HOME/.local/bin:$PATH"
+
+# for aws-glue libs
+#export JUPYTER_DEFAULT_DIR=$HOME/CloudStation/Python
 
 # for Go
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# for Confluent (Kafka) client
-export PATH="$HOME/Programs/confluent-hub-client-latest/bin:$PATH"
-
 # for secrets to export
 source $HOME/.secrets
 
+# for alacritty bash completions
+source $HOME/CloudStation/Rust/alacritty/extra/completions/alacritty.bash
+
 # for QMK
-export QMK_HOME='~/qmk_firmware'
+export QMK_HOME="$HOME/qmk_firmware" # Optional, set the location for `qmk_firmware`
+
