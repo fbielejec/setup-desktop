@@ -138,6 +138,12 @@ parcellite
 gparted
 caja-dropbox
 cheese
+
+####################
+#---PRODUCTIVITY---#
+####################
+kteatime
+
 ##########################
 #---DEB, SOURCES, BINS---#
 ##########################
