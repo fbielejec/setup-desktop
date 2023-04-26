@@ -263,8 +263,14 @@ exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
 # meerkat meerkat with razer (KVM + all displays GPU)
 # exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
 
+# weebeastie all vertical
+exec --no-startup-id xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
+
+# weebeastie alpine
+# exec --no-startup-id xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off --output DP-1 --off
+
 # weebeastie
-exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off
+#exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off
 
 # blacky
 #set $firstMonitor HDMI-2
@@ -275,8 +281,8 @@ exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 108
 #set $secondMonitor DP-0
 
 # weebeastie
-set $firstMonitor HDMI-0
-set $secondMonitor DP-0
+set $firstMonitor DVI-D-0
+set $secondMonitor HDMI-0
 
 workspace 1 output $firstMonitor
 workspace 2 output $firstMonitor
@@ -312,7 +318,6 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+10 move container to workspace 10
-
 
 ################### MOUSE ######################
 
@@ -359,16 +364,23 @@ bindsym $mod+Shift+10 move container to workspace 10
 # num lock activated
 exec_always --no-startup-id numlockx on
 exec --no-startup-id nm-applet
-#exec caja-dropbox start
-exec synology-drive
-# exec synology-cloud-station-drive
-#exec variety
-# exec mintupdate-launcher
-#exec volti
 exec pasystray
 exec blueberry-tray
-exec discord
-exec slack
+exec synology-drive
+
+# autostart apps is workspaces
+
+# exec element-desktop
+exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/element-desktop'
+# exec telegram
+exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/telegram'
+# exec slack
+exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/slack'
+
+exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
+exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
+exec --no-startup-id i3-msg 'workspace 9:Terminal; exec /usr/local/bin/alacritty'
+
 # USER APPLICATIONS
 
 # exec kupfer
@@ -388,12 +400,12 @@ exec --no-startup-id /usr/bin/gnome-keyring-daemon #--start --components=pkcs11
 
 # restore the background
 #exec --no-startup-id feh --bg-scale ~/.fehbg.png
-#exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/CloudStation/flemish_classics/
+#exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/CloudStation/paintings/
 
 # faster navigation
 exec --no-startup-id "xset r rate 250 60"
 
-################### SHORTCUTS APPLICATIONS ######################
+################### APPLICATIONS SHORTCUTS ######################
 #mod1 = ALT
 
 #bindsym $mod+Shift+Return exec nemo --no-desktop; workspace 8;focus
@@ -429,7 +441,7 @@ bindsym $mod+space exec --no-startup-id ~/.config/i3/scripts/rofi.sh
 # next/previous workspace
 
 bindsym Mod1+Tab workspace next
-bindsym Mod1+Shift+Tab workspace prev`
+bindsym Mod1+Shift+Tab workspace prev
 bindsym $mod+Tab workspace back_and_forth
 
 #navigate workspaces next / previous
@@ -445,6 +457,9 @@ for_window [urgent=latest] focus
 
 bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/'
 bindsym Control+Print exec gnome-screenshot -i
+
+# screen recorder
+bindsym Mod1+Ctrl+r exec /usr/bin/simplescreenrecorder
 
 ################### FLOATING OR TILED ######################
 
