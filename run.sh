@@ -9,7 +9,7 @@ sudo apt-get update
 #--- track orhpaned packages ---#
 #################################
 
-cd ./deborphan
+cd deborphan
 
 ./setup-deborphan.sh
 
@@ -19,7 +19,7 @@ cd ../
 #--- applications ---#
 ######################
 
-cd ./applications
+cd applications
 
 ./install-applications.sh
 
@@ -29,7 +29,7 @@ cd ../
 #--- i3 ---#
 ############
 
-cd ./i3
+cd i3
 
 ./100-install-dependencies.sh
 
@@ -49,7 +49,7 @@ cd ../
 #--- conky ---#
 ###############
 
-cd ./conky
+cd conky
 
 ./setup-conky.sh
 
@@ -59,7 +59,7 @@ cd ../
 #--- chrome ---#
 ################
 
-cd ./chrome
+cd chrome
 
 ./install-google-chrome.sh
 
@@ -69,7 +69,7 @@ cd ../
 #--- java ---#
 ##############
 
-cd ./java
+cd java
 
 ./setup-java.sh
 
@@ -79,7 +79,7 @@ cd ../
 #--- node ---#
 ##############
 
-cd ./node
+cd node
 
 ./setup-node.sh
 
@@ -104,7 +104,7 @@ cd ../
 #--- git ---#
 #############
 
-cd ./git
+cd git
 
 ./setup-git.sh
 
@@ -114,7 +114,7 @@ cd ../
 #--- fonts ---#
 ###############
 
-cd ./fonts
+cd fonts
 
 ./install-fonts.sh
 
@@ -124,7 +124,7 @@ cd ../
 #--- emacs ---#
 ###############
 
-cd ./emacs
+cd emacs
 
 ./setup-emacs.sh
 
@@ -134,7 +134,7 @@ cd ../
 #--- android ---#
 #################
 
-cd ./android
+cd android
 
 ./setup-android.sh
 
@@ -144,7 +144,7 @@ cd ../
 #--- solc ---#
 ##############
 
-cd ./solc
+cd solc
 
 ./install-solc.sh
 
@@ -154,7 +154,7 @@ cd ../
 #--- clojure ---#
 #################
 
-cd ./clojure
+cd clojure
 
 ./setup-clojure.sh
 
@@ -164,7 +164,7 @@ cd ../
 #--- caja ---#
 ##############
 
-cd ./caja
+cd caja
 
 ./setup-caja.sh
 
@@ -174,7 +174,7 @@ cd ../
 #--- ssh ---#
 #############
 
-cd ./ssh
+cd ssh
 
 ./setup-ssh.sh
 
@@ -184,7 +184,7 @@ cd ../
 #--- docker ---#
 ################
 
-cd ./docker
+cd docker
 
 ./setup-docker.sh
 
@@ -194,7 +194,7 @@ cd ../
 #--- slack ---#
 ###############
 
-cd ./slack
+cd slack
 
 ./setup-slack.sh
 
@@ -204,17 +204,17 @@ cd ../
 #--- virtualbox ---#
 ####################
 
-cd ./virtualbox
+# cd virtualbox
 
-./setup-virtualbox.sh
+# ./setup-virtualbox.sh
 
-cd ../
+# cd ../
 
 #####################
 #--- ledger-live ---#
 #####################
 
-cd ./ledger_live
+cd ledger_live
 
 ./setup-ledger-live.sh
 

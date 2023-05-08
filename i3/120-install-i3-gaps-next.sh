@@ -13,11 +13,10 @@ echo "##################################################"
 
 # installing i3 gap
 
-rm -rf /tmp/Airblader
+rm -rf /tmp/i3
 
-# TODO : or use https://github.com/i3/i3
-git clone https://github.com/Airblader/i3.git /tmp/Airblader
-cd /tmp/Airblader
+git clone https://github.com/i3/i3 /tmp/i3
+cd /tmp/i3
 
 # compile & install
 autoreconf --force --install
@@ -30,7 +29,7 @@ mkdir -p build && cd build/
 
 make && sudo make install
 
-rm -rf /tmp/Airblader
+rm -rf /tmp/i3
 
 echo "You installed the following version"
 echo

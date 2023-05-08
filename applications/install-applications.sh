@@ -114,7 +114,7 @@ rofi
 # for taking screenshots in i3
 scrot
 # for recording screen
-kazam
+# kazam
 #gpsbabel
 #gpsbabel-gui
 calibre
@@ -136,13 +136,13 @@ transmission-gtk
 parcellite
 #mtpaint
 gparted
-caja-dropbox
-cheese
+# caja-dropbox
+# cheese
 
 ####################
 #---PRODUCTIVITY---#
 ####################
-kteatime
+# kteatime
 
 ##########################
 #---DEB, SOURCES, BINS---#
