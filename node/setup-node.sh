@@ -13,7 +13,7 @@ export NVM_DIR="$HOME/.nvm"
 
 echo "################################################################"
 echo "Installing node ..."
-nvm install 11.14.0 #stable
+nvm install 18.15.0 #stable
 nvm current
 
 # echo "################################################################"

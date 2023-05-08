@@ -9,27 +9,19 @@ sudo apt-get update
 #--- track orhpaned packages ---#
 #################################
 
-cd deborphan
-
-./setup-deborphan.sh
-
-cd ../
+./deborphan/setup-deborphan.sh
 
 ######################
 #--- applications ---#
 ######################
 
-cd applications
-
-./install-applications.sh
-
-cd ../
+./applications/install-applications.sh
 
 ############
 #--- i3 ---#
 ############
 
-cd i3
+cd i3/
 
 ./100-install-dependencies.sh
 
@@ -49,156 +41,112 @@ cd ../
 #--- conky ---#
 ###############
 
-cd conky
-
-./setup-conky.sh
-
-cd ../
+./conky/setup-conky.sh
 
 ################
 #--- chrome ---#
 ################
 
-cd chrome
-
-./install-google-chrome.sh
-
-cd ../
+./chrome/install-google-chrome.sh
 
 ##############
 #--- java ---#
 ##############
 
-cd java
-
-./setup-java.sh
-
-cd ../
+./java/setup-java.sh
 
 ##############
 #--- node ---#
 ##############
 
-cd node
-
-./setup-node.sh
-
-cd ../
-
-##############
-#--- fish ---#
-##############
-
-# cd ./fish
-# ./setup-fish.sh
-# ./setup-fish.fish
-# cd ../
+./node/setup-node.sh
 
 ##############
 #--- bash ---#
 ##############
 
-# TODO: copy bashrc
+# copy bashrc
+cp bash/bashrc $HOME/.bashrc
 
 #############
 #--- git ---#
 #############
 
-cd git
-
-./setup-git.sh
-
-cd ../
+./git/setup-git.sh
 
 ###############
 #--- fonts ---#
 ###############
 
-cd fonts
-
-./install-fonts.sh
-
-cd ../
+./fonts/install-fonts.sh
 
 ###############
 #--- emacs ---#
 ###############
 
-cd emacs
-
-./setup-emacs.sh
-
-cd ../
+./emacs/setup-emacs.sh
 
 #################
 #--- android ---#
 #################
 
-cd android
+# cd android
 
-./setup-android.sh
+# ./setup-android.sh
 
-cd ../
+# cd ../
 
 ##############
 #--- solc ---#
 ##############
 
-cd solc
+# cd solc
 
-./install-solc.sh
+# ./install-solc.sh
 
-cd ../
+# cd ../
+
+##############
+#--- rust ---#
+##############
+
+./rust/setup-rust.sh
 
 #################
 #--- clojure ---#
 #################
 
-cd clojure
-
-./setup-clojure.sh
-
-cd ../
+./clojure/setup-clojure.sh
 
 ##############
 #--- caja ---#
 ##############
 
-cd caja
+# TODO : it's nemo now
 
-./setup-caja.sh
+# cd caja
 
-cd ../
+# ./setup-caja.sh
+
+# cd ../
 
 #############
 #--- ssh ---#
 #############
 
-cd ssh
-
-./setup-ssh.sh
-
-cd ../
+./ssh/setup-ssh.sh
 
 ################
 #--- docker ---#
 ################
 
-cd docker
-
-./setup-docker.sh
-
-cd ../
+./docker/setup-docker.sh
 
 ###############
 #--- slack ---#
 ###############
 
-cd slack
-
-./setup-slack.sh
-
-cd ../
+./slack/setup-slack.sh
 
 ####################
 #--- virtualbox ---#
@@ -214,11 +162,7 @@ cd ../
 #--- ledger-live ---#
 #####################
 
-cd ledger_live
-
-./setup-ledger-live.sh
-
-cd ../
+./ledger_live/setup-ledger-live.sh
 
 ##############
 #--- rofi ---#

@@ -1,16 +1,16 @@
 #!/bin/bash
 
 echo "################################################################" 
-echo "Installing Java 11..."
+echo "Installing Java 16..."
 
 sudo add-apt-repository ppa:linuxuprising/java
 sudo apt-get update
-sudo apt install -y oracle-java11-installer oracle-java11-set-default
+sudo apt install -y oracle-java16-installer oracle-java16-set-default
 
-echo "################################################################" 
-echo "Installing Java 8..."
+# echo "################################################################" 
+# echo "Installing Java 8..."
 
-sudo apt-get install openjdk-8-jre openjdk-8-jdk
+# sudo apt-get install openjdk-8-jre openjdk-8-jdk
 
 echo "################################################################" 
 echo "Setting default Java version..."

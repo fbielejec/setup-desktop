@@ -1,13 +1,16 @@
 #!/bin/bash
 
-echo "################################################################" 
+echo "################################################################"
 echo "Installing slack..."
 
-wget https://downloads.slack-edge.com/linux_releases/slack-desktop-3.4.0-amd64.deb -O /tmp/slack-desktop-3.4.0-amd64.deb
+VERSION=4.31.155
 
-sudo dpkg -i /tmp/slack-desktop-3.4.0-amd64.deb
+wget https://downloads.slack-edge.com/releases/linux/$VERSION/prod/x64/slack-desktop-$VERSION-amd64.deb \
+   -O /tmp/slack-desktop.deb
 
-rm /tmp/slack-desktop-3.4.0-amd64.deb
+sudo dpkg -i /tmp/slack-desktop.deb
 
-echo "################################################################" 
+rm /tmp/slack-desktop.deb
+
+echo "################################################################"
 echo "slack installed

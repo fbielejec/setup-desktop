@@ -134,18 +134,21 @@ export NVM_DIR="$HOME/.nvm"
 source $NVM_DIR/nvm.sh
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use 17.0.0
+nvm use 18.15.0
 
 # for Arduino Makefiles
-export ARDUINO_DIR=$HOME/Programs/arduino-1.8.12
-export ARDMK_DIR=$HOME/CloudStation/ArduinoProjects/Arduino-Makefile
+export ARDUINO_DIR=/home/filip/Programs/arduino-1.8.12
+export ARDMK_DIR=/home/filip/Dropbox/ArduinoProjects/Arduino-Makefile
 
 # for Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-export CARGO_HOME="$HOME/.cargo"
+export CARGO_HOME="/home/filip/.cargo"
 export RA_LOG="rust_analyzer=info"
 . "$HOME/.cargo/env"
+# for rd (Rusts rr replacement)
+export RD_HOME=$HOME/rd
+export PATH=$RD_HOME/bin:$PATH
 
 # for Android
 #export ANDROID="$HOME/Android"
@@ -171,7 +174,7 @@ export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System
 export PATH="$HOME/.local/bin:$PATH"
 
 # for aws-glue libs
-#export JUPYTER_DEFAULT_DIR=$HOME/CloudStation/Python
+#export JUPYTER_DEFAULT_DIR=/home/filip/Dropbox/Python
 
 # for Go
 export GOPATH=$HOME/go
@@ -186,4 +189,3 @@ source $HOME/CloudStation/Rust/alacritty/extra/completions/alacritty.bash
 
 # for QMK
 export QMK_HOME="$HOME/qmk_firmware" # Optional, set the location for `qmk_firmware`
-

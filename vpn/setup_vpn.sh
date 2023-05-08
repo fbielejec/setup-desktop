@@ -1,11 +1,13 @@
 #!/bin/bash
 
 echo "################################################################"
-echo "Installing NORD VPN daemon..."
+echo "Installing NORDVPN daemon..."
 
-sudo wget -qnc https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb -O /tmp/nordvpn-release_1.0.0_all.deb
-sudo dpkg -i /tmp/nordvpn-release_1.0.0_all.deb
+VERSION=3.16.2
+
+sudo wget -qnc https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_$VERSION_i386.deb -O /tmp/nordvpn.deb
+sudo dpkg -i /tmp/nordvpn.deb
 sudo apt-get update -y
 sudo apt-get install -y nordvpn
 
-rm /tmp/nordvpn-release_1.0.0_all.deb
+rm /tmp/nordvpn.deb

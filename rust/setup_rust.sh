@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#curl https://getsubstrate.io -sSf | bash -s -- --fast
-
 curl https://sh.rustup.rs -sSf | sh
 rustup default stable
 rustup update

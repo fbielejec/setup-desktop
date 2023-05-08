@@ -12,8 +12,7 @@ sudo apt install gcc-10 g++-10 libgccjit0 libgccjit-10-dev libjansson4 libjansso
 echo "################################################################" 
 echo "Compiling emacs..."
 
-#cd ~/Dropbox
-cd ~/CloudStationDrive
+cd $HOME/Programs
 
 git clone git://git.savannah.gnu.org/emacs.git -b master
 

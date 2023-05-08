@@ -128,7 +128,7 @@ qnapi
 vlc
 #wine
 unrar
-pdfshuffler
+pdfarranger
 #PyChess
 #GNU chess
 audacious
