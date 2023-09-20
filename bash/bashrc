@@ -189,3 +189,7 @@ source $HOME/CloudStation/Rust/alacritty/extra/completions/alacritty.bash
 
 # for QMK
 export QMK_HOME="$HOME/qmk_firmware" # Optional, set the location for `qmk_firmware`
+
+# for docker-compose
+# bash does not set GID (but does set UID)
+export GID=$(id -g)
