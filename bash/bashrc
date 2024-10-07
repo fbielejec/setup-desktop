@@ -117,24 +117,25 @@ if ! shopt -oq posix; then
 fi
 
 # ssh agent
-if [ -f ~/.ssh/agent.env ] ; then
-    . ~/.ssh/agent.env > /dev/null
-    if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
-        echo "Stale agent file found. Spawning a new agent. "
-        eval `ssh-agent | tee ~/.ssh/agent.env`
-        ssh-add
-    fi
-else
-    echo "Starting ssh-agent"
-    eval `ssh-agent | tee ~/.ssh/agent.env`
-    ssh-add
-fi
+# if [ -f ~/.ssh/agent.env ] ; then
+#     . ~/.ssh/agent.env > /dev/null
+#     if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
+#         echo "Stale agent file found. Spawning a new agent. "
+#         eval `ssh-agent | tee ~/.ssh/agent.env`
+#         ssh-add
+#     fi
+# else
+#     echo "Starting ssh-agent"
+#     eval `ssh-agent | tee ~/.ssh/agent.env`
+#     ssh-add
+# fi
 
 export NVM_DIR="$HOME/.nvm"
 source $NVM_DIR/nvm.sh
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-nvm use 18.15.0
+nvm use 18.19.0
+export PATH=/home/filip/.nvm/versions/node/v18.19.0/bin:$PATH
 
 # for Arduino Makefiles
 export ARDUINO_DIR=/home/filip/Programs/arduino-1.8.12
@@ -146,9 +147,11 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export CARGO_HOME="/home/filip/.cargo"
 export RA_LOG="rust_analyzer=info"
 . "$HOME/.cargo/env"
+# increase rustc stack size
+export RUST_MIN_STACK=67108864
 # for rd (Rusts rr replacement)
-export RD_HOME=$HOME/rd
-export PATH=$RD_HOME/bin:$PATH
+#export RD_HOME=$HOME/rd
+#export PATH=$RD_HOME/bin:$PATH
 
 # for Android
 #export ANDROID="$HOME/Android"
@@ -165,7 +168,7 @@ export PKG_CONFIG_PATH=/opt/opencv/latest/lib/pkgconfig:$PKG_CONFIG_PATH
 export OPENCV_TEST_DATA_PATH=/opt/opencv/latest/opencv_extra-master/testdata
 
 # for gradle
-#export GRADLE_HOME=/opt/gradle/gradle-4.6
+ #export GRADLE_HOME=/opt/gradle/gradle-4.6
 #export PATH=${GRADLE_HOME}/bin:${PATH}
 #export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));')"
@@ -185,11 +188,26 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 source $HOME/.secrets
 
 # for alacritty bash completions
-source $HOME/CloudStation/Rust/alacritty/extra/completions/alacritty.bash
+source /home/filip/Programs/alacritty.bash
 
 # for QMK
 export QMK_HOME="$HOME/qmk_firmware" # Optional, set the location for `qmk_firmware`
 
+# dumb ass file written by emacs
+rm $HOME/CloudStation/Rust/*org-src-fontification:rustic-mode*
+
 # for docker-compose
 # bash does not set GID (but does set UID)
 export GID=$(id -g)
+
+# for NAS
+ln -sf $HOME/.synology_drive_global_blacklist.filter $HOME/.SynologyDrive/data/session/1/conf/blacklist.filter
+
+# Foundry
+export PATH="$PATH:/home/filip/.foundry/bin"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
+
+export GPG_TTY=$(tty)
