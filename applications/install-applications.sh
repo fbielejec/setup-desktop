@@ -109,6 +109,7 @@ nmap
 #############
 #launchy
 
+arandr
 rofi
 # kupfer
 # for taking screenshots in i3
@@ -125,7 +126,7 @@ calibre
 qnapi
 #claws mail (+ fancy plugin, multi notifier, claws-mail-pgpinline claws-mail-pgpmime claws-mail-spam-report claws-mail-smime-plugin bogofilter)
 #pidgin
-vlc
+#vlc
 #wine
 unrar
 pdfarranger
@@ -138,6 +139,12 @@ parcellite
 gparted
 # caja-dropbox
 # cheese
+celluloid
+
+####################
+#---audio---#
+####################
+pavuvontrol
 
 ####################
 #---PRODUCTIVITY---#

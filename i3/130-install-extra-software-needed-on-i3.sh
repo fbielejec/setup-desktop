@@ -31,9 +31,6 @@ sudo apt-get install -y dmenu
 # conky
 sudo apt-get install -y conky-all
 
-# geany
-sudo apt-get install -y geany
-
 # numerick lock on
 sudo apt-get install -y numlockx
 numlockx on
@@ -42,13 +39,13 @@ numlockx on
 sudo apt-get install -y feh
 
 # change icons,themes and mouse
-sudo apt-get install -y lxappearance qt4-qtconfig
+#sudo apt-get install -y lxappearance qt4-qtconfig
 
 # take picture of screen
 #sudo apt-get install -y scrot
 
 # transparency of non active window
-sudo apt-get install -y compton
+#sudo apt-get install -y compton
 
 # notify demon
 sudo apt-get install -y notify-osd
@@ -61,7 +58,7 @@ sudo apt-get install -y lsb-release
 
 # panel icon for sound
 # sudo apt-get install -y volti
-sudo apt-get install -y pasystray paprefs pavumeter pulseaudio-module-zeroconf
+sudo apt-get install -y pasystray #paprefs pavumeter pulseaudio-module-zeroconf
 
 # different terminal for nemo
 #sudo apt-get install -y gnome-terminal nemo nemo-compare nemo-fileroller thunar
@@ -79,11 +76,6 @@ sudo apt-get install -y breeze-cursor-theme
 # dunst: lightweight replacement for the notification daemons
 # https://dunst-project.org/
 # sudo apt-get install -y dunst
-
-# TODO : try it as kupfer replacement
-# rofi: applications launcher 
-# https://github.com/davatorium/rofi
-# sudo apt-get install -y rofi
 
 # screenshooters
 # sudo apt-get install -y xfce4-screenshooter
@@ -126,9 +118,6 @@ sudo apt-get install -y breeze-cursor-theme
 # 	rm -rf /tmp/i3blocks
 
 # fi
-
-
-
 
 
 echo

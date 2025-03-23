@@ -12,6 +12,8 @@ sudo apt install gcc-10 g++-10 libgccjit0 libgccjit-10-dev libjansson4 libjansso
 echo "################################################################" 
 echo "Compiling emacs..."
 
+mkdir -p $HOME/Programs
+
 cd $HOME/Programs
 
 git clone git://git.savannah.gnu.org/emacs.git -b master
@@ -26,9 +28,9 @@ export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
 
 make -j 8 NATIVE_FULL_AOT=1
 
-#echo "################################################################" 
-#echo "Installing emacs..."
-#sudo apt-get install -y emacs28
+echo "################################################################" 
+echo "Installing emacs..."
+sudo make install
 
 echo "################################################################" 
 echo "Downloading config..."

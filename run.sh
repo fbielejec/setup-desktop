@@ -3,7 +3,7 @@
 echo "################################################################"
 echo "###################    B E G I N      ##########################"
 
-sudo apt-get update
+sudo apt update
 
 #################################
 #--- track orhpaned packages ---#
@@ -23,11 +23,8 @@ sudo apt-get update
 
 cd i3/
 
-./100-install-dependencies.sh
 
-./110-install-xcb-util-xrm.sh
-
-./120-install-i3-gaps-next.sh
+./120-install-i3.sh
 
 ./130-install-extra-software-needed-on-i3.sh
 
@@ -36,6 +33,12 @@ cd i3/
 ./150-copy-feh-background-folder.sh
 
 cd ../
+
+##############
+#--- rofi ---#
+##############
+
+./rofi/setup-rofi.sh
 
 ###############
 #--- conky ---#
@@ -164,11 +167,6 @@ cp bash/bashrc $HOME/.bashrc
 
 ./ledger_live/setup-ledger-live.sh
 
-##############
-#--- rofi ---#
-##############
-
-./rofi/setup-rofi.sh
 
 #################
 #--- nordvpn ---#

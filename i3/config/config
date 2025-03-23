@@ -249,38 +249,8 @@ bindsym $mod+d exec dmenu_run -fn 'NotoMonoRegular:bold:pixelsize=18'
 # use xrandr to know the names of your monitors
 # use this line to tell which monitor is on the right
 
-# blacky
-# exec --no-startup-id xrandr --output HDMI-2 --auto --primary --left-of eDP-1
-
-# meerkat
-# exec --no-startup-id xrandr --output HDMI-1 --off --output DP-2 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1 --primary --mode 1920x1080 --pos 1080x0 --rotate normal
-
-exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
-
-# meerkat with razer (no KVM, all displays GPU)
-# exec xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate left --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
-
-# meerkat meerkat with razer (KVM + all displays GPU)
-# exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --pos 0x0 --rotate left --output HDMI-1-1 --off --output DP-1 --off --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-1-2 --off --output DP-1-1 --off --output DP-0 --off
-
-# weebeastie all vertical
-exec --no-startup-id xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
-
-# weebeastie alpine
-# exec --no-startup-id xrandr --output DVI-D-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate left --output DP-0 --off --output DP-1 --off
-
 # weebeastie
-#exec --no-startup-id xrandr --output HDMI-0 --primary --mode 1920x1080 --pos 1080x0 --rotate normal --output DP-0 --off --output DP-1 --mode 1920x1080 --pos 0x0 --rotate left --output DP-2 --off --output DP-3 --off --output DP-4 --off --output DP-5 --off
-
-# blacky
-#set $firstMonitor HDMI-2
-#set $secondMonitor eDP-1
-
-# meerkat
-#set $firstMonitor HDMI-0
-#set $secondMonitor DP-0
-
-# weebeastie
+exec --no-startup-id xrandr --output DVI-D-0 --mode 3840x2160 --pos 1920x0 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-0 --off --output DP-1 --off
 set $firstMonitor DVI-D-0
 set $secondMonitor HDMI-0
 
@@ -365,21 +335,21 @@ bindsym $mod+Shift+10 move container to workspace 10
 exec_always --no-startup-id numlockx on
 exec --no-startup-id nm-applet
 exec pasystray
-exec blueberry-tray
+exec blueman-manager
 exec synology-drive
 
 # autostart apps is workspaces
 
 # exec element-desktop
-exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/element-desktop'
+#exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/element-desktop'
 # exec telegram
-exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/telegram'
+#exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/telegram'
 # exec slack
-exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/slack'
+#exec --no-startup-id i3-msg 'workspace 6:Communicators; exec /usr/bin/slack'
 
-exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
-exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
-exec --no-startup-id i3-msg 'workspace 9:Terminal; exec /usr/local/bin/alacritty'
+#exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
+#exec --no-startup-id i3-msg 'workspace 2:Emacs; exec /usr/local/bin/emacs-28.0.50'
+#exec --no-startup-id i3-msg 'workspace 9:Terminal; exec /usr/local/bin/alacritty'
 
 # USER APPLICATIONS
 
@@ -399,7 +369,7 @@ exec conky
 exec --no-startup-id /usr/bin/gnome-keyring-daemon #--start --components=pkcs11
 
 # restore the background
-#exec --no-startup-id feh --bg-scale ~/.fehbg.png
+exec --no-startup-id feh --bg-scale ~/.fehbg.png
 #exec --no-startup-id watch -n 1200 feh --randomize --bg-max ~/CloudStation/paintings/
 
 # faster navigation
@@ -432,7 +402,7 @@ bindsym Ctrl+mod1+l exec i3lock -i ~/.config/i3/lockscreen.png -t -n -e -f
 #bindsym $mod+space exec --no-startup-id rofi -modi window,drun,combi,find:/home/filip/.config/rofi/finder.sh,files:/home/filip/.config/rofi/files.sh -show combi -theme zenburn
 
 # bindsym $mod+space exec --no-startup-id ~/.config/i3/scripts/rofi.sh
-bindsym $mod+g exec --no-startup-id ~/.config/i3/scripts/rofi.sh 
+#bindsym $mod+g exec --no-startup-id ~/.config/i3/scripts/rofi.sh 
 bindsym $mod+space exec --no-startup-id ~/.config/i3/scripts/rofi.sh 
 
 ################### SHORTCUTS WORKSPACES ######################
@@ -465,21 +435,21 @@ bindsym Mod1+Ctrl+r exec /usr/bin/simplescreenrecorder
 
 
 #floating enabled from some programs
-for_window [class="Gnome-disks"] floating enable
-for_window [class="^Skype$"] floating enable
-for_window [class="^Gnome-font-viewer$"] floating enable
+#for_window [class="Gnome-disks"] floating enable
+#for_window [class="^Skype$"] floating enable
+#for_window [class="^Gnome-font-viewer$"] floating enable
 #for_window [class="^Thunar$"] floating enable
-for_window [class="^Gpick$"] floating enable
-#for_window [class="^Vlc$"] floating enable
+#for_window [class="^Gpick$"] floating enable
+for_window [class="^Vlc$"] floating enable
 #for_window [class="^Spotify$"] floating enable workspace 10
 #for_window [instance="gimp"] floating enable
 for_window [window_role="^gimp-toolbox-color-dialog$"] floating enable
-for_window [instance="variety"] floating enable
-for_window [class="Gnome-system-monitor"] floating enable
-for_window [class="Brasero"] floating enable
-for_window [class="Xfburn"] floating enable
-for_window [class="Xfce4-appfinder"] floating enable
-for_window [class="Wine"] floating enable
+#for_window [instance="variety"] floating enable
+#for_window [class="Gnome-system-monitor"] floating enable
+#for_window [class="Brasero"] floating enable
+#for_window [class="Xfburn"] floating enable
+#for_window [class="Xfce4-appfinder"] floating enable
+#for_window [class="Wine"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="^Preferences$"] floating enable
@@ -492,10 +462,10 @@ for_window [title="Copying"] floating enable
 for_window [title="Deleting"] floating enable
 for_window [title="Moving"] floating enable
 for_window [class="Unetbootin.elf"] floating enable
-for_window [class="Galculator"] floating enable
-for_window [class="Usb-creator-gtk"] floating enable
-for_window [class="MintUpdate.py"] floating enable
-#for_window [class="Bleachbit"] floating enable
+#for_window [class="Galculator"] floating enable
+#for_window [class="Usb-creator-gtk"] floating enable
+#for_window [class="MintUpdate.py"] floating enable
+for_window [class="Bleachbit"] floating enable
 for_window [class="Hexchat"] floating disable
 
 #Popups during fullscreen mode
@@ -540,8 +510,8 @@ mode "$mode_system" {
 
 # bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master '5%+'"
 # bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master '5%-'"
-bindsym $mod+l exec "amixer -D pulse sset Master '5%+'"
-bindsym $mod+q exec "amixer -D pulse sset Master '5%-'"
+bindsym $mod+l exec "amixer set Master '5%+'"
+bindsym $mod+q exec "amixer set Master '5%-'"
 
 bindsym XF86AudioMute exec "amixer -D pulse set Master toggle"
 # bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
