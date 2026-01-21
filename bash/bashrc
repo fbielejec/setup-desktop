@@ -210,5 +210,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init - bash)"
 # eval "$(pyenv virtualenv-init -)"
 
-# set claude's default model
-ANTHROPIC_MODEL="claude-opus-4-5-20251101
+# set claude default model
+export ANTHROPIC_MODEL="claude-opus-4-5-20251101"
+export CLAUDE_CUSTOM_INSTRUCTIONS="$HOME/.config/CLAUDE.md"
