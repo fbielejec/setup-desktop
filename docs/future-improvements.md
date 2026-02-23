@@ -24,6 +24,10 @@ Currently targets Linux Mint only. Could generalize to:
 
 Review and improve emacs.d
 
+## CLAUDE.md
+
+Maintain a repository with current personal CLAUDE.md/AGENTS.md.
+
 ## Dry Run Mode
 
 A `--dry-run` flag that shows what would be installed/configured without making changes. Useful for reviewing before running on a new machine.
