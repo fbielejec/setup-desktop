@@ -1,33 +1,26 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+source "$(dirname "$0")/../config.sh"
 
-echo "################################################################"
-echo "Installing nvm ..."
+log_info "Setting up Node.js..."
 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+if is_installed nvm; then
+    log_info "nvm already installed, skipping"
+else
+    log_info "Installing nvm..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+fi
 
-# source ~/.bashrc
-
+# Source nvm for this session
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-echo "################################################################"
-echo "Installing node ..."
-nvm install stable
-nvm current
+log_info "Installing Node.js (${SETUP_NODE_VERSION})..."
+nvm install "$SETUP_NODE_VERSION"
+nvm alias default "$SETUP_NODE_VERSION"
 
-# echo "################################################################"
-# echo "Creating symlinks for auxiliary software..."
-# sudo ln -s -f /home/filip/.nvm/versions/node/$(node --version)/bin/node /usr/bin/node
-# sudo ln -s -f /home/filip/.nvm/versions/node/$(node --version)/bin/npm /usr/bin/npm
+log_info "Installing yarn..."
+npm install -g yarn
 
-echo "################################################################"
-echo "Installing yarn ..."
-
-npm i -g yarn
-
-# curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-# echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-# sudo apt-get update && sudo apt-get install --no-install-recommends yarn
-
-yarn -version
+log_info "Node.js setup complete"
