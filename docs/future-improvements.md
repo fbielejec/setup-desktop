@@ -24,9 +24,9 @@ Currently targets Linux Mint only. Could generalize to:
 
 Review and improve emacs.d
 
-## CLAUDE.md
+## AGENTS.md / CLAUDE.md
 
-Maintain a repository with current personal CLAUDE.md/AGENTS.md.
+Maintain a repository with current personal/global CLAUDE.md/AGENTS.md.
 
 ## Dry Run Mode
 
