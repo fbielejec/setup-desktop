@@ -1,14 +1,16 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
 
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common docker.io docker-compose-v2
+log_info "Setting up Docker..."
 
-# Add user to docker group. Added user can run docker command without sudo command
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo gpasswd -a "${USER}" docker
+if is_installed docker; then
+    log_info "Docker already installed, skipping"
+else
+    log_info "Installing Docker..."
+    sudo apt-get install -y docker.io docker-compose-v2
+    sudo groupadd -f docker
+    sudo usermod -aG docker "$USER"
+fi
 
-docker --version
-docker-compose --version
-
-# test
-docker run hello-world
+log_info "Docker setup complete"

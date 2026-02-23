@@ -1,26 +1,7 @@
 #!/bin/bash
 set -e
-##################################################################################################################
-#
-#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. AT YOUR OWN RISK.
-#
-##################################################################################################################
-
-# echo "#########################################################"
-# echo "General software"
-# echo "#########################################################"
-
-
-#sudo apt install -y firefox
-#sudo apt install -y gimp 
-#sudo apt install -y inkscape 
-#sudo apt install -y meld 
-#sudo apt install -y vlc 
-#sudo apt install -y evolution
-
-echo "#########################################################"
-echo "Everything to work comfortably in i3 will be installed"
-echo "#########################################################"
+source "$(dirname "$0")/../lib/common.sh"
+log_info "Installing i3 extras..."
 
 # core applications
 sudo apt-get install -y i3status i3lock
@@ -120,9 +101,4 @@ sudo apt-get install -y breeze-cursor-theme
 # fi
 
 
-echo
-echo
-echo "#########################################################"
-echo "Everything to work comfortably in i3 has been installed"
-echo "#########################################################"
-sleep 1
+log_info "i3 extras installed"

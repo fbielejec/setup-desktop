@@ -1,25 +1,14 @@
 #!/bin/bash
 set -e
-#
-##################################################################################################################
-#
-#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. AT YOUR OWN RISK.
-#
-##################################################################################################################
+source "$(dirname "$0")/../lib/common.sh"
 
-echo "##################################################"
-echo "Latest possible version of i3 with gaps"
-echo "##################################################"
+log_info "Installing i3..."
 
-sudo apt install i3
+if is_installed i3; then
+    log_info "i3 already installed, skipping"
+    exit 0
+fi
 
-echo "You installed the following version"
-echo
-echo
-i3 --version
-echo
-echo
-echo "##################################################"
-echo "Latest possible version of i3 with gaps installed"
-echo "##################################################"
-sleep 1
+sudo apt install -y i3
+
+log_info "i3 installed"

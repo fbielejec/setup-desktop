@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+
+log_info "Installing applications..."
 
 sudo apt-get update &&
 
@@ -88,6 +92,7 @@ bibtool
 #---SECURITY---#
 ################
 keepassx
+keepassxc
 #TrueCrypt / tcplay
 #Prey (prey-config.py, https://preyproject.com, dependencies: scrot, mpg123, lshw)
 nmap
@@ -161,3 +166,5 @@ pavuvontrol
 
 # execute it
 "${cmd[@]}"
+
+log_info "Applications installed"

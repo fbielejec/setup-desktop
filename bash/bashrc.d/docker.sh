@@ -1,0 +1,3 @@
+# Docker compose UID/GID
+export UID=$(id -u)
+export GID=$(id -g)

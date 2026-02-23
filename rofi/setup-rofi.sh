@@ -1,15 +1,13 @@
 #!/bin/bash
 set -e
-
-echo "################################################################"
-echo "configuring ROFI"
+source "$(dirname "$0")/../lib/common.sh"
+log_info "Setting up Rofi..."
 
 if [ ! -d /home/$USER/.config/rofi ]; then
-
-  echo "################################################################"
-  echo "ROFI config not found, setting up"
 
   mkdir -p /home/$USER/.config/rofi
   cp -rf ./rofi/* /home/$USER/.config/rofi
 
 fi
+
+log_info "Rofi setup complete"

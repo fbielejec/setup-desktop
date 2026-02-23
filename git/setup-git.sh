@@ -1,24 +1,19 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+source "$(dirname "$0")/../config.sh"
 
-# installing git if not installed for specific distro's
+log_info "Configuring git..."
 
-if ! location="$(type -p "git")" || [ -z "git" ]; then
-
-  echo "#################################################"
-  echo "installing git for this script to work"
- 
-
-  sudo apt-get install -y git
-  
+if ! is_installed git; then
+    log_info "Installing git..."
+    sudo apt-get install -y git
 fi
 
-#setting up git
-#https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-config
-
-# git init
-git config --global user.name "filip"
-git config --global user.email "fbielejec@gmail.com"
-sudo git config --system core.editor nano
-git config --global credential.helper cache
+git config --global user.name "$SETUP_USER_NAME"
+git config --global user.email "$SETUP_USER_EMAIL"
+git config --global core.editor nano
 git config --global credential.helper 'cache --timeout=18000'
 git config --global push.default simple
+
+log_info "Git configured for $SETUP_USER_NAME <$SETUP_USER_EMAIL>"
