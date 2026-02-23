@@ -20,6 +20,10 @@ Currently targets Linux Mint only. Could generalize to:
 - Other Debian-based distros (Pop!_OS, etc.)
 - Would need OS detection and conditional logic for package names/repos
 
+## Emacs
+
+Review and improve emacs.d
+
 ## Dry Run Mode
 
 A `--dry-run` flag that shows what would be installed/configured without making changes. Useful for reviewing before running on a new machine.
