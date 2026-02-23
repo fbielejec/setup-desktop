@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+log_info "Setting up Conky..."
 
 #--- FUNCTIONS
 
@@ -67,8 +70,4 @@ echo "Copying conky script..."
 
 cp alienware ~/.conkyrc
 
-echo "#########################################################"
-echo "Conky setup finished"
-echo "#########################################################"
-
-exit $?
+log_info "Conky setup complete"

@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+log_info "Installing fonts..."
 
 #--- FUNCTIONS
 
@@ -65,4 +68,4 @@ for i in "${FONTS[@]}"; do
 
 done
 
-exit $?
+log_info "Fonts installed"

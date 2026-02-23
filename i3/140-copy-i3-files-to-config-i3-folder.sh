@@ -1,12 +1,7 @@
 #!/bin/bash
 set -e
-
-echo "################################################################"
-echo "This script will copy/paste all the i3 configuration files "
-echo "to the ~/.config/i3 folder."
-
-echo "################################################################"
-echo "Check if there is a ~/.config/i3 folder else make one"
+source "$(dirname "$0")/../lib/common.sh"
+log_info "Copying i3 config files..."
 
 [ -d $HOME"/./config/i3" ] || mkdir -p $HOME"/.config/i3"
 
@@ -38,6 +33,4 @@ fi
 
 cp -rf ./config/* ~/.config/i3
 
-echo "################################################################"
-echo "##############  LOG OFF AND LOG ON WITH I3     #################"
-echo "################################################################"
+log_info "i3 config files copied"
