@@ -1,15 +1,24 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+
+log_info "Setting up Emacs..."
+
+if is_installed emacs; then
+    log_info "Emacs already installed, skipping"
+    exit 0
+fi
 
 ####
 # emacs with configs
 ####
 
-echo "################################################################" 
+echo "################################################################"
 echo "Installing dependencies..."
 
-sudo apt install gcc-10 g++-10 libgccjit0 libgccjit-10-dev libjansson4 libjansson-dev libxpm-dev libjpeg-dev libgif-dev libtiff-dev libgnutls28-dev libmagickwand-dev
+sudo apt install gcc g++ libgccjit0 libgccjit-12-dev libjansson4 libjansson-dev libxpm-dev libjpeg-dev libgif-dev libtiff-dev libgnutls28-dev libmagickwand-dev
 
-echo "################################################################" 
+echo "################################################################"
 echo "Compiling emacs..."
 
 mkdir -p $HOME/Programs
@@ -20,7 +29,7 @@ git clone git://git.savannah.gnu.org/emacs.git -b master
 
 cd emacs
 
-export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
+export CC=/usr/bin/gcc CXX=/usr/bin/g++
 
 ./autogen.sh
 
@@ -28,14 +37,14 @@ export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
 
 make -j 8 NATIVE_FULL_AOT=1
 
-echo "################################################################" 
+echo "################################################################"
 echo "Installing emacs..."
 sudo make install
 
-echo "################################################################" 
+echo "################################################################"
 echo "Downloading config..."
 
-wget --no-check-certificate https://github.com/fbielejec/emacs.d/archive/master.zip
+wget https://github.com/fbielejec/emacs.d/archive/master.zip
 
 mkdir -p ~/.emacs.d
 unzip master.zip
@@ -46,3 +55,5 @@ cd ~/.emacs.d
 git init
 git remote add origin git@github.com:fbielejec/emacs.d.git
 git remote -v
+
+log_info "Emacs setup complete"
