@@ -1,26 +1,17 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
 
-echo "################################################################"
-echo "Setting up snap..."
+log_info "Setting up Slack..."
 
-sudo mv /etc/apt/preferences.d/nosnap.pref ~/Documents/nosnap.backup
+if is_installed slack; then
+    log_info "Slack already installed, skipping"
+    exit 0
+fi
 
-sudo apt update
-sudo apt install snapd
+log_info "Downloading Slack .deb package..."
+wget -O /tmp/slack.deb "https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb"
+sudo dpkg -i /tmp/slack.deb || sudo apt-get install -f -y
+rm -f /tmp/slack.deb
 
-#VERSION=4.31.155
-
-#wget https://downloads.slack-edge.com/releases/linux/$VERSION/prod/x64/slack-desktop-$VERSION-amd64.deb \
-#   -O /tmp/slack-desktop.deb
-
-#sudo dpkg -i /tmp/slack-desktop.deb
-
-#rm /tmp/slack-desktop.deb
-
-echo "################################################################"
-echo "Installing slack..."
-
-sudo snap install slack
-
-echo "################################################################"
-echo "slack installed
+log_info "Slack setup complete"
