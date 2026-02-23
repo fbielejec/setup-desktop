@@ -1,25 +1,18 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
+source "$(dirname "$0")/../config.sh"
 
-echo "################################################################" 
-echo "Installing Java 16..."
+log_info "Setting up Java..."
 
-sudo add-apt-repository ppa:linuxuprising/java
-sudo apt-get update
-sudo apt install -y oracle-java16-installer oracle-java16-set-default
+JAVA_PKG="openjdk-${SETUP_JAVA_VERSION}-jdk"
 
-# echo "################################################################" 
-# echo "Installing Java 8..."
+if is_apt_installed "$JAVA_PKG"; then
+    log_info "Java ($JAVA_PKG) already installed, skipping"
+    exit 0
+fi
 
-# sudo apt-get install openjdk-8-jre openjdk-8-jdk
+log_info "Installing $JAVA_PKG and Maven..."
+sudo apt-get install -y "$JAVA_PKG" maven
 
-echo "################################################################" 
-echo "Setting default Java version..."
-
-echo 3 | sudo update-alternatives --config java
-java -version
-
-echo "################################################################" 
-echo "Instaling maven..."
-
-sudo apt-get install maven
-mvn --version
+log_info "Java setup complete"
