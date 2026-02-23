@@ -1,13 +1,15 @@
 #!/bin/bash
+set -e
+source "$(dirname "$0")/../lib/common.sh"
 
-echo "################################################################"
-echo "Installing NORDVPN daemon..."
+log_info "Setting up NordVPN..."
 
-VERSION=3.16.2
+if is_installed nordvpn; then
+    log_info "NordVPN already installed, skipping"
+    exit 0
+fi
 
-sudo wget -qnc https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_$VERSION_i386.deb -O /tmp/nordvpn.deb
-sudo dpkg -i /tmp/nordvpn.deb
-sudo apt-get update -y
-sudo apt-get install -y nordvpn
+log_info "Installing NordVPN via official installer..."
+sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)
 
-rm /tmp/nordvpn.deb
+log_info "NordVPN setup complete"
