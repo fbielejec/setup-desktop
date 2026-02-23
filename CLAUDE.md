@@ -20,7 +20,7 @@ run.sh                          # Master orchestrator - 22 steps sequentially
 ├── i3/120-install-i3.sh
 ├── i3/130-install-extra-software-needed-on-i3.sh
 ├── i3/140-copy-i3-files-to-config-i3-folder.sh
-├── i3/150-copy-feh-background-folder.sh
+├── i3/150-copy-feh-background.sh
 ├── rofi/setup-rofi.sh
 ├── conky/setup-conky.sh
 ├── bash/setup-bash.sh          # Deploys bashrc + ~/.bashrc.d/ snippets
@@ -78,7 +78,7 @@ Each directory = one component with its own `setup-*.sh` or `install-*.sh` scrip
 | Dir | Purpose | Method |
 |-----|---------|--------|
 | `chrome/` | Google Chrome | wget .deb |
-| `slack/` | Slack | snap |
+| `slack/` | Slack | wget .deb |
 | `vpn/` | NordVPN | wget .deb |
 | `ledger_live/` | Ledger crypto wallet (optional) | wget binary + udev rules |
 

@@ -37,7 +37,7 @@ run_step "Setting up Docker..."                   docker/setup-docker.sh
 run_step "Installing i3..."                       i3/120-install-i3.sh
 run_step "Installing i3 extras..."                i3/130-install-extra-software-needed-on-i3.sh
 run_step "Copying i3 config..."                   i3/140-copy-i3-files-to-config-i3-folder.sh
-run_step "Copying wallpaper..."                   i3/150-copy-feh-background-folder.sh
+run_step "Copying wallpaper..."                   i3/150-copy-feh-background.sh
 run_step "Setting up Rofi..."                     rofi/setup-rofi.sh
 run_step "Setting up Conky..."                    conky/setup-conky.sh
 run_step "Setting up Bash..."                     bash/setup-bash.sh
