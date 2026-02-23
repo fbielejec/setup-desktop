@@ -747,3 +747,9 @@ client.urgent           #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
 ###########################################################################
 #if you want transparency on non-focused windows
 exec_always compton --config ~/.config/i3/compton.conf
+
+################### DUNST NOTIFICATION MANAGEMENT ######################
+
+bindsym $mod+n exec --no-startup-id dunstctl close
+bindsym $mod+Shift+n exec --no-startup-id dunstctl close-all
+bindsym $mod+grave exec --no-startup-id dunstctl history-pop
