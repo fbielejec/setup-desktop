@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dunstify 'Claude Code' 'Needs your attention' -u critical -t 10000"
+          }
+        ]
+      }
+    ]
+  }
+}

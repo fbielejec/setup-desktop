@@ -3,12 +3,9 @@ set -e
 source "$(dirname "$0")/../lib/common.sh"
 source "$(dirname "$0")/../config.sh"
 
-log_info "Setting up Claude Code..."
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-if is_installed claude; then
-    log_info "Claude Code already installed, skipping"
-    exit 0
-fi
+log_info "Setting up Claude Code..."
 
 # Requires node/npm
 if ! is_installed npm; then
@@ -16,7 +13,14 @@ if ! is_installed npm; then
     exit 1
 fi
 
-log_info "Installing Claude Code..."
-npm install -g @anthropic-ai/claude-code
+if ! is_installed claude; then
+    log_info "Installing Claude Code..."
+    npm install -g @anthropic-ai/claude-code
+fi
+
+# Deploy settings (hooks for dunst notifications)
+mkdir -p "$HOME/.claude"
+cp "$SCRIPT_DIR/settings.json" "$HOME/.claude/settings.json"
+log_info "Copied Claude Code settings to ~/.claude/settings.json"
 
 log_info "Claude Code setup complete"
