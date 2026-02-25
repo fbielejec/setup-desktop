@@ -18,9 +18,15 @@ if ! is_installed claude; then
     npm install -g @anthropic-ai/claude-code
 fi
 
-# Deploy settings (hooks for dunst notifications)
+# Deploy settings (hooks for dunst notifications) - merge to preserve existing keys
 mkdir -p "$HOME/.claude"
-cp "$SCRIPT_DIR/settings.json" "$HOME/.claude/settings.json"
-log_info "Copied Claude Code settings to ~/.claude/settings.json"
+if [ -f "$HOME/.claude/settings.json" ]; then
+    jq -s '.[0] * .[1]' "$HOME/.claude/settings.json" "$SCRIPT_DIR/settings.json" > "$HOME/.claude/settings.json.tmp"
+    mv "$HOME/.claude/settings.json.tmp" "$HOME/.claude/settings.json"
+    log_info "Merged Claude Code settings into ~/.claude/settings.json"
+else
+    cp "$SCRIPT_DIR/settings.json" "$HOME/.claude/settings.json"
+    log_info "Copied Claude Code settings to ~/.claude/settings.json"
+fi
 
 log_info "Claude Code setup complete"
