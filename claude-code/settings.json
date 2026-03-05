@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "dunstify -a 'ai-agent' 'Claude Code' \"Needs your attention\\n$(pwd)\" -u critical -t 10000"
+            "command": "paplay /usr/share/sounds/freedesktop/stereo/message-new-instant.oga & dunstify -a 'ai-agent' 'Claude Code' \"Needs your attention\\n$(pwd)\" -u critical -t 10000"
           }
         ]
       }
