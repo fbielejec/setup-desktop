@@ -1,29 +1,13 @@
-# Claude Configuration
-
-This file contains persistent instructions and preferences for all Claude interactions (claude-code, aidermacs, etc.).
-
 ## Git & Version Control
 
-**CRITICAL**: Never execute git commands (commit, push, pull, etc.). I handle all git operations manually to review your work before committing.
+Never execute git commands (add, commit, push, pull, etc.). I handle all git operations manually to review your work before committing.
 
-## Communication Style
+## Workflow
 
-- Be concise but complete in explanations
-- Ask clarifying questions when requirements are ambiguous
-- Explain your reasoning for significant changes
-- Highlight any assumptions you're making
+### Code simplifier
 
-## File Operations
+After finishing any coding task (writing new code, fixing bugs, refactoring, addressing review items), spawn a code-simplifier subagent to review the changed code for clarity, consistency, and maintainability.
 
-- Always show me the full context of changes
-- Prefer incremental changes over large refactors
+**Why:** The user wants an automatic simplification pass on all code changes to catch unnecessary complexity, improve readability, and enforce project standards before considering work done.
 
-## Error Handling
-
-- When encountering errors, explain what went wrong
-- Suggest multiple solutions when appropriate
-- Consider edge cases in implementations
-
-## Project-Specific Notes
-
-[Add your project-specific preferences here]
+**How to apply:** After all code changes compile and tests pass, launch an Agent with the code-simplifier plugin's principles (from `~/.claude/plugins/marketplaces/claude-plugins-official/plugins/code-simplifier/agents/code-simplifier.md`): preserve functionality, reduce unnecessary complexity, improve naming, eliminate redundant abstractions, and choose clarity over brevity. Focus only on the files that were modified.
