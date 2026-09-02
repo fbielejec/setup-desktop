@@ -75,6 +75,9 @@ Note the macOS port deliberately did **not** take the OS-detection route — a
 separate tree was preferred over a dispatch layer — so this stays a
 Linux-family concern.
 
+### Teardown
+Scripts to remove certain components
+
 ### Emacs
 Review and improve `emacs.d`. Two macOS-specific gaps to close there: the
 config has no `system-type` branches for fonts or modifiers (currently handled
