@@ -1,0 +1,69 @@
+# AeroSpace configuration — assembled by macos/aerospace/setup-aerospace.sh from
+#   aerospace.head.toml.template
+#   aerospace.bindings.toml.template   (rendered once per modifier)
+#   aerospace.tail.toml.template
+# Edit those, not ~/.aerospace.toml.
+#
+# Ported from i3/config/config. AeroSpace supports exactly four modifiers —
+# cmd, alt, ctrl, shift — and no fn/Globe.
+#
+# The modifier is alt-cmd, and it is deliberately the SAME on both keyboards:
+# the QMK board's Caps Lock is LAG_T(KC_ESC), which emits exactly the Option+
+# Command chord the built-in keyboard makes with a thumb roll. One gesture, one
+# binding set. See macos/qmk/keymap-notes.md.
+#
+# setup-aerospace.sh can render the binding block once per modifier if
+# SETUP_MOD_FALLBACK is set — used when SETUP_MOD is ctrl-alt-cmd, which the
+# built-in keyboard cannot produce.
+#
+# ORDERING MATTERS: every bare top-level key must appear BEFORE the first
+# [table] header, or TOML nests it inside that table instead.
+
+after-startup-command = [
+    'exec-and-forget sketchybar --reload',
+    'exec-and-forget borders',
+]
+
+# Tell SketchyBar which workspace is focused. Without this the bar renders once
+# and then never updates.
+exec-on-workspace-change = [
+    '/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+]
+
+start-at-login = true
+
+# i3 flattens a container left with a single child, and reorients nested
+# containers. These two reproduce that.
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# i3/config/config:89 is `default_orientation horizontal`. 'auto' would pick
+# orientation from the monitor aspect ratio instead, which is not what i3 did.
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'horizontal'
+
+accordion-padding = 30
+
+# --- tables below this line -------------------------------------------------
+
+# GUI apps inherit a minimal PATH from launchd, and /opt/homebrew/bin is not in
+# /etc/paths — so without this, every exec-and-forget above fails silently with
+# "command not found" on Apple Silicon.
+[exec]
+inherit-env-vars = true
+
+[exec.env-vars]
+PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:${PATH}'
+
+# i3/config/config has every gaps line commented out (695-698), so the Linux
+# setup runs with no gaps. Matching that here.
+[gaps]
+inner.horizontal = 0
+inner.vertical   = 0
+outer.left       = 0
+outer.right      = 0
+outer.top        = 0
+outer.bottom     = 0
+
+[mode.main.binding]

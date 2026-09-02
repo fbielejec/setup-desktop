@@ -1,0 +1,21 @@
+#!/bin/bash
+# JankyBorders — replaces i3's client.focused / client.unfocused window borders.
+#
+# Colours and width from i3/config/config:
+#   client.focused    #4A4A4A
+#   client.unfocused  #222222
+#   new_window 1pixel
+#
+# This is the single source of truth: ~/.aerospace.toml launches borders with
+# no arguments, because CLI arguments would override this file entirely and
+# leave the two definitions to drift apart.
+
+options=(
+    style=round
+    width=1.0
+    hidpi=on
+    active_color=0xff4a4a4a
+    inactive_color=0xff222222
+)
+
+borders "${options[@]}"

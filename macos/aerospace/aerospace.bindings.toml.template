@@ -1,0 +1,85 @@
+
+# ==== bindings for @MOD@ ====================================================
+
+# --- focus / move -----------------------------------------------------------
+# i3 used arrows rather than hjkl, so these keep the arrows.
+@MOD@-left  = 'focus left'
+@MOD@-down  = 'focus down'
+@MOD@-up    = 'focus up'
+@MOD@-right = 'focus right'
+
+@MOD_SHIFT@-left  = 'move left'
+@MOD_SHIFT@-down  = 'move down'
+@MOD_SHIFT@-up    = 'move up'
+@MOD_SHIFT@-right = 'move right'
+
+# --- layout -----------------------------------------------------------------
+# h_tiles / v_tiles rather than `tiles horizontal`: AeroSpace applies the first
+# argument that does not already describe the current layout, so from an
+# accordion `layout tiles horizontal` would need two presses to reach a
+# horizontal tiling. h_tiles sets both at once.
+@MOD@-h = 'layout h_tiles'
+@MOD@-v = 'layout v_tiles'
+@MOD@-e = 'layout tiles horizontal vertical'   # i3: layout toggle split
+
+# i3 stacking / tabbed. AeroSpace calls both "accordion" and distinguishes
+# them by axis: vertical accordion stacks, horizontal accordion tabs.
+@MOD@-s = 'layout v_accordion'                 # i3: layout stacking
+@MOD@-z = 'layout h_accordion'                 # i3: layout tabbed
+
+@MOD@-f = 'fullscreen'
+@MOD_SHIFT@-space = 'layout floating tiling'   # i3: floating toggle
+
+# --- windows ----------------------------------------------------------------
+@MOD_SHIFT@-0 = 'close'                        # i3: $mod+Shift+0 kill
+
+# --- workspaces -------------------------------------------------------------
+# Only 1-9. i3 binds `$mod+10` and `$mod+Shift+10` (config lines 278, 290),
+# which are not valid i3 keysyms — so workspace 10 has never actually been
+# reachable by keyboard on the Linux machine either.
+@MOD@-1 = 'workspace 1'
+@MOD@-2 = 'workspace 2'
+@MOD@-3 = 'workspace 3'
+@MOD@-4 = 'workspace 4'
+@MOD@-5 = 'workspace 5'
+@MOD@-6 = 'workspace 6'
+@MOD@-7 = 'workspace 7'
+@MOD@-8 = 'workspace 8'
+@MOD@-9 = 'workspace 9'
+
+@MOD_SHIFT@-1 = 'move-node-to-workspace 1'
+@MOD_SHIFT@-2 = 'move-node-to-workspace 2'
+@MOD_SHIFT@-3 = 'move-node-to-workspace 3'
+@MOD_SHIFT@-4 = 'move-node-to-workspace 4'
+@MOD_SHIFT@-5 = 'move-node-to-workspace 5'
+@MOD_SHIFT@-6 = 'move-node-to-workspace 6'
+@MOD_SHIFT@-7 = 'move-node-to-workspace 7'
+@MOD_SHIFT@-8 = 'move-node-to-workspace 8'
+@MOD_SHIFT@-9 = 'move-node-to-workspace 9'
+
+# i3:413-415 — workspace cycling and back-and-forth. The Mod1+Tab (plain alt)
+# pair has no @MOD@ in it, so it lives in the tail: this block is rendered
+# once per modifier and a literal key here would be a duplicate TOML key.
+@MOD@-tab       = 'workspace-back-and-forth'   # i3: $mod+Tab
+@MOD_SHIFT@-tab = 'workspace prev'
+
+# --- volume -----------------------------------------------------------------
+# i3:513-514 bound $mod+l / $mod+q to amixer. The macOS media keys already do
+# this, but the bindings are kept so the muscle memory carries over.
+@MOD@-l = "exec-and-forget osascript -e 'set volume output volume (output volume of (get volume settings) + 5)'"
+@MOD@-q = "exec-and-forget osascript -e 'set volume output volume (output volume of (get volume settings) - 5)'"
+
+# --- resize -----------------------------------------------------------------
+# i3 had BOTH a resize mode and top-level $mod+Ctrl+arrow bindings. Only the
+# mode is ported: under the Hyper modifier the top-level form would render as
+# `ctrl-alt-cmd-ctrl-left`, with ctrl twice, which is not a valid chord.
+# The resize mode in the tail covers the same operations, including i3's
+# j/k/l/m cluster.
+@MOD@-r = 'mode resize'
+
+# --- service ----------------------------------------------------------------
+@MOD_SHIFT@-c = 'reload-config'
+@MOD_SHIFT@-r = 'reload-config'
+
+# i3:526 — $mod+b toggled the bar.
+@MOD@-b = 'exec-and-forget sketchybar --bar hidden=toggle'

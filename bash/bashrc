@@ -117,18 +117,25 @@ if ! shopt -oq posix; then
 fi
 
 # ssh agent
-# eval "$(ssh-agent)"
-if [ -f ~/.ssh/agent.env ] ; then
-    . ~/.ssh/agent.env > /dev/null
-    if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
-        echo "Stale agent file found. Spawning a new agent. "
+#
+# Skipped on macOS: launchd already runs an ssh-agent, and it is the one that
+# UseKeychain / AddKeysToAgent / `ssh-add --apple-use-keychain` bind to.
+# Spawning our own here would overwrite SSH_AUTH_SOCK, put keys in an agent the
+# login keychain does not back, and prompt for the passphrase in every new
+# login shell. See macos/ssh/setup-ssh.sh.
+if [ "$(uname)" != "Darwin" ]; then
+    if [ -f ~/.ssh/agent.env ] ; then
+        . ~/.ssh/agent.env > /dev/null
+        if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
+            echo "Stale agent file found. Spawning a new agent. "
+            eval `ssh-agent | tee ~/.ssh/agent.env`
+            ssh-add
+        fi
+    else
+        echo "Starting ssh-agent"
         eval `ssh-agent | tee ~/.ssh/agent.env`
         ssh-add
     fi
-else
-    echo "Starting ssh-agent"
-    eval `ssh-agent | tee ~/.ssh/agent.env`
-    ssh-add
 fi
 
 # Source modular config snippets

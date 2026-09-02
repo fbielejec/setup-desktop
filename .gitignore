@@ -1,1 +1,7 @@
 docs/plans
+
+# Written by `brew bundle` next to macos/Brewfile
+macos/Brewfile.lock.json
+
+# Generated wallpaper renders
+macos/wallpaper/out/

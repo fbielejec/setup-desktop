@@ -1,0 +1,80 @@
+# Wallpaper cheat-sheet content.
+# Format:  section <TAB> chord <TAB> description
+#
+# The `chord` column for AeroSpace rows is the literal binding key as it
+# appears in ~/.aerospace.toml — generate-wallpaper.sh cross-checks every one
+# against the rendered config and fails if a chord here does not exist, or if
+# a binding in the config is not documented here. That is what keeps this file
+# from drifting away from the keymap.
+#
+# EMACS rows are not checked: they come from Emacs defaults, not from this repo.
+
+FOCUS	alt-cmd-left	focus left
+FOCUS	alt-cmd-down	focus down
+FOCUS	alt-cmd-up	focus up
+FOCUS	alt-cmd-right	focus right
+FOCUS	alt-cmd-tab	last workspace
+FOCUS	alt-tab	next workspace
+FOCUS	alt-cmd-shift-tab	previous workspace
+
+MOVE	alt-cmd-shift-left	move window left
+MOVE	alt-cmd-shift-down	move window down
+MOVE	alt-cmd-shift-up	move window up
+MOVE	alt-cmd-shift-right	move window right
+
+LAYOUT	alt-cmd-h	split horizontal
+LAYOUT	alt-cmd-v	split vertical
+LAYOUT	alt-cmd-e	toggle split orientation
+LAYOUT	alt-cmd-s	stacking
+LAYOUT	alt-cmd-z	tabbed
+LAYOUT	alt-cmd-f	fullscreen
+LAYOUT	alt-cmd-shift-space	float / tile
+LAYOUT	alt-cmd-r	resize mode
+
+WINDOW	alt-cmd-shift-0	close window
+
+WORKSPACE	alt-cmd-1	workspace 1
+WORKSPACE	alt-cmd-2	workspace 2
+WORKSPACE	alt-cmd-3	workspace 3
+WORKSPACE	alt-cmd-4	workspace 4
+WORKSPACE	alt-cmd-5	workspace 5
+WORKSPACE	alt-cmd-6	workspace 6
+WORKSPACE	alt-cmd-7	workspace 7
+WORKSPACE	alt-cmd-8	workspace 8
+WORKSPACE	alt-cmd-9	workspace 9
+WORKSPACE	alt-cmd-shift-1	send to workspace 1
+WORKSPACE	alt-cmd-shift-2	send to workspace 2
+WORKSPACE	alt-cmd-shift-3	send to workspace 3
+WORKSPACE	alt-cmd-shift-4	send to workspace 4
+WORKSPACE	alt-cmd-shift-5	send to workspace 5
+WORKSPACE	alt-cmd-shift-6	send to workspace 6
+WORKSPACE	alt-cmd-shift-7	send to workspace 7
+WORKSPACE	alt-cmd-shift-8	send to workspace 8
+WORKSPACE	alt-cmd-shift-9	send to workspace 9
+
+SYSTEM	alt-cmd-b	toggle bar
+SYSTEM	alt-cmd-l	volume up
+SYSTEM	alt-cmd-q	volume down
+SYSTEM	alt-cmd-shift-c	reload config
+SYSTEM	alt-cmd-shift-r	reload config
+SYSTEM	ctrl-alt-l	lock screen
+
+EMACS	C-x C-f	find file
+EMACS	C-x C-s	save
+EMACS	C-x b	switch buffer
+EMACS	C-x k	kill buffer
+EMACS	C-x 1	one window
+EMACS	C-x 2	split below
+EMACS	C-x 3	split right
+EMACS	C-x o	other window
+EMACS	C-s / C-r	isearch fwd / back
+EMACS	M-%	query replace
+EMACS	C-Space	set mark
+EMACS	C-g	abort
+EMACS	M-x	run command (smex)
+EMACS	C-x C-c	quit emacs
+
+EMACS-MAC	⌥ Option	Meta  (M-)
+EMACS-MAC	⌘ Command	super (s-)
+EMACS-MAC	Caps Lock tap	Escape
+EMACS-MAC	Caps Lock hold	⌥⌘  (window manager)

@@ -14,7 +14,9 @@
 
 set -u
 
-RESULTS="${TMPDIR:-/tmp}/setup-desktop-probe-results"
+# Not under $TMPDIR — macOS purges that after a few days, and run.sh refuses
+# to start without this file.
+RESULTS="${PROBE_RESULTS:-$HOME/.setup-macos-probe}"
 : > "$RESULTS"
 
 pass=0
@@ -115,11 +117,17 @@ fi
 if [ "$managed_count" -gt 0 ]; then
     report warn "Managed preferences" "$managed_count policy payload(s) applied"
     record MANAGED_PREFS "$managed_count"
-    printf '     Payloads that may affect this setup:\n'
-    find "/Library/Managed Preferences" -name '*.plist' 2>/dev/null \
+    # Captured first: a `|| fallback` after a pipeline tests only the LAST
+    # command's status, and the trailing sed always succeeds.
+    relevant="$(find "/Library/Managed Preferences" -name '*.plist' 2>/dev/null \
         | sed 's|.*/||; s|\.plist$||' \
-        | grep -iE 'TCC|accessibility|systemextension|security|dock|spaces|keyboard|finder' \
-        | sed 's/^/       - /' || printf '       (none matching)\n'
+        | grep -iE 'TCC|accessibility|systemextension|security|dock|spaces|keyboard|finder')"
+    printf '     Payloads that may affect this setup:\n'
+    if [ -n "$relevant" ]; then
+        printf '%s\n' "$relevant" | sed 's/^/       - /'
+    else
+        printf '       (none matching)\n'
+    fi
 else
     report ok "Managed preferences" "none"
     record MANAGED_PREFS 0
@@ -135,7 +143,7 @@ agents=""
 [ -d "/Applications/Company Portal.app" ] && agents="$agents Intune"
 if [ -n "$agents" ]; then
     report info "Management agents" "$(printf '%s' "$agents" | sed 's/^ //')"
-    record AGENTS "$(printf '%s' "$agents" | tr -d ' ')"
+    record AGENTS "$(printf '%s' "$agents" | sed 's/^ //; s/ /,/g')"
 else
     report info "Management agents" "none detected"
 fi
@@ -143,11 +151,14 @@ fi
 # ---------------------------------------------------------------- security --
 section "Security posture"
 
-sip="$(csrutil status 2>/dev/null | sed 's/.*status: //; s/\.$//' || echo unknown)"
+# Same pipeline caveat as above — test the captured value, not the pipeline.
+sip="$(csrutil status 2>/dev/null | sed 's/.*status: //; s/\.$//')"
+[ -n "$sip" ] || sip="unknown"
 report info "SIP" "$sip (AeroSpace does not require disabling this)"
 record SIP "$sip"
 
-gatekeeper="$(spctl --status 2>/dev/null | sed 's/assessments //' || echo unknown)"
+gatekeeper="$(spctl --status 2>/dev/null | sed 's/assessments //')"
+[ -n "$gatekeeper" ] || gatekeeper="unknown"
 report info "Gatekeeper" "$gatekeeper"
 record GATEKEEPER "$gatekeeper"
 
@@ -155,7 +166,9 @@ record GATEKEEPER "$gatekeeper"
 section "System extensions (gates Karabiner-Elements)"
 
 if sysext="$(systemextensionsctl list 2>/dev/null)"; then
-    ext_count=$(printf '%s' "$sysext" | grep -c 'enabled' || true)
+    # Match the per-extension state marker, not the word "enabled" — that also
+    # appears in the column header printed for each category.
+    ext_count=$(printf '%s' "$sysext" | grep -c '\[activated enabled\]' || true)
     if [ "$ext_count" -gt 0 ]; then
         report ok "Existing extensions" "$ext_count enabled — extensions are permitted here"
         record SYSEXT_ALLOWED likely
@@ -181,18 +194,21 @@ section "Accessibility (gates AeroSpace, SketchyBar, JankyBorders, Alfred)"
 
 # Functional test: this AppleScript needs the Accessibility permission for
 # whichever app is running this shell. Error -1743 means not granted yet.
-ax_out="$(osascript -e 'tell application "System Events" to return name of first process' 2>&1)"
-if printf '%s' "$ax_out" | grep -q '1743'; then
+# Branch on osascript's exit status, not on whether it produced output. Any
+# error message is non-empty output, so testing for content would report
+# "granted" for unrelated failures — and run.sh would then enable the whole
+# window-manager tier on a machine that cannot run it.
+if ax_out="$(osascript -e 'tell application "System Events" to return name of first process' 2>&1)"; then
+    report ok "Terminal has Accessibility" "granted — permission is user-grantable here"
+    record AX_GRANTED true
+elif printf '%s' "$ax_out" | grep -q '1743'; then
     report warn "Terminal has Accessibility" "not granted yet — this is expected on a fresh machine"
     record AX_GRANTED false
     printf '     Next: System Settings → Privacy & Security → Accessibility.\n'
     printf '     If the toggle is greyed out or the list is locked, it is MDM-enforced\n'
     printf '     and the window-manager half of this plan cannot proceed.\n'
-elif [ -n "$ax_out" ]; then
-    report ok "Terminal has Accessibility" "granted — permission is user-grantable here"
-    record AX_GRANTED true
 else
-    report warn "Terminal has Accessibility" "inconclusive"
+    report warn "Terminal has Accessibility" "inconclusive: $ax_out"
     record AX_GRANTED unknown
 fi
 
@@ -226,9 +242,10 @@ else
     record XCODE_CLT false
 fi
 
-report info "Default shell" "$SHELL"
+# ${SHELL:-} because `set -u` would abort the whole probe if it is unset.
+report info "Default shell" "${SHELL:-unknown}"
 report info "bash version" "${BASH_VERSION:-unknown} (system bash is 3.2; brew install bash)"
-record SHELL_PATH "$SHELL"
+record SHELL_PATH "${SHELL:-unknown}"
 
 for t in git tmux emacs python3 node; do
     if command -v "$t" >/dev/null 2>&1; then

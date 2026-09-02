@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# SketchyBar — replaces i3status.
+#
+# Scope is what i3/config/i3status.conf actually showed: battery, volume, time.
+# The workspace indicators on the left are what i3 got from its own bar.
+#
+# Colours are i3's *bar* palette (i3/config/config:588-598), not the client
+# palette:
+#   background          #2F2F2F
+#   statusline          #eeeeee
+#   focused_workspace   bg #222222, text #a9a9a9
+#   inactive_workspace  bg #5f676a, text #a9a9a9
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+sketchybar --bar \
+    height=26 \
+    position=top \
+    padding_left=6 \
+    padding_right=6 \
+    color=0xff2f2f2f
+
+sketchybar --default \
+    icon.font="Hack Nerd Font:Bold:13.0" \
+    label.font="Hack Nerd Font:Regular:13.0" \
+    icon.color=0xffeeeeee \
+    label.color=0xffeeeeee \
+    background.corner_radius=3 \
+    background.height=18 \
+    padding_left=4 \
+    padding_right=4
+
+# A custom event must be registered before anything can subscribe to it or
+# before --trigger will dispatch. Without this line the workspace pills render
+# once and then never change colour.
+sketchybar --add event aerospace_workspace_change
+
+# --- workspaces -------------------------------------------------------------
+# Falls back to a fixed range: this config is loaded when SketchyBar starts,
+# which on a cold boot can be before AeroSpace has ever run — and an empty
+# list would leave the bar permanently without workspace indicators.
+WORKSPACES="$(aerospace list-workspaces --all 2>/dev/null)"
+[ -z "$WORKSPACES" ] && WORKSPACES="$(seq 1 9)"
+
+for sid in $WORKSPACES; do
+    sketchybar --add item "space.$sid" left \
+        --subscribe "space.$sid" aerospace_workspace_change \
+        --set "space.$sid" \
+            label="$sid" \
+            background.drawing=on \
+            background.color=0xff5f676a \
+            label.color=0xffa9a9a9 \
+            click_script="aerospace workspace $sid" \
+            script="$PLUGIN_DIR/aerospace.sh $sid"
+done
+
+# --- right side, in i3status's order ----------------------------------------
+sketchybar --add item clock right \
+    --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item volume right \
+    --set volume script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change
+
+sketchybar --add item battery right \
+    --set battery update_freq=60 script="$PLUGIN_DIR/battery.sh" \
+    --subscribe battery power_source_change
+
+sketchybar --update

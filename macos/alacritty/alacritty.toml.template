@@ -1,0 +1,43 @@
+# macOS overlay for Alacritty. Rendered from this template by
+# macos/alacritty/setup-alacritty.sh — edit the template, not the deployed file.
+#
+# Placeholders come from macos/config.sh: @FONT@, @FONT_SIZE@
+
+[general]
+import = ["~/.config/alacritty/base.toml"]
+
+[font]
+size = @FONT_SIZE@
+
+[font.normal]
+family = "@FONT@"
+
+[font.bold]
+family = "@FONT@"
+
+[font.italic]
+family = "@FONT@"
+
+[font.bold_italic]
+family = "@FONT@"
+
+# The single most important line in this file.
+#
+# Without it, macOS treats Option as a compose key for accented characters and
+# Alacritty never sends the Escape prefix — so M-x, M-w, M-f and every other
+# Meta binding silently does nothing in terminal Emacs, and readline's M-b /
+# M-f are dead too. This is the most common complaint from Emacs users on
+# macOS, and it is a one-line fix.
+#
+# "Both" applies it to left and right Option. If you type Polish diacritics
+# with Option (ą ć ę ł), set this to "OnlyLeft" instead and use right Option
+# for input.
+[window]
+option_as_alt = "Both"
+
+# Start windowed and let AeroSpace place the window. Note this is not the
+# native-vs-simple fullscreen knob — if you later bind a fullscreen toggle,
+# prefer ToggleSimpleFullscreen, since native fullscreen moves the window into
+# its own macOS Space and out of AeroSpace's tiling tree.
+startup_mode = "Windowed"
+decorations = "buttonless"

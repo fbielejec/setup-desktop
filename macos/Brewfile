@@ -9,9 +9,9 @@
 # Lines marked "# verify" are formulae I have not confirmed exist under that
 # exact name — check with `brew info <name>` before relying on them.
 
+# The window-manager taps live inside the TIER 3 block, not here, so the
+# truncation in install-packages.sh also drops them.
 tap "d12frosted/emacs-plus"
-tap "FelixKratz/formulae"        # sketchybar, borders
-tap "nikitabobko/tap"            # aerospace
 
 # ---------------------------------------------------------------------------
 # TIER 1 — baseline CLI. Nothing here should require justification.
@@ -53,10 +53,17 @@ brew "gawk"
 brew "bash"
 brew "bash-completion@2"
 
-# Language toolchains. The Linux side installs node via nvm-curl and rust via
-# rustup-curl; both work identically on macOS if you prefer to keep them.
-brew "nvm"
-brew "rustup"
+# Language toolchains.
+#
+# nvm and rustup are deliberately absent. Both are installed by their component
+# scripts via the upstream installers, matching the Linux side, and the brew
+# formulae actively conflict with that:
+#
+#   nvm     — brew's copy lives under $(brew --prefix nvm) and never creates
+#             ~/.nvm, which is the only path bash/bashrc.d/node.sh sources.
+#   rustup  — putting rustup on PATH makes `is_installed rustup` true on a
+#             machine with no toolchain, so macos/rust/setup-rust.sh takes its
+#             "already installed, update" branch and never installs anything.
 brew "python@3.13"
 brew "openjdk@21"                # config.sh: SETUP_JAVA_VERSION=21
 brew "maven"
@@ -103,6 +110,9 @@ cask "desktoppr"                 # verify
 # TIER 3 — window manager stack. All require the Accessibility permission.
 # Install only if 00-probe.sh reports AX_GRANTED=true.
 # ---------------------------------------------------------------------------
+
+tap "FelixKratz/formulae"          # sketchybar, borders
+tap "nikitabobko/tap"              # aerospace
 
 cask "nikitabobko/tap/aerospace"   # replaces i3
 brew "FelixKratz/formulae/sketchybar"  # replaces i3status + conky

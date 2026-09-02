@@ -1,0 +1,33 @@
+# Shared Alacritty configuration — Linux and macOS.
+#
+# Converted from alacritty.yml. YAML support was deprecated in Alacritty 0.13
+# and removed in 0.14, so the old file no longer loads on current versions.
+#
+# The original config was the stock template with everything commented out
+# except a font block, so this is that font block plus a scrollback setting.
+#
+# Font family and size are deliberately absent:
+#
+#   - family: the old value was "monospace", which resolves on Linux but is not
+#     a font family on macOS. Omitting it entirely is better than branching —
+#     Alacritty's own default is already platform-correct (monospace on Linux,
+#     Menlo on macOS).
+#   - size: 7.0 suits the 3840x2160 desktop and is unreadable on a Retina
+#     laptop panel.
+#
+# Each platform's overlay sets both. See macos/alacritty/.
+
+[scrolling]
+history = 10000
+
+[font.normal]
+style = "Regular"
+
+[font.bold]
+style = "Bold"
+
+[font.italic]
+style = "Italic"
+
+[font.bold_italic]
+style = "Bold Italic"

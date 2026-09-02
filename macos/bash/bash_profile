@@ -1,0 +1,6 @@
+# macOS launches terminals as LOGIN shells, which read ~/.bash_profile and
+# never touch ~/.bashrc. Without this file the entire ~/.bashrc.d/ loop is
+# silently skipped and nothing in it — nvm, pyenv, JAVA_HOME, aliases — ever
+# loads. On Linux this file is unnecessary, which is exactly why it is easy
+# to forget here.
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"

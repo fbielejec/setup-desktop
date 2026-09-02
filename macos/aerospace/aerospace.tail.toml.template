@@ -1,0 +1,68 @@
+
+# ==== bindings that are not modifier-dependent ==============================
+# Rendered once. Any binding whose chord is literal — i.e. contains no
+# modifier placeholder — belongs here: the bindings block above is emitted once
+# per modifier, so a literal key placed there would become a duplicate TOML key.
+
+# i3:413 — Mod1+Tab was plain Alt, not $mod.
+alt-tab = 'workspace next'
+
+# i3: Ctrl+Alt+l ran i3lock. macOS has no equivalent to bind a lockscreen image
+# to; this sleeps the display, which locks if "require password" is set.
+ctrl-alt-l = 'exec-and-forget pmset displaysleepnow'
+
+# i3 bound $mod+d to dmenu. Alfred registers its own global hotkey instead —
+# set it in Alfred's preferences, not here.
+
+# --- resize mode ------------------------------------------------------------
+# Mirrors i3's mode "resize" (config lines 139-148): both the arrow keys and
+# the j/k/l/m cluster. This is the only resize path — see the note in the
+# bindings template about why the top-level $mod+Ctrl+arrow form was dropped.
+[mode.resize.binding]
+left  = 'resize width -50'
+down  = 'resize height +50'
+up    = 'resize height -50'
+right = 'resize width +50'
+
+j = 'resize width -50'
+k = 'resize height +50'
+l = 'resize height -50'
+m = 'resize width +50'
+
+enter = 'mode main'
+esc   = 'mode main'
+
+# --- monitors ---------------------------------------------------------------
+# i3 put workspaces 1-8 on the 4K primary and 9-10 on the secondary
+# (config lines 257-266). The same shape, with AeroSpace's monitor patterns.
+# 'main' is the display with the menu bar. On a laptop with no external
+# display everything resolves to the built-in panel and this is inert.
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
+4 = 'main'
+5 = 'main'
+6 = 'main'
+7 = 'main'
+8 = 'main'
+9 = ['secondary', 'main']
+
+# --- window rules -----------------------------------------------------------
+# i3 has no `assign` rules, but it does have ~14 `for_window … floating enable`
+# rules (config lines 443-469) for Vlc, Pavucontrol, pop-up roles, Preferences
+# and Copying/Deleting/Moving dialogs. Those are dropped deliberately: almost
+# all name Linux-only applications, and macOS already opens its own dialogs as
+# floating panels that AeroSpace leaves alone.
+#
+# Add rules here if a specific app tiles when it should not:
+#
+# [[on-window-detected]]
+# if.app-id = 'com.apple.systempreferences'
+# run = 'layout floating'
+
+# Also deliberately dropped:
+#   - $mode_system (i3:491-505), the lock/logout/suspend/reboot mode. Only
+#     lock survives, as ctrl-alt-l above.
+#   - $mod+n / $mod+Shift+n / $mod+grave (dunstctl close / close-all /
+#     history-pop). Notification Center has no scriptable equivalent.
