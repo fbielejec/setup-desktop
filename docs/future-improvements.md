@@ -11,11 +11,6 @@ These exist in `macos/` and would be worth having on the Linux side too.
 `macos/run.sh --dry-run` prints the plan without changing anything. The Linux
 `run.sh` has no equivalent.
 
-### Backup before overwrite — done on macOS
-`macos/lib/common.sh`'s `deploy_config` backs up an existing file to a
-timestamped copy, but only when the content actually differs. The Linux
-`bash/setup-bash.sh` still overwrites `~/.bashrc` unconditionally.
-
 ### Install helpers — done on macOS
 `brew_install` / `brew_install_cask` collapsed the repeated
 "check then install" block. The Linux scripts still open-code
@@ -41,9 +36,11 @@ modes are worth recognising again.
    via `jrunscript -e`, which needs Nashorn — removed from the JDK in 15, and
    `config.sh` pins 21. It printed an error on every shell start and left
    `JAVA_HOME` empty. Now resolved from the `java` binary on PATH via
-   `readlink -f`. Note this also masked a stale `JAVA_HOME=/usr/lib/jvm/java-17-oracle`
+   `readlink -f`. This also masked a stale `JAVA_HOME=/usr/lib/jvm/java-17-oracle`
    coming from **outside this repo** (`/etc/environment` or `~/.profile`) while
-   `java` on PATH was 21 — worth tracking down and removing.
+   `java` on PATH was 21. Since chased down: nothing in `/etc/environment`,
+   `~/.profile`, `~/.bash_profile` or `~/.bashrc` sets it any more, and a fresh
+   shell resolves `JAVA_HOME` to the pinned 21.
 
 3. **`bash/alacritty.yml` was dead config.** Alacritty deprecated YAML in 0.13
    and removed it in 0.14. `setup-bash.sh` now deploys `alacritty.toml` and

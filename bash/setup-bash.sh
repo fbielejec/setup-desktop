@@ -5,25 +5,18 @@ source "$(dirname "$0")/../config.sh"
 
 log_info "Setting up bash configuration..."
 
-# Deploy bashrc
-cp "$(dirname "$0")/bashrc" "$HOME/.bashrc"
-log_info "Copied bashrc to ~/.bashrc"
+# Deploy bashrc. Via deploy_config so a hand-edited ~/.bashrc is backed up
+# rather than silently replaced — on a machine that predates the bashrc.d
+# split, that file is the only copy of any machine-local config.
+deploy_config "$(dirname "$0")/bashrc" "$HOME/.bashrc"
 
-# Create bashrc.d directory
-mkdir -p "$HOME/.bashrc.d"
-
-# Copy all snippets
-for f in "$(dirname "$0")"/bashrc.d/*.sh; do
-    cp "$f" "$HOME/.bashrc.d/"
-done
-log_info "Copied bashrc.d snippets to ~/.bashrc.d/"
+snippet_count="$(deploy_dir "$(dirname "$0")/bashrc.d" "$HOME/.bashrc.d" '*.sh')"
+log_info "Deployed $snippet_count bashrc.d snippet(s)"
 
 # Deploy alacritty config.
 # TOML, not YAML: Alacritty deprecated alacritty.yml in 0.13 and removed
 # support entirely in 0.14, so the old file is dead config.
-mkdir -p "$HOME/.config/alacritty"
-cp "$(dirname "$0")/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
-log_info "Copied alacritty config"
+deploy_config "$(dirname "$0")/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 
 # A leftover alacritty.yml alongside the .toml is silently ignored by current
 # Alacritty, which makes for a confusing hour if you forget it is there.
