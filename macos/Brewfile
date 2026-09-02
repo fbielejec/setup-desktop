@@ -1,0 +1,148 @@
+# Brewfile — macOS equivalent of applications/install-applications.sh
+#
+#   brew bundle --file=macos/Brewfile
+#
+# Grouped by approval risk, not by category, so you can install the safe tiers
+# while the rest is still in ConductorOne. Tiers 1-2 need nothing unusual.
+# Tier 3 needs the Accessibility permission. Tier 4 needs a system extension.
+#
+# Lines marked "# verify" are formulae I have not confirmed exist under that
+# exact name — check with `brew info <name>` before relying on them.
+
+tap "d12frosted/emacs-plus"
+tap "FelixKratz/formulae"        # sketchybar, borders
+tap "nikitabobko/tap"            # aerospace
+
+# ---------------------------------------------------------------------------
+# TIER 1 — baseline CLI. Nothing here should require justification.
+# ---------------------------------------------------------------------------
+
+# Direct ports from install-applications.sh
+brew "cmake"
+brew "git"
+brew "autoconf"
+brew "automake"
+brew "libtool"
+brew "jq"
+brew "ack"                       # apt: ack-grep
+brew "unar"                      # apt: unrar
+brew "r"                         # apt: r-base
+brew "maxima"
+brew "bibtool"                   # verify
+
+# Not currently installed by the Linux side, but assumed present there.
+# Worth adding to applications/install-applications.sh too — tmux is used
+# daily and this repo never actually installs it.
+brew "tmux"
+brew "wget"
+brew "ripgrep"
+brew "fd"                        # apt: fd-find
+brew "bat"                       # apt: batcat
+brew "htop"
+brew "gh"
+
+# GNU userland. macOS ships BSD variants; scripts written against GNU flags
+# will misbehave without these.
+brew "coreutils"
+brew "findutils"
+brew "gnu-sed"
+brew "gawk"
+
+# bash 5. macOS ships 3.2 (GPLv2). After install:
+#   echo /opt/homebrew/bin/bash | sudo tee -a /etc/shells && chsh -s /opt/homebrew/bin/bash
+brew "bash"
+brew "bash-completion@2"
+
+# Language toolchains. The Linux side installs node via nvm-curl and rust via
+# rustup-curl; both work identically on macOS if you prefer to keep them.
+brew "nvm"
+brew "rustup"
+brew "python@3.13"
+brew "openjdk@21"                # config.sh: SETUP_JAVA_VERSION=21
+brew "maven"
+
+# Containers. colima rather than Docker Desktop, which needs a paid commercial
+# licence at Kraken's headcount.
+brew "colima"
+brew "docker"
+brew "docker-compose"
+brew "docker-buildx"
+
+# Replaces dunstify / notify-send in screenshot.sh and the Claude hooks
+brew "terminal-notifier"
+
+# ---------------------------------------------------------------------------
+# TIER 2 — GUI applications. Ordinary requests, notarized, no odd permissions.
+# ---------------------------------------------------------------------------
+
+cask "alacritty"
+cask "keepassxc"                 # apt: keepassx, keepassxc
+cask "calibre"
+cask "transmission"              # apt: transmission-gtk
+cask "iina"                      # apt: celluloid (both are mpv frontends)
+cask "google-chrome"             # chrome/install-google-chrome.sh
+cask "slack"                     # slack/setup-slack.sh
+cask "mactex-no-gui"             # apt: texlive-full + texlive-xetex + fonts
+                                 # ~4GB. Use "basictex" if you want minimal.
+
+# Emacs. The cask ships pre-built binaries (available since Jan 2026) and is
+# much faster; the formula builds locally and is the fallback if Gatekeeper
+# rejects the cask.
+brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-native-comp"]
+# cask "emacs-plus-app"          # alternative: pre-built, skips the compile
+
+# Fonts. fonts/install-fonts.sh copies .ttf files, which works unchanged on
+# macOS if pointed at ~/Library/Fonts — so this is only needed for SketchyBar,
+# which requires a Nerd Font for its glyphs.
+cask "font-hack-nerd-font"
+
+# Wallpaper — replaces `feh --bg-scale` in i3/150-copy-feh-background.sh
+cask "desktoppr"                 # verify
+
+# ---------------------------------------------------------------------------
+# TIER 3 — window manager stack. All require the Accessibility permission.
+# Install only if 00-probe.sh reports AX_GRANTED=true.
+# ---------------------------------------------------------------------------
+
+cask "nikitabobko/tap/aerospace"   # replaces i3
+brew "FelixKratz/formulae/sketchybar"  # replaces i3status + conky
+brew "FelixKratz/formulae/borders"     # replaces i3 client.focused borders
+cask "alfred"                      # replaces rofi + parcellite (clipboard)
+
+# ---------------------------------------------------------------------------
+# TIER 4 — requires a DriverKit system extension. Optional: only needed for
+# Caps Lock as Hyper. Without it, SETUP_MOD falls back to "alt-cmd".
+# ---------------------------------------------------------------------------
+
+# cask "karabiner-elements"
+
+# ---------------------------------------------------------------------------
+# DROPPED — apt packages with no macOS counterpart, or superseded natively.
+# Recorded so this audit doesn't get re-litigated later.
+# ---------------------------------------------------------------------------
+#
+#   X11 / i3 stack, all obsolete under AeroSpace:
+#     i3status i3lock dmenu conky-all feh scrot arandr rofi compton
+#     numlockx unclutter notify-osd pasystray breeze-cursor-theme
+#     lsb-release
+#
+#   Superseded by built-in macOS functionality:
+#     gparted           → Disk Utility
+#     pavucontrol       → Sound settings
+#     parcellite        → Alfred clipboard history
+#     pdfarranger       → Preview
+#     dconf-editor      → `defaults`
+#     bleachbit         → no equivalent needed
+#
+#   No macOS build, and not worth replacing:
+#     gftp              → use `lftp` if actually needed
+#     qnapi             → Polish subtitle downloader, no port
+#     audacious         → covered by iina
+#
+#   build-essential     → `xcode-select --install`, not a brew package
+#
+#   DELIBERATELY OMITTED:
+#     nmap              → present in the Linux list, but a network scanner on a
+#                         crypto exchange's managed laptop is very likely on the
+#                         prohibited-software list. Request it explicitly with a
+#                         stated reason rather than installing it quietly.
