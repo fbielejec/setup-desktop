@@ -190,7 +190,6 @@
                 "hooks": [
                     {
                         "type": "command",
-                        // "command": "paplay /usr/share/sounds/freedesktop/stereo/message-new-instant.oga & dunstify -a 'ai-agent' 'Claude Code' \"Needs your attention\\n$(pwd)\" -u critical -t 10000"
                         "command": "NAME=$(jq -r '.name // empty' $HOME/.claude/sessions/$PPID.json 2>/dev/null); LABEL=${NAME:-$(basename $(pwd))}; paplay /usr/share/sounds/freedesktop/stereo/message-new-instant.oga & dunstify -a 'ai-agent' 'Claude Code' \"Needs your attention\\n$LABEL\" -u critical -t 10000"                        
                     }
                 ]

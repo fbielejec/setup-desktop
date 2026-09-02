@@ -31,3 +31,12 @@ style = "Italic"
 
 [font.bold_italic]
 style = "Bold Italic"
+
+# Shift+Return sends ESC followed by CR, which makes it distinguishable from a
+# plain Return inside terminal Emacs (and anything else reading raw keys).
+# Carried over from the live ~/.config/alacritty/alacritty.toml on the Linux
+# desktop, where it had been added by hand and was not tracked here.
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

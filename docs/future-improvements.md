@@ -26,26 +26,38 @@ duplication.
 `macos/run.sh` reports steps run / gated off / not implemented. Linux `run.sh`
 just counts to 22.
 
-## Linux bugs found during the macOS port
+## Linux bugs found during the macOS port — all fixed
 
-Three real defects on the Linux side, all currently unfixed:
+Recorded because each had been silently broken for a long time, and the failure
+modes are worth recognising again.
 
-1. **`claude-code/settings.json` is not valid JSON.** Line 193 has a `//`
-   comment. Claude Code tolerates it; `jq` does not. So the merge branch in
-   `claude-code/setup-claude-code.sh` fails on every run after the first, when
-   `~/.claude/settings.json` already exists. Fix: strip comment-only lines
-   before piping to `jq`, as `macos/claude-code/setup-claude-code.sh` does.
+1. **`claude-code/settings.json` was not valid JSON.** A `//` comment on line
+   193. Claude Code tolerates it; `jq` does not — so the merge branch in
+   `setup-claude-code.sh` failed on every run after the first, once
+   `~/.claude/settings.json` existed. The `else` branch (fresh install) worked,
+   which is why it went unnoticed. Comment removed; 153 deny rules intact.
 
-2. **`bash/bashrc.d/java.sh` is broken on Java 15+.** It resolves `JAVA_HOME`
-   via `jrunscript -e`, which needs Nashorn — removed from the JDK in 15.
-   `config.sh` pins Java 21, so this prints an error on every shell startup and
-   sets `JAVA_HOME` to an empty string. The macOS branch added to that file uses
-   `/usr/libexec/java_home` and is unaffected; Linux needs its own fix.
+2. **`bash/bashrc.d/java.sh` was broken on Java 15+.** It resolved `JAVA_HOME`
+   via `jrunscript -e`, which needs Nashorn — removed from the JDK in 15, and
+   `config.sh` pins 21. It printed an error on every shell start and left
+   `JAVA_HOME` empty. Now resolved from the `java` binary on PATH via
+   `readlink -f`. Note this also masked a stale `JAVA_HOME=/usr/lib/jvm/java-17-oracle`
+   coming from **outside this repo** (`/etc/environment` or `~/.profile`) while
+   `java` on PATH was 21 — worth tracking down and removing.
 
-3. **`bash/alacritty.yml` is dead.** Alacritty removed YAML support in 0.14.
-   `bash/alacritty.toml` now exists as the shared base, but
-   `bash/setup-bash.sh` still deploys the `.yml`. The 29 KB of commented-out
-   template in the old file can go with it.
+3. **`bash/alacritty.yml` was dead config.** Alacritty deprecated YAML in 0.13
+   and removed it in 0.14. `setup-bash.sh` now deploys `alacritty.toml` and
+   renames any leftover `.yml`. The old 854-line file is deleted.
+
+4. **`rofi/setup-rofi.sh` copied from the wrong directory.** It used
+   `cp -rf ./rofi/*`, a path relative to the *working* directory. `run.sh`
+   invokes it from the repo root without cd-ing, so it produced
+   `~/.config/rofi/rofi/config.rasi` plus a stray copy of the installer —
+   where neither rofi nor i3's launcher (which hardcodes
+   `~/.config/rofi/finder.sh`) would find anything. It only worked when run
+   from inside `rofi/`, and the `[ ! -d ~/.config/rofi ]` guard meant it
+   no-op'd forever afterwards. Now resolved from `$(dirname "$0")` and
+   deploys unconditionally, matching the rest of the repo.
 
 ## Still open
 

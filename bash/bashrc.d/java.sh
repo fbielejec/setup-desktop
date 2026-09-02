@@ -11,6 +11,14 @@ if [ "$(uname)" = "Darwin" ]; then
         fi
         unset _java_home
     fi
-elif command -v jrunscript >/dev/null 2>&1; then
-    export JAVA_HOME="$(jrunscript -e 'java.lang.System.out.println(java.lang.System.getProperty("java.home"));')"
+elif command -v java >/dev/null 2>&1; then
+    # Resolved from the java binary on PATH rather than with `jrunscript -e`.
+    # jrunscript needs a script engine, and Nashorn was removed from the JDK in
+    # version 15 — so on Java 21 that call prints an error on every shell start
+    # and leaves JAVA_HOME empty.
+    _java_bin="$(readlink -f "$(command -v java)" 2>/dev/null)"
+    if [ -n "$_java_bin" ]; then
+        export JAVA_HOME="$(dirname "$(dirname "$_java_bin")")"
+    fi
+    unset _java_bin
 fi
