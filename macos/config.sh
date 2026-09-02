@@ -33,7 +33,7 @@ SETUP_GIT_USER="${SETUP_GIT_USER:-}"
 #
 # NOT ctrl on its own: AeroSpace grabs bindings globally, which would consume
 # C-f, C-e, C-s, C-p, C-h, C-v and C-Space system-wide and break Emacs,
-# readline and tmux. See docs/plans/2026-09-02-macos-port-design.md.
+# readline and tmux.
 #
 # Shift variants are derived automatically as "${SETUP_MOD}-shift".
 #
