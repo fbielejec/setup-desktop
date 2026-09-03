@@ -83,3 +83,9 @@ SETUP_INSTALL_QMK="${SETUP_INSTALL_QMK:-false}"
 # is unreadable on a Retina panel.
 SETUP_TERM_FONT="Menlo"
 SETUP_TERM_FONT_SIZE="13.0"
+
+# Local coding harness (github.com/fbielejec/local-harness) — client half only.
+# The server tier is Linux-only; this machine gets the CLI and a checkout.
+# Reaching the model still needs a tunnel to the home box, which is a separate
+# question on a managed laptop.
+SETUP_HARNESS_DIR="${SETUP_HARNESS_DIR:-$HOME/local-harness}"
