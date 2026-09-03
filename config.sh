@@ -3,9 +3,12 @@
 # Edit these values before running on a new machine.
 
 # Personal
-SETUP_USER_NAME="Filip"
-SETUP_USER_EMAIL="filip.bielejec@proton.me"
-SETUP_GIT_USER="fbielejec"
+# Assigned with :- so a one-off run can override without editing this file:
+#   SETUP_USER_EMAIL=me@example.com ./run.sh
+# run.sh and git/setup-git.sh both refuse to proceed if the email ends up empty.
+SETUP_USER_NAME="${SETUP_USER_NAME:-Filip}"
+SETUP_USER_EMAIL="${SETUP_USER_EMAIL:-filip.bielejec@proton.me}"
+SETUP_GIT_USER="${SETUP_GIT_USER:-fbielejec}"
 
 # Pinned versions (empty = use latest/default)
 SETUP_JAVA_VERSION="21"

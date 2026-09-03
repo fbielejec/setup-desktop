@@ -58,10 +58,8 @@ modes are worth recognising again.
 
 ## Still open
 
-### Interactive component selection
-Add a first phase where the user selects which components to install via a TUI
-or simple menu. Could also ask questions that drive the setup (preferred
-editor, optional languages).
+### Component selection
+List components in config.sh with some sensible defaults.
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already
