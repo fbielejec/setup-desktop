@@ -29,12 +29,12 @@ requiring approval stays off until you turn it on by hand.
 
 ## Tiers
 
-| Tier | Components | Requires |
-|---|---|---|
-| 1 | brew, bash, git, ssh, node, rust, python, java, colima, emacs, alacritty, fonts, gh, claude-code | nothing unusual |
-| 2 | `defaults/` — key repeat, animations, Spaces, menu bar | nothing |
-| 3 | aerospace, sketchybar, borders, alfred | **Accessibility permission** |
-| 4 | karabiner | system extension — *not the default path* |
+| Tier | Components                                                                                       | Requires                                  |
+|------|--------------------------------------------------------------------------------------------------|-------------------------------------------|
+| 1    | brew, bash, git, ssh, node, rust, python, java, colima, emacs, alacritty, fonts, gh, claude-code | nothing unusual                           |
+| 2    | `defaults/` — key repeat, animations, Spaces, menu bar                                           | nothing                                   |
+| 3    | aerospace, sketchybar, borders, alfred                                                           | **Accessibility permission**              |
+| 4    | karabiner                                                                                        | system extension — *not the default path* |
 
 Off by default and independent of the probe:
 
