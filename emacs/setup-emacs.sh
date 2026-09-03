@@ -25,7 +25,15 @@ mkdir -p $HOME/Programs
 
 cd $HOME/Programs
 
-git clone git://git.savannah.gnu.org/emacs.git -b master
+# clone-or-fetch: a bare clone hard-fails on any re-run because the directory
+# already exists, and under `set -e` that aborts the step.
+if [ -d emacs/.git ]; then
+    log_info "emacs source already cloned, fetching..."
+    git -C emacs fetch origin master
+    git -C emacs checkout -f FETCH_HEAD
+else
+    git clone git://git.savannah.gnu.org/emacs.git -b master
+fi
 
 cd emacs
 
@@ -46,9 +54,21 @@ echo "Downloading config..."
 
 wget https://github.com/fbielejec/emacs.d/archive/master.zip
 
+unzip -q master.zip
+
+# Back up an existing ~/.emacs.d before merging over it. Same reasoning as the
+# i3 config: this may be the only copy of hand-written elisp.
+if [ -d "$HOME/.emacs.d" ] && [ -n "$(ls -A "$HOME/.emacs.d" 2>/dev/null)" ]; then
+    backup="$HOME/.emacs.d.bak-$(date +%Y%m%d-%H%M%S)"
+    [ -e "$backup" ] && backup="$backup-$$"
+    cp -a "$HOME/.emacs.d" "$backup"
+    log_info "Backed up existing ~/.emacs.d to $backup"
+fi
+
+# `cp -a src/.` rather than `mv src/*`: the glob misses dotfiles, and an
+# emacs.d repo routinely carries a .gitignore.
 mkdir -p ~/.emacs.d
-unzip master.zip
-mv -v emacs.d-master/* ~/.emacs.d
+cp -a emacs.d-master/. ~/.emacs.d/
 rm -rf master.zip emacs.d-master
 
 cd ~/.emacs.d
