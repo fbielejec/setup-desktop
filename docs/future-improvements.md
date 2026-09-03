@@ -136,22 +136,26 @@ is only that remote automation must use `bash -lc` (or `bash -ic`) rather than
 assuming the toolchain is on `PATH`.
 
 
-### Local harness server install — designed 2026-09-03, not yet built
-Only the client half can be enabled today. The server leg (llama-server, model, chat-ui, rag-db)
-is designed, but the automation deliberately does **not** land here: it goes in the harness repo
-as `make install-server`, next to the units and compose files it already owns. Design:
+### Local harness server install — done 2026-09-03
+Both halves are now `make` targets in the harness repo, next to the units and compose files it
+already owns, rather than bash re-implemented here. Design:
 `local-harness/docs/plans/2026-09-03-install-targets-design.md`.
 
-What this repo gains is one thin step —
-`local-harness/setup-local-harness-server.sh`, gated on `SETUP_ENABLE_LOCAL_HARNESS_SERVER`
-(off by default; exactly one machine is ever the server) and Linux-only, taking `TOTAL` 26 → 27.
-It ensures the clone and runs `make -C "$SETUP_HARNESS_DIR" install-server`.
+This repo's side is two thin callers and one flag:
 
-The client script becomes the same shape against `make install-client`, which means
-`local-harness/qwen-settings.json` gets **deleted from this repo** — its `ep-rag` block already
-duplicates the harness repo's own copy, and the macOS twin stops reading its Linux sibling by
-relative path. That is the sharing rule reaching its limit: a config asset that names another
-project's port belongs to that project, not to the dotfiles.
+- `local-harness/setup-local-harness.sh` — ensure the clone, then `make install-client`.
+- `local-harness/setup-local-harness-server.sh` — the same shape against `make install-server`,
+  gated on `SETUP_ENABLE_LOCAL_HARNESS_SERVER` (off by default; exactly one machine is ever the
+  server) and Linux-only. `TOTAL` 26 → 27.
+- `local-harness/qwen-settings.json` is **deleted**. Its `mcpServers` block named the harness's
+  own port, so the file belonged to that project; the macOS twin no longer reads its Linux
+  sibling by relative path. That is the sharing rule reaching its limit — a config asset that
+  describes another project's service is not a dotfile.
+
+One setting did not survive the move: `permissions.allow: ["Bash(mkdir *)"]`. The harness merges
+with `jq '.[0] * .[1]'`, and `*` *replaces* arrays rather than unioning them, so shipping an
+allow-list in the asset would reset a hand-edited one on every run. Because the asset carries no
+`permissions` key at all, one added by hand now survives forever.
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already

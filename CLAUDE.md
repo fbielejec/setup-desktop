@@ -25,7 +25,7 @@ See `macos/README.md` for the macOS tree.
 ```
 config.sh                       # Personalizable settings (name, email, versions)
 lib/common.sh                   # Shared helpers sourced by every setup script
-run.sh                          # Master orchestrator - 26 steps, 24 enabled by default
+run.sh                          # Master orchestrator - 27 steps, 24 enabled by default
 ├── applications/install-applications.sh
 ├── fonts/install-fonts.sh
 ├── python/setup-python.sh
@@ -47,6 +47,7 @@ run.sh                          # Master orchestrator - 26 steps, 24 enabled by 
 ├── gh/setup-gh.sh
 ├── claude-code/setup-claude-code.sh
 ├── local-harness/setup-local-harness.sh
+├── local-harness/setup-local-harness-server.sh  # off by default
 ├── slack/setup-slack.sh
 ├── vpn/setup_vpn.sh
 ├── synology/setup-synology-drive.sh
@@ -147,11 +148,16 @@ flag as its third argument.
 ## Component Dependencies
 
 - **Claude Code requires Node.js** (Node should be installed first)
-- **Local harness client requires Node.js** — the Qwen-Code CLI is an npm global.
-  Only the *client* half lives here: the CUDA llama.cpp build, the GGUF weights and the
-  systemd units are the harness repo's own (`README` §1–2a, `deploy/*.service`) and are
-  deliberately not duplicated. `SETUP_HARNESS_DIR` points at an existing clone if there
-  is one.
+- **Both harness halves are one `make` call each.** `setup-local-harness.sh` ensures the
+  clone and runs `make -C "$SETUP_HARNESS_DIR" install-client`; `setup-local-harness-server.sh`
+  does the same against `install-server` and is off by default (`SETUP_ENABLE_LOCAL_HARNESS_SERVER`)
+  because exactly one machine is ever the server. The logic lives in the harness repo, next to
+  the units and compose files it already owns — this repo only decides *when* it runs.
+  The client half still needs Node.js (the Qwen-Code CLI is an npm global);
+  `SETUP_HARNESS_DIR` points at an existing clone if there is one.
+- **A server deploy never restarts anything.** `make install-server` reports which unit files
+  changed; `make -C "$SETUP_HARNESS_DIR" restart-server` takes the downtime deliberately. So a
+  `./run.sh` on the GPU box cannot drop the model server mid-session.
 - **Synology Drive autostart is the i3 config's job** — `i3/config/config` carries
   `exec synology-drive`, so the installer does not add an autostart entry. On a machine
   with no graphical session the daemon simply never starts, and syncing silently stops.

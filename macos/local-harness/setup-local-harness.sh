@@ -22,24 +22,15 @@ else
     git clone git@github.com:fbielejec/local-harness.git "$SETUP_HARNESS_DIR"
 fi
 
-if is_installed qwen; then
-    log_skip "qwen already installed"
-else
-    log_info "Installing Qwen-Code CLI..."
-    npm install -g @qwen-code/qwen-code
-fi
-
-# Shared asset, read from the Linux sibling rather than duplicated — an edit
-# for one machine reaches the other on the next run. Nothing in this file is
-# platform-specific, so unlike claude-code it needs no rewriting.
-deploy_config "$REPO_DIR/local-harness/qwen-settings.json" "$HOME/.qwen/settings.json"
-
-mkdir -p "$HOME/qwen-scratch"
-if [ -f "$HOME/qwen-scratch/notes.txt" ]; then
-    log_skip "qwen-scratch fixture already present"
-else
-    printf 'The secret word is: artichoke.\n' > "$HOME/qwen-scratch/notes.txt"
-    log_info "Seeded ~/qwen-scratch/notes.txt"
-fi
+# The harness repo owns what "client install" means — the Qwen-Code CLI,
+# ~/.qwen/settings.json and the smoke fixture are all `make install-client`
+# there, and its Makefile is written for GNU make 3.81 and bash 3.2 so it runs
+# on a stock macOS.
+#
+# This is where the shared-asset read used to be. It is gone with the asset:
+# qwen-settings.json named the harness's own MCP port, so it belonged to that
+# repo, not to the dotfiles. Sharing config assets across the two trees stops at
+# a file that describes another project's service.
+make -C "$SETUP_HARNESS_DIR" install-client
 
 log_info "Local coding harness client setup complete"

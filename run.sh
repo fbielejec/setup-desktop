@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/lib/common.sh"
 
 export SETUP_LOGFILE="$HOME/.setup-desktop-$(date +%Y%m%d-%H%M%S).log"
 
-TOTAL=26
+TOTAL=27
 N=0
 RAN=0
 SKIPPED=0
@@ -88,6 +88,7 @@ run_step "Installing Chrome..."                   chrome/install-google-chrome.s
 run_step "Installing GitHub CLI..."               gh/setup-gh.sh                                "$SETUP_ENABLE_GH"
 run_step "Installing Claude Code..."              claude-code/setup-claude-code.sh              "$SETUP_ENABLE_CLAUDE_CODE"
 run_step "Setting up local coding harness..."     local-harness/setup-local-harness.sh          "$SETUP_ENABLE_LOCAL_HARNESS"
+run_step "Setting up local harness server..."     local-harness/setup-local-harness-server.sh   "$SETUP_ENABLE_LOCAL_HARNESS_SERVER"
 run_step "Installing Slack..."                    slack/setup-slack.sh                          "$SETUP_ENABLE_SLACK"
 run_step "Installing NordVPN..."                  vpn/setup_vpn.sh                              "$SETUP_ENABLE_VPN"
 run_step "Installing Synology Drive..."           synology/setup-synology-drive.sh              "$SETUP_ENABLE_SYNOLOGY"
