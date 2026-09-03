@@ -75,9 +75,7 @@ ahead of running this repo on a second machine assembled by hand over years:
    backup — the one command in the repo that destroyed user data outright. Now
    moves a differing config to `~/.config/i3.bak-<timestamp>`. The currency
    check compares entry by entry over the same glob the copy uses, because a
-   whole-tree `diff -rq` never matches: the glob skips dotfiles, and
-   `i3/config/.config/gtk-3.0/settings.ini` is tracked but has **never been
-   deployed** by this script. That stray file is still unresolved.
+   whole-tree `diff -rq` never matches — see *GTK theme config is dead* below.
 2. **`emacs/setup-emacs.sh` overwrote `~/.emacs.d`** with no backup, and its
    `git clone` hard-failed on every re-run because the directory already
    existed. Both fixed; the `mv …/*` also silently dropped dotfiles and is now
@@ -99,6 +97,45 @@ Debian-based distros (Pop!_OS) need conditional package names and repos.
 Note the macOS port deliberately did **not** take the OS-detection route — a
 separate tree was preferred over a dispatch layer — so this stays a
 Linux-family concern.
+
+### GTK theme config is dead — never deployed, and names missing themes
+`i3/config/.config/gtk-3.0/settings.ini` has been tracked since `80f6211`, the
+first commit, and has **never been deployed on any machine**. Two independent
+faults, and fixing only the first produces a broken result:
+
+1. **The copy never reaches it.** `i3/140` deploys with
+   `cp -rf "$SCRIPT_DIR"/config/* …`, and that glob does not match dotfiles.
+   Verified 2026-09-03: `~/.config/gtk-3.0/settings.ini` is absent on both the
+   laptop and the second machine, and so is `~/.config/i3/.config` — so it has
+   not landed in the right place *or* the wrong one. This is the only dotfile
+   under any deployed config directory, and `i3/140` holds the only such glob
+   in the repo, so the blast radius is exactly this one file.
+2. **The path implies a destination the script cannot honour.** The layout
+   `config/.config/gtk-3.0/settings.ini` is written relative to `$HOME` — the
+   same payload-shaped convention as `rofi/rofi/` — which means it wants to land
+   at `~/.config/gtk-3.0/settings.ini`. But `i3/140` copies into
+   `~/.config/i3/`, so deploying it unchanged would produce the nonsense path
+   `~/.config/i3/.config/gtk-3.0/settings.ini`, which GTK never reads.
+3. **Its contents are stale anyway.** It names `gtk-theme-name=Arc-Red-Dark` and
+   `gtk-icon-theme-name=Sardi Mono Arc`; **neither is installed** on either
+   machine, and `applications/install-applications.sh` installs no theme
+   packages at all. Only the cursor it names (`Breeze_Snow`) exists. Deploying
+   it as-is would silently fall back to GTK defaults.
+
+So this is not a one-line fix. Deciding it means answering: is a GTK theme still
+wanted? If yes, the file needs a home of its own (a `gtk/` component, or a
+`$HOME`-rooted payload dir), the theme packages need adding to
+`applications/`, and the values need updating to something that exists. If no,
+delete the file. Either way the current state — tracked, dead, and quietly
+breaking a directory comparison — should not persist.
+
+### Backup filenames collide with hand-made ones
+`deploy_config` writes `<file>.bak-YYYYmmdd-HHMMSS`, and there are pre-existing
+hand-made backups in the same namespace with a different shape — e.g.
+`~/.qwen/settings.json.bak-20260708` (date only) and `.bak-mcp-20260712` (an
+infix). A glob like `*.bak-*` conflates the two, which is misleading when
+checking whether a run created a backup. Nothing is broken; the fix is either a
+more distinctive suffix or a documented convention.
 
 ### Teardown
 Scripts to remove certain components
