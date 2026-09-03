@@ -4,7 +4,7 @@
 
 # Personal
 SETUP_USER_NAME="Filip"
-SETUP_USER_EMAIL="fbielejec@gmail.com"
+SETUP_USER_EMAIL=""
 SETUP_GIT_USER="fbielejec"
 
 # Pinned versions (empty = use latest/default)

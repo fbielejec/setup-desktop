@@ -17,13 +17,13 @@ $EDITOR config.sh      # name, email, git user, pinned versions
 ./run.sh               # 24 steps, logs to ~/.setup-desktop-<timestamp>.log
 ```
 
-| | |
-|---|---|
-| Desktop | i3, rofi, conky, dunst, compton, feh |
-| Shell | bash + `~/.bashrc.d/` snippets, Alacritty |
-| Languages | Python, Node (nvm), Java + Maven, Rust (rustup) |
-| Tools | git, ssh, Docker, GitHub CLI, Claude Code, Qwen-Code, Emacs (built from source) |
-| Apps | Chrome, Slack, NordVPN, Synology Drive |
+|           |                                                                                 |
+|-----------|---------------------------------------------------------------------------------|
+| Desktop   | i3, rofi, conky, dunst, compton, feh                                            |
+| Shell     | bash + `~/.bashrc.d/` snippets, Alacritty                                       |
+| Languages | Python, Node (nvm), Java + Maven, Rust (rustup)                                 |
+| Tools     | git, ssh, Docker, GitHub CLI, Claude Code, Qwen-Code, Emacs (built from source) |
+| Apps      | Chrome, Slack, NordVPN, Synology Drive                                          |
 
 Not in `run.sh`, run manually: `sage/`, `ledger_live/`.
 
@@ -66,19 +66,19 @@ permission is grantable, then `run.sh` skips whatever the machine will not
 permit rather than failing halfway. On a locked-down machine you still get a
 working toolchain — only the window-manager tier drops out.
 
-| | Linux | macOS |
-|---|---|---|
-| Packages | apt | Homebrew (`macos/Brewfile`) |
-| Window manager | i3 | AeroSpace |
-| Status bar | i3status | SketchyBar |
-| Window borders | i3 `client.focused` | JankyBorders |
-| Launcher | rofi | Alfred |
-| Clipboard | parcellite | Alfred |
-| Wallpaper | feh | desktoppr |
-| Notifications | dunst | terminal-notifier |
-| Containers | Docker | colima |
-| Emacs | built from git | `emacs-plus` |
-| System monitor | conky | *not ported* |
+|                | Linux               | macOS                       |
+|----------------|---------------------|-----------------------------|
+| Packages       | apt                 | Homebrew (`macos/Brewfile`) |
+| Window manager | i3                  | AeroSpace                   |
+| Status bar     | i3status            | SketchyBar                  |
+| Window borders | i3 `client.focused` | JankyBorders                |
+| Launcher       | rofi                | Alfred                      |
+| Clipboard      | parcellite          | Alfred                      |
+| Wallpaper      | feh                 | desktoppr                   |
+| Notifications  | dunst               | terminal-notifier           |
+| Containers     | Docker              | colima                      |
+| Emacs          | built from git      | `emacs-plus`                |
+| System monitor | conky               | *not ported*                |
 
 The window-manager modifier is **⌥⌘** on both keyboards: the QMK external
 board produces it from one key (`LAG_T(KC_ESC)` on Caps Lock), the built-in
