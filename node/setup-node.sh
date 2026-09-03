@@ -5,7 +5,10 @@ source "$(dirname "$0")/../config.sh"
 
 log_info "Setting up Node.js..."
 
-if is_installed nvm; then
+# nvm is a shell function sourced by ~/.bashrc, never a binary on PATH, so
+# `is_installed nvm` is false even where nvm works — and the installer re-ran
+# on every pass. Test for the script instead.
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
     log_info "nvm already installed, skipping"
 else
     log_info "Installing nvm..."
