@@ -136,9 +136,22 @@ is only that remote automation must use `bash -lc` (or `bash -ic`) rather than
 assuming the toolchain is on `PATH`.
 
 
-### Local harness server install
-Currently just the client can be enabled, create setup for the server leg 
-(llama-server, model, chat-ui, rag-db).
+### Local harness server install — designed 2026-09-03, not yet built
+Only the client half can be enabled today. The server leg (llama-server, model, chat-ui, rag-db)
+is designed, but the automation deliberately does **not** land here: it goes in the harness repo
+as `make install-server`, next to the units and compose files it already owns. Design:
+`local-harness/docs/plans/2026-09-03-install-targets-design.md`.
+
+What this repo gains is one thin step —
+`local-harness/setup-local-harness-server.sh`, gated on `SETUP_ENABLE_LOCAL_HARNESS_SERVER`
+(off by default; exactly one machine is ever the server) and Linux-only, taking `TOTAL` 26 → 27.
+It ensures the clone and runs `make -C "$SETUP_HARNESS_DIR" install-server`.
+
+The client script becomes the same shape against `make install-client`, which means
+`local-harness/qwen-settings.json` gets **deleted from this repo** — its `ep-rag` block already
+duplicates the harness repo's own copy, and the macOS twin stops reading its Linux sibling by
+relative path. That is the sharing rule reaching its limit: a config asset that names another
+project's port belongs to that project, not to the dotfiles.
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already
