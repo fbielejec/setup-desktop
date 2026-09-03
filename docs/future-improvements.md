@@ -58,19 +58,9 @@ modes are worth recognising again.
 
 ## Still open
 
-### Component selection — done 2026-09-03
-One `SETUP_ENABLE_<COMPONENT>` flag per step in both `config.sh` files, gated in
-`run_step`. Details in `CLAUDE.md` under *Component selection*. Three things
-fell out of it:
-
-- Linux `run.sh` now reports `24 of 26 steps ran, 2 disabled`, which closes the
-  step-accounting half of the line below.
-- `sage/` and `ledger_live/` became real steps, off by default, instead of a
-  README footnote.
-- `SETUP_INSTALL_GO`, `SETUP_INSTALL_QMK` and `SETUP_INSTALL_FOUNDRY` were
-  deleted from the Linux `config.sh`. All three were referenced nowhere and
-  named components with no directory in the Linux tree. macOS's own
-  `SETUP_INSTALL_QMK` was renamed `SETUP_ENABLE_QMK` so the prefix is uniform.
+### Local harness server install
+Currently just the client can be enabled, create setup for the server leg 
+(llama-server, model, chat-ui, rag-db).
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already

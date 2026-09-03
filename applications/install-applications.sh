@@ -71,7 +71,9 @@ automake
 libtool
 #sqlitebrowser
 jq
-ack-grep
+# `ack` since Ubuntu 22.04; the ack-grep transitional package is gone, and one
+# missing name aborts this whole apt call — texlive-full included.
+ack
 #ngrok
 #postgresql-client
 #avrdude
@@ -149,7 +151,7 @@ celluloid
 ####################
 #---audio---#
 ####################
-pavuvontrol
+pavucontrol
 
 ####################
 #---PRODUCTIVITY---#

@@ -7,7 +7,12 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 log_info "Setting up local coding harness (client)..."
 
-# Requires node/npm — same dependency shape as claude-code.
+# Requires node/npm — same dependency shape as claude-code, including the need
+# to source nvm: this step's bash inherits neither setup-node.sh's PATH nor
+# ~/.bashrc.d/node.sh.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
 if ! is_installed npm; then
     log_error "npm is required but not installed. Run node setup first."
     exit 1

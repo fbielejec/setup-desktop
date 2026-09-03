@@ -7,7 +7,13 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 log_info "Setting up Claude Code..."
 
-# Requires node/npm
+# Requires node/npm. run.sh gives every step its own non-interactive bash, so
+# neither setup-node.sh's PATH nor ~/.bashrc.d/node.sh reaches this one: on a
+# machine with no system node, npm is absent here even though nvm installed it
+# minutes ago. Source nvm the same way setup-node.sh does.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
 if ! is_installed npm; then
     log_error "npm is required but not installed. Run node setup first."
     exit 1

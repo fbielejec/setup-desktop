@@ -7,7 +7,9 @@ log_info "Installing i3 extras..."
 sudo apt-get install -y i3status i3lock
 
 #sudo apt-get install -y i3-wm
-sudo apt-get install -y dmenu
+# dmenu is not a package on current Debian/Ubuntu — it ships inside
+# suckless-tools. Installing it by name fails the step outright.
+sudo apt-get install -y suckless-tools
 
 # conky
 sudo apt-get install -y conky-all
