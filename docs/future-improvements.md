@@ -68,6 +68,31 @@ Each script should check state thoroughly (version installed, config already
 deployed), skip what is done, report did-vs-skipped, support `--force`, and
 handle version upgrades gracefully (Java 17 installed but 21 desired).
 
+**Partially addressed 2026-09-03**, scoped to what destroys data or misfires,
+ahead of running this repo on a second machine assembled by hand over years:
+
+1. **`i3/140` deleted the existing config.** `rm -rf ~/.config/i3/*` with no
+   backup — the one command in the repo that destroyed user data outright. Now
+   moves a differing config to `~/.config/i3.bak-<timestamp>`. The currency
+   check compares entry by entry over the same glob the copy uses, because a
+   whole-tree `diff -rq` never matches: the glob skips dotfiles, and
+   `i3/config/.config/gtk-3.0/settings.ini` is tracked but has **never been
+   deployed** by this script. That stray file is still unresolved.
+2. **`emacs/setup-emacs.sh` overwrote `~/.emacs.d`** with no backup, and its
+   `git clone` hard-failed on every re-run because the directory already
+   existed. Both fixed; the `mv …/*` also silently dropped dotfiles and is now
+   `cp -a …/.`.
+3. **The nvm guard could never be true.** `is_installed nvm` tested for a binary,
+   but nvm is a shell function — so the installer re-ran on every pass.
+4. **Docker group membership was skipped on machines that already had Docker,**
+   because `usermod -aG` sat inside the not-installed branch.
+
+Still open: `--force`; version-upgrade handling (the `is_installed emacs →
+exit 0` guard still couples "binary present" to "config deployed", and the
+pinned Synology release will not upgrade an older install); an `apt_install`
+helper; and step accounting — `macos/run.sh` already reports ran/gated/missing,
+Linux `run.sh` still just counts to 24.
+
 ### Broader Linux support
 Currently targets Linux Mint. Generalising to Ubuntu is near-free; other
 Debian-based distros (Pop!_OS) need conditional package names and repos.

@@ -25,7 +25,7 @@ See `macos/README.md` for the macOS tree.
 ```
 config.sh                       # Personalizable settings (name, email, versions)
 lib/common.sh                   # Shared helpers sourced by every setup script
-run.sh                          # Master orchestrator - 22 steps sequentially
+run.sh                          # Master orchestrator - 24 steps sequentially
 ├── applications/install-applications.sh
 ├── fonts/install-fonts.sh
 ├── python/setup-python.sh
@@ -46,8 +46,10 @@ run.sh                          # Master orchestrator - 22 steps sequentially
 ├── chrome/install-google-chrome.sh
 ├── gh/setup-gh.sh
 ├── claude-code/setup-claude-code.sh
+├── local-harness/setup-local-harness.sh
 ├── slack/setup-slack.sh
-└── vpn/setup_vpn.sh
+├── vpn/setup_vpn.sh
+└── synology/setup-synology-drive.sh
 ```
 
 Optional (not in run.sh, run manually): `sage/`, `ledger_live/`.
@@ -87,6 +89,7 @@ written relative to it. Do not flatten it.
 | `emacs/`       | Emacs editor            | Compiled from git source with native-comp |
 | `gh/`          | GitHub CLI              | apt (official repo)                       |
 | `claude-code/` | Claude Code CLI         | npm global install                        |
+| `local-harness/` | Qwen-Code CLI + harness repo (client half) | npm + git clone         |
 | `sage/`        | SageMath (optional)     | Compiled from source                      |
 
 ### System Tools
@@ -103,6 +106,7 @@ written relative to it. Do not flatten it.
 | `chrome/`      | Google Chrome                   | wget .deb                |
 | `slack/`       | Slack                           | wget .deb                |
 | `vpn/`         | NordVPN                         | wget .deb                |
+| `synology/`    | Synology Drive client           | wget .deb (pinned)       |
 | `ledger_live/` | Ledger crypto wallet (optional) | wget binary + udev rules |
 
 ## Key Patterns
@@ -119,6 +123,14 @@ written relative to it. Do not flatten it.
 ## Component Dependencies
 
 - **Claude Code requires Node.js** (Node should be installed first)
+- **Local harness client requires Node.js** — the Qwen-Code CLI is an npm global.
+  Only the *client* half lives here: the CUDA llama.cpp build, the GGUF weights and the
+  systemd units are the harness repo's own (`README` §1–2a, `deploy/*.service`) and are
+  deliberately not duplicated. `SETUP_HARNESS_DIR` points at an existing clone if there
+  is one.
+- **Synology Drive autostart is the i3 config's job** — `i3/config/config` carries
+  `exec synology-drive`, so the installer does not add an autostart entry. On a machine
+  with no graphical session the daemon simply never starts, and syncing silently stops.
 - **i3 ecosystem**: rofi (launcher), conky (monitor), fonts (for conky glyphs), feh (wallpaper), dunst (notifications) - all interdependent
 - **Emacs compilation** needs build-essential, gcc (from applications)
 
@@ -129,12 +141,13 @@ Targets a work-issued, MDM-managed MacBook running alongside the Linux desktop.
 ```
 macos/
 ├── 00-probe.sh             # ALWAYS RUN FIRST — reports what the machine permits
-├── run.sh                  # orchestrator, 23 steps, gated on the probe
+├── run.sh                  # orchestrator, 24 steps, gated on the probe
 ├── config.sh               # $MOD, work git identity, feature flags
 ├── lib/common.sh           # brew_install, deploy_config, probe_value, load_brew_env
 ├── Brewfile                # ordered by approval risk, truncated when gated
 ├── brew/ bash/ git/ ssh/ node/ rust/ python/ java/ docker/ emacs/
 ├── alacritty/ fonts/ gh/ claude-code/ defaults/          # toolchain + dotfiles
+├── local-harness/                                        # Qwen-Code client (shared asset)
 ├── aerospace/ sketchybar/ borders/ alfred/               # window manager tier
 ├── karabiner/ qmk/                                       # keyboard
 └── wallpaper/              # shortcut cheat-sheet generator

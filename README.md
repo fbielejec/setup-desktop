@@ -14,7 +14,7 @@ everything platform-specific is separate.
 
 ```sh
 $EDITOR config.sh      # name, email, git user, pinned versions
-./run.sh               # 22 steps, logs to ~/.setup-desktop-<timestamp>.log
+./run.sh               # 24 steps, logs to ~/.setup-desktop-<timestamp>.log
 ```
 
 | | |
@@ -22,10 +22,32 @@ $EDITOR config.sh      # name, email, git user, pinned versions
 | Desktop | i3, rofi, conky, dunst, compton, feh |
 | Shell | bash + `~/.bashrc.d/` snippets, Alacritty |
 | Languages | Python, Node (nvm), Java + Maven, Rust (rustup) |
-| Tools | git, ssh, Docker, GitHub CLI, Claude Code, Emacs (built from source) |
-| Apps | Chrome, Slack, NordVPN |
+| Tools | git, ssh, Docker, GitHub CLI, Claude Code, Qwen-Code, Emacs (built from source) |
+| Apps | Chrome, Slack, NordVPN, Synology Drive |
 
 Not in `run.sh`, run manually: `sage/`, `ledger_live/`.
+
+### A second Linux machine
+
+The scripts are run **on** the target, not pushed to it:
+
+```sh
+ssh -t <host>
+git clone git@github.com:fbielejec/setup-desktop.git ~/setup-desktop
+cd ~/setup-desktop && $EDITOR config.sh && ./run.sh
+```
+
+`-t` matters. `run.sh` needs sudo throughout, and without a TTY the run stalls on a
+password prompt you cannot see. Run it under `tmux`: Emacs compiles from source, and a
+dropped connection otherwise kills the run.
+
+Clone to `~/setup-desktop`, **not** into a Synology-synced directory — two writers on one
+`.git` produces sync conflicts inside the index.
+
+On a machine assembled by hand, expect the first run to surface problems. Components
+that replace a config back the old one up first (`~/.config/i3.bak-*`,
+`~/.emacs.d.bak-*`, `*.bak-<timestamp>`), so a bad outcome is recoverable, but the run
+is not yet fully idempotent — see `docs/future-improvements.md`.
 
 ---
 
@@ -35,7 +57,7 @@ Not in `run.sh`, run manually: `sage/`, `ledger_live/`.
 macos/00-probe.sh                        # FIRST — reports what the machine allows
 $EDITOR macos/config.sh                  # work email is required; run.sh refuses without it
 macos/run.sh --dry-run                   # review the plan
-macos/run.sh                             # 23 steps
+macos/run.sh                             # 24 steps
 ```
 
 The probe exists because the target is a managed work laptop. It reports local
