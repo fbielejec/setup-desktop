@@ -4,7 +4,7 @@
 
 # Personal
 SETUP_USER_NAME="Filip"
-SETUP_USER_EMAIL=""
+SETUP_USER_EMAIL="filip.bielejec@proton.me"
 SETUP_GIT_USER="fbielejec"
 
 # Pinned versions (empty = use latest/default)
@@ -24,7 +24,7 @@ SETUP_HARNESS_DIR="$HOME/local-harness"
 
 # Optional components (true/false)
 SETUP_INSTALL_GO=false
-SETUP_INSTALL_QMK=false
+SETUP_INSTALL_QMK=true
 SETUP_INSTALL_FOUNDRY=false
 
 # Claude Code

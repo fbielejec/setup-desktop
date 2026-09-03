@@ -18,6 +18,17 @@ run_step() {
     bash "$SCRIPT_DIR/$2" 2>&1 | tee -a "$SETUP_LOGFILE"
 }
 
+# Fail before doing any work, not 7 steps in. This guard is the one that
+# actually stops the run: run_step pipes each script through tee, so a
+# pipeline's exit status is tee's and a failing component does NOT abort
+# run.sh — git/setup-git.sh's own guard would be logged and then sailed past.
+if [ -z "$SETUP_USER_EMAIL" ]; then
+    echo "[ERROR] SETUP_USER_EMAIL is empty in config.sh." >&2
+    echo "[ERROR] Set it, or pass it for a single run:" >&2
+    echo "[ERROR]   SETUP_USER_EMAIL=me@example.com ./run.sh" >&2
+    exit 1
+fi
+
 echo "=========================================="
 echo " setup-desktop"
 echo " Log: $SETUP_LOGFILE"
