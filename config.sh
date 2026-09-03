@@ -11,6 +11,17 @@ SETUP_GIT_USER="fbielejec"
 SETUP_JAVA_VERSION="21"
 SETUP_NODE_VERSION="stable"
 
+# Synology Drive client. This is the *download-center* release string, which is
+# NOT what dpkg reports (dpkg says 8.2.0-20058 for this same build), so it
+# cannot be read off an installed package. Get it from
+# https://www.synology.com/en-global/support/download -> Desktop Utilities.
+SETUP_SYNOLOGY_DRIVE_RELEASE="4.2.0-20058"
+
+# Local coding harness (github.com/fbielejec/local-harness) — client half only.
+# A path rather than a hardcode: a machine may already hold the repo elsewhere,
+# and pointing at the existing clone avoids duplicating it.
+SETUP_HARNESS_DIR="$HOME/local-harness"
+
 # Optional components (true/false)
 SETUP_INSTALL_GO=false
 SETUP_INSTALL_QMK=false
