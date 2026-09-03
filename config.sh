@@ -6,7 +6,7 @@
 # Assigned with :- so a one-off run can override without editing this file:
 #   SETUP_USER_EMAIL=me@example.com ./run.sh
 # run.sh and git/setup-git.sh both refuse to proceed if the email ends up empty.
-SETUP_USER_NAME="${SETUP_USER_NAME:-Filip}"
+SETUP_USER_NAME="${SETUP_USER_NAME:-filip}"
 SETUP_USER_EMAIL="${SETUP_USER_EMAIL:-filip.bielejec@proton.me}"
 SETUP_GIT_USER="${SETUP_GIT_USER:-fbielejec}"
 
@@ -81,4 +81,4 @@ SETUP_ENABLE_LEDGER_LIVE="${SETUP_ENABLE_LEDGER_LIVE:-false}"
 
 # No Claude Code model setting here on purpose: bash/bashrc.d/claude.sh is
 # deployed verbatim into ~/.bashrc.d/, where this file does not exist, so it
-# cannot read a value from here. It owns ANTHROPIC_MODEL outright.
+# cannot read a value from here. It owns ANTHROPIC_MODEL outright.1

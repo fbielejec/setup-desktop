@@ -6,7 +6,7 @@
 # personal defaults is exactly the mistake worth designing out.
 
 # Personal ------------------------------------------------------------------
-SETUP_USER_NAME="Filip"
+SETUP_USER_NAME="filip"
 
 # Work email. Left empty on purpose — macos/git/setup-git.sh refuses to run
 # until this is set, so a work machine can never end up committing under the
