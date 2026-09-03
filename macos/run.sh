@@ -134,6 +134,7 @@ run_step "Setting up Alacritty..."             alacritty/setup-alacritty.sh
 run_step "Installing fonts..."                 fonts/install-fonts.sh
 run_step "Installing GitHub CLI..."            gh/setup-gh.sh
 run_step "Installing Claude Code..."           claude-code/setup-claude-code.sh
+run_step "Setting up local coding harness..."  local-harness/setup-local-harness.sh
 
 # --------------------------------------------------- tier 2: macOS defaults --
 

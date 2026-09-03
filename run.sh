@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/lib/common.sh"
 
 export SETUP_LOGFILE="$HOME/.setup-desktop-$(date +%Y%m%d-%H%M%S).log"
 
-TOTAL=22
+TOTAL=24
 N=0
 
 run_step() {
@@ -45,8 +45,10 @@ run_step "Setting up Emacs..."                    emacs/setup-emacs.sh
 run_step "Installing Chrome..."                   chrome/install-google-chrome.sh
 run_step "Installing GitHub CLI..."               gh/setup-gh.sh
 run_step "Installing Claude Code..."              claude-code/setup-claude-code.sh
+run_step "Setting up local coding harness..."     local-harness/setup-local-harness.sh
 run_step "Installing Slack..."                    slack/setup-slack.sh
 run_step "Installing NordVPN..."                  vpn/setup_vpn.sh
+run_step "Installing Synology Drive..."           synology/setup-synology-drive.sh
 
 echo ""
 echo "=========================================="
