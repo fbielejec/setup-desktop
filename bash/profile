@@ -1,0 +1,21 @@
+# ~/.profile: read by login shells — `ssh -t host`, a TTY login, the display
+# manager starting an X session. Bash reads it *instead of* ~/.bashrc, not as
+# well as it.
+#
+# Everything this repo configures lives in ~/.bashrc and ~/.bashrc.d/, which
+# bash reads only for interactive shells. Without the chain below, a login shell
+# gets none of it — no node, no pyenv, no JAVA_HOME — while a terminal opened
+# under i3 gets all of it, which is a confusing difference to debug. Distros
+# ship this block as standard; a machine whose ~/.profile was written from
+# scratch by an installer never had it. (rustup creates the file for its one
+# line if it is absent, which is how weebeastie ended up with a 21-byte
+# ~/.profile and no toolchain in any login shell.)
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
+
+# The only PATH entry no bashrc.d snippet owns: ~/.local/bin belongs to
+# python.sh and ~/.cargo/bin to rust.sh, so neither is repeated here.
+if [ -d "$HOME/bin" ]; then
+    PATH="$HOME/bin:$PATH"
+fi

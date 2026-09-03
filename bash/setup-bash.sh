@@ -10,6 +10,12 @@ log_info "Setting up bash configuration..."
 # split, that file is the only copy of any machine-local config.
 deploy_config "$(dirname "$0")/bashrc" "$HOME/.bashrc"
 
+# Deploy ~/.profile too. Bash reads it *instead of* ~/.bashrc for login shells,
+# so without it `ssh -t host` gets none of the bashrc.d toolchain. Distros ship
+# a ~/.profile that chains to ~/.bashrc, but a machine where an installer
+# created the file from scratch has no chain and no way to notice.
+deploy_config "$(dirname "$0")/profile" "$HOME/.profile"
+
 snippet_count="$(deploy_dir "$(dirname "$0")/bashrc.d" "$HOME/.bashrc.d" '*.sh')"
 log_info "Deployed $snippet_count bashrc.d snippet(s)"
 

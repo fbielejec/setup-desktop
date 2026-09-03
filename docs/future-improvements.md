@@ -56,7 +56,85 @@ modes are worth recognising again.
    no-op'd forever afterwards. Now resolved from `$(dirname "$0")` and
    deploys unconditionally, matching the rest of the repo.
 
+## Linux bugs found during the weebeastie run — all fixed
+
+The first run of this repo on a second machine (2026-09-03, Mint 22.1). Four of
+the five were **not** weebeastie-specific: they were live on the laptop too and
+had been for years. `run.sh` pipes each step through `tee`, so a component that
+exits non-zero is logged and stepped over — which is exactly how an apt call
+that installs nothing looks identical to one that succeeds.
+
+1. **Two apt package names had been dead for years.** `pavuvontrol` (a typo for
+   `pavucontrol`) and `ack-grep` (dropped after Ubuntu 20.04) in
+   `install-applications.sh`, and `dmenu` in `i3/130-…` (it ships inside
+   `suckless-tools`, and has no package of its own). None of the three resolves
+   on Mint 21.1 either. Because the whole list is one `apt-get install -y` under
+   `set -e`, a single bad name aborted the call and **all ~60 packages went
+   uninstalled**, texlive included. It looked fine on machines where the
+   packages were already there from an earlier era.
+
+2. **`java/setup-java.sh` never installed Maven on a machine that had a JDK.**
+   One guard, `is_apt_installed openjdk-21-jdk → exit 0`, covered both the JDK
+   and Maven. weebeastie had the JDK by hand, so the step reported success and
+   `mvn` stayed missing. Same coupled-guard shape as the emacs guard below; this
+   half is now split.
+
+3. **`bash/bashrc.d/docker.sh` errored on every new shell on bash 5.2.**
+   `export UID=$(id -u)` — bash 5.2 (Ubuntu 24.04 and up) declares `UID` as
+   `declare -ir`, i.e. readonly, so the assignment prints
+   `UID: readonly variable` in every shell. bash 5.1 leaves `UID` writable,
+   which is the only reason the laptop never showed it. `export UID` without an
+   assignment exports the value bash already set and is correct on both. `GID`
+   is unaffected — bash does not define it at all.
+
+4. **The two npm components assumed npm was on `PATH`.**
+   `setup-claude-code.sh` and `setup-local-harness.sh` guard on
+   `is_installed npm` and exit 1 without it. But `run.sh` gives every step its
+   own non-interactive `bash`, which inherits neither `setup-node.sh`'s nvm
+   `PATH` nor `~/.bashrc.d/node.sh`. On any machine without a *system* node the
+   pair fails, minutes after node was installed. The laptop hid this by having
+   node on `PATH` in the shell that launched `run.sh`. Both now source
+   `$NVM_DIR/nvm.sh` the way `setup-node.sh` does.
+
+5. **Login shells got none of the toolchain.** The one genuinely
+   weebeastie-specific fault. `~/.bashrc.d/` is sourced from `~/.bashrc`, which
+   bash reads for *interactive* shells; a login shell reads `~/.profile`
+   instead. Distros ship a `~/.profile` that chains to `~/.bashrc` — but
+   weebeastie's was 21 bytes, holding only the `. "$HOME/.cargo/env"` line
+   rustup wrote, because rustup *creates* that file when it is absent and there
+   was no stock one to append to. So `ssh -t weebeastie` had no node, no pyenv
+   and no `JAVA_HOME` while a terminal under i3 had all three. `setup-bash.sh`
+   now deploys `bash/profile` alongside `bashrc`. It carries the chain and the
+   `$HOME/bin` PATH entry — the only one no snippet owns, `~/.local/bin` being
+   python.sh's and `~/.cargo/bin` rust.sh's.
+
 ## Still open
+
+### pyenv install depends on unauthenticated GitHub
+`python/setup-python.sh` runs `curl https://pyenv.run | bash`, whose first act
+is an unauthenticated `git clone` from github.com. GitHub rate-limits those per
+source IP, and it refused throughout the weebeastie run — aborting the step
+under `set -e` before the default venv was created. It leaves nothing behind, so
+a retry is clean. A retry that routes the clone through an existing SSH key
+needs no persistent config:
+
+```sh
+GIT_CONFIG_COUNT=1 \
+GIT_CONFIG_KEY_0=url.git@github.com:.insteadOf GIT_CONFIG_VALUE_0=https://github.com/ \
+bash python/setup-python.sh
+```
+
+Whether the script should do this itself is undecided — it would make a
+third-party install depend on the user holding a GitHub key.
+
+### Non-interactive shells still see nothing
+Fixing `~/.profile` fixes login shells, not `ssh host <command>`. Bash reads
+neither profile nor — thanks to the `case $- in *i*) … return` guard on line 6
+of `bash/bashrc` — `~/.bashrc` for a non-interactive shell, so a remote command
+runs with a bare `PATH`. That guard is correct and should stay; the consequence
+is only that remote automation must use `bash -lc` (or `bash -ic`) rather than
+assuming the toolchain is on `PATH`.
+
 
 ### Local harness server install
 Currently just the client can be enabled, create setup for the server leg 

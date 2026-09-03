@@ -74,7 +74,7 @@ Each directory = one component with its own `setup-*.sh` or `install-*.sh` scrip
 | `i3/`    | i3 window manager | `config/config`, `config/i3status.conf`, `config/dunstrc`, `config/compton.conf`, `config/scripts/` |
 | `rofi/`  | App launcher      | `rofi/config.rasi`, `rofi/zenburn.rasi`, `rofi/finder.sh`, `rofi/files.sh`                          |
 | `conky/` | System monitor    | 4 themes: `meerkat`, `meerkat2`, `blacky`, `weebeastie`                                             |
-| `bash/`  | Shell config      | `bashrc`, `bashrc.d/` (modular snippets), `alacritty.toml`                                          |
+| `bash/`  | Shell config      | `bashrc`, `profile` (login shells), `bashrc.d/` (modular snippets), `alacritty.toml`                |
 | `fonts/` | Font files        | `.ttf` files copied to `~/.fonts`                                                                   |
 
 **The `rofi/rofi/` nesting is intentional.** `setup-rofi.sh` copies the inner
