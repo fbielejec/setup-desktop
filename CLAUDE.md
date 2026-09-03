@@ -25,7 +25,7 @@ See `macos/README.md` for the macOS tree.
 ```
 config.sh                       # Personalizable settings (name, email, versions)
 lib/common.sh                   # Shared helpers sourced by every setup script
-run.sh                          # Master orchestrator - 24 steps sequentially
+run.sh                          # Master orchestrator - 26 steps, 24 enabled by default
 ├── applications/install-applications.sh
 ├── fonts/install-fonts.sh
 ├── python/setup-python.sh
@@ -49,10 +49,13 @@ run.sh                          # Master orchestrator - 24 steps sequentially
 ├── local-harness/setup-local-harness.sh
 ├── slack/setup-slack.sh
 ├── vpn/setup_vpn.sh
-└── synology/setup-synology-drive.sh
+├── synology/setup-synology-drive.sh
+├── sage/setup_sage.sh                  # off by default
+└── ledger_live/setup-ledger-live.sh    # off by default
 ```
 
-Optional (not in run.sh, run manually): `sage/`, `ledger_live/`.
+Every step is gated on a `SETUP_ENABLE_<COMPONENT>` flag in `config.sh` — see
+*Component selection* below.
 
 ## Directory Layout
 
@@ -61,7 +64,7 @@ Each directory = one component with its own `setup-*.sh` or `install-*.sh` scrip
 ### Infrastructure
 | Path            | Purpose                                                                        |
 |-----------------|--------------------------------------------------------------------------------|
-| `config.sh`     | User-editable settings: name, email, git user, pinned versions, optional flags |
+| `config.sh`     | User-editable settings: name, email, git user, pinned versions, component flags |
 | `lib/common.sh` | Shared helpers: `log_info`, `log_error`, `is_installed`, `is_apt_installed`    |
 | `docs/`         | Architecture documentation                                                     |
 
@@ -118,7 +121,28 @@ written relative to it. Do not flatten it.
 - **One dir per component**: installer script + config files co-located
 - **i3 scripts**: numeric prefix (`120-`, `130-`, etc.) = execution order
 - **Config deployment**: scripts copy from repo to `~/.config/` or `~/`
-- **Optional components**: `sage/` and `ledger_live/` are not in `run.sh`; run their scripts manually
+
+### Component selection
+
+One `SETUP_ENABLE_<COMPONENT>` flag per step, in both `config.sh` and
+`macos/config.sh`, assigned with `:-` so a single run can override without
+editing the file (`SETUP_ENABLE_EMACS=false ./run.sh`). `run_step` takes the
+flag as its third argument.
+
+- **Gating lives in `run.sh` only.** Component scripts have no selection guard,
+  because `bash emacs/setup-emacs.sh` must keep working — that is the way to
+  retry one failed step. The two macOS exceptions, `ssh/setup-sshd.sh` and
+  `qmk/setup-qmk.sh`, guard internally on purpose: those are "not by accident on
+  a managed laptop", not selection.
+- **Tiers share a flag.** `SETUP_ENABLE_WM` covers i3, its extras, its config,
+  the wallpaper and rofi on Linux; aerospace, sketchybar, borders and alfred on
+  macOS. `SETUP_ENABLE_CONKY` is separate — it is decorative, not load-bearing.
+- **Substrate is never gated**: `apt-get update`, and macOS's two `brew/` steps.
+- **The banner is derived, not maintained.** `run.sh` lists disabled components
+  by walking `compgen -v SETUP_ENABLE_`, so it cannot drift from `config.sh`,
+  and a mistyped override prints its own bogus name.
+- **On macOS the probe outranks the flags** and can only ever disable. Skips
+  report which vetoed: `disabled in config.sh` vs `probe: AX_GRANTED=false`.
 
 ## Component Dependencies
 

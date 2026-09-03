@@ -58,8 +58,19 @@ modes are worth recognising again.
 
 ## Still open
 
-### Component selection
-List components in config.sh with some sensible defaults.
+### Component selection — done 2026-09-03
+One `SETUP_ENABLE_<COMPONENT>` flag per step in both `config.sh` files, gated in
+`run_step`. Details in `CLAUDE.md` under *Component selection*. Three things
+fell out of it:
+
+- Linux `run.sh` now reports `24 of 26 steps ran, 2 disabled`, which closes the
+  step-accounting half of the line below.
+- `sage/` and `ledger_live/` became real steps, off by default, instead of a
+  README footnote.
+- `SETUP_INSTALL_GO`, `SETUP_INSTALL_QMK` and `SETUP_INSTALL_FOUNDRY` were
+  deleted from the Linux `config.sh`. All three were referenced nowhere and
+  named components with no directory in the Linux tree. macOS's own
+  `SETUP_INSTALL_QMK` was renamed `SETUP_ENABLE_QMK` so the prefix is uniform.
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already
@@ -85,9 +96,8 @@ ahead of running this repo on a second machine assembled by hand over years:
 
 Still open: `--force`; version-upgrade handling (the `is_installed emacs →
 exit 0` guard still couples "binary present" to "config deployed", and the
-pinned Synology release will not upgrade an older install); an `apt_install`
-helper; and step accounting — `macos/run.sh` already reports ran/gated/missing,
-Linux `run.sh` still just counts to 24.
+pinned Synology release will not upgrade an older install); and an `apt_install`
+helper. Step accounting is done — both orchestrators now report ran vs skipped.
 
 ### Broader Linux support
 Currently targets Linux Mint. Generalising to Ubuntu is near-free; other

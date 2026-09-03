@@ -6,8 +6,8 @@ source "$(dirname "$0")/../lib/common.sh"
 # Off by default. The keymap change that matters (LCAG_T(KC_ESC) on Caps Lock)
 # is firmware, not machine setup — it can be flashed from the Linux desktop and
 # the Mac never needs the toolchain. See macos/qmk/keymap-notes.md.
-if [ "${SETUP_INSTALL_QMK:-false}" != "true" ]; then
-    log_skip "QMK toolchain not requested (SETUP_INSTALL_QMK is not true)"
+if [ "${SETUP_ENABLE_QMK:-false}" != "true" ]; then
+    log_skip "QMK toolchain not requested (SETUP_ENABLE_QMK is not true)"
     log_info "The firmware change itself needs no toolchain here — see macos/qmk/keymap-notes.md"
     exit 0
 fi

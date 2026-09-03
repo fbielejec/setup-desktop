@@ -20,6 +20,12 @@ log_error() {
     echo "$msg" >> "$SETUP_LOGFILE"
 }
 
+log_skip() {
+    local msg="[SKIP] $1"
+    echo "$msg"
+    echo "$msg" >> "$SETUP_LOGFILE"
+}
+
 is_installed() {
     command -v "$1" >/dev/null 2>&1
 }

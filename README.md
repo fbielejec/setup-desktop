@@ -13,8 +13,8 @@ everything platform-specific is separate.
 ## Linux
 
 ```sh
-$EDITOR config.sh      # name, email, git user, pinned versions
-./run.sh               # 24 steps, logs to ~/.setup-desktop-<timestamp>.log
+$EDITOR config.sh      # name, email, git user, pinned versions, components
+./run.sh               # 26 steps, 24 on by default; logs to ~/.setup-desktop-<timestamp>.log
 ```
 
 |           |                                                                                 |
@@ -25,7 +25,26 @@ $EDITOR config.sh      # name, email, git user, pinned versions
 | Tools     | git, ssh, Docker, GitHub CLI, Claude Code, Qwen-Code, Emacs (built from source) |
 | Apps      | Chrome, Slack, NordVPN, Synology Drive                                          |
 
-Not in `run.sh`, run manually: `sage/`, `ledger_live/`.
+Off by default: `sage/` (a multi-hour source build) and `ledger_live/`.
+
+### Choosing components
+
+`config.sh` carries one `SETUP_ENABLE_<COMPONENT>` flag per step. Edit it to
+change a machine for good, or set the variable for a single run:
+
+```sh
+SETUP_ENABLE_EMACS=false ./run.sh       # skip the source build this time
+SETUP_ENABLE_SAGE=true ./run.sh         # opt into an off-by-default component
+```
+
+`run.sh` prints what is off before it does any work, so a mistyped variable is
+visible immediately — `SETUP_ENABLE_EMASC=false` lists `emasc`, which is not a
+component, and emacs runs anyway.
+
+The i3 desktop is one flag (`SETUP_ENABLE_WM`) covering i3, its config, the
+wallpaper and rofi. Gating happens in `run.sh` only, so every component script
+still runs on its own — `bash emacs/setup-emacs.sh` — which is how you retry
+one failed step without re-running the other 25.
 
 ### A second Linux machine
 
@@ -59,6 +78,11 @@ $EDITOR macos/config.sh                  # work email is required; run.sh refuse
 macos/run.sh --dry-run                   # review the plan
 macos/run.sh                             # 24 steps
 ```
+
+`macos/config.sh` carries the same `SETUP_ENABLE_<COMPONENT>` flags as the Linux
+side. The difference is that the probe outranks them: it can only ever *disable*,
+so a flag set to true is a request, not a guarantee. Skipped steps say which of
+the two vetoed them — `disabled in config.sh` or `probe: AX_GRANTED=false`.
 
 The probe exists because the target is a managed work laptop. It reports local
 admin, MDM enrollment, system-extension policy and whether the Accessibility

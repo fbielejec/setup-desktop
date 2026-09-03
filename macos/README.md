@@ -43,6 +43,32 @@ Off by default and independent of the probe:
 - `qmk/setup-qmk.sh` — the firmware toolchain. The keymap change itself can be
   flashed from the Linux desktop.
 
+Both also guard internally, so they stay off however the script is reached.
+Every other component is gated in `run.sh` alone and still runs standalone —
+`bash macos/emacs/setup-emacs.sh`.
+
+## Choosing components
+
+`config.sh` carries one `SETUP_ENABLE_<COMPONENT>` flag per step, the same set
+the Linux tree uses. Edit it, or set the variable for one run:
+
+```sh
+SETUP_ENABLE_EMACS=false macos/run.sh
+```
+
+Tier 3 is one flag, `SETUP_ENABLE_WM`. Homebrew is not switchable — every other
+step stands on it.
+
+The flags do not outrank the probe. A skipped step names whichever vetoed it:
+
+```
+[SKIP] [19] Setting up AeroSpace... — probe: AX_GRANTED=false
+[SKIP] [12] Setting up Emacs... — disabled in config.sh
+```
+
+The first means grant the permission and re-run `00-probe.sh`; the second means
+edit `config.sh`. `--dry-run` shows the whole plan without touching anything.
+
 ## Keyboard
 
 The window-manager modifier is `⌥⌘` on **both** keyboards:
