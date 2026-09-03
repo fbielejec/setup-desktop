@@ -108,6 +108,29 @@ that installs nothing looks identical to one that succeeds.
    `$HOME/bin` PATH entry — the only one no snippet owns, `~/.local/bin` being
    python.sh's and `~/.cargo/bin` rust.sh's.
 
+## Delivered
+
+### Local harness server install — 2026-09-03
+Both halves are now `make` targets in the harness repo, next to the units and compose files it
+already owns, rather than bash re-implemented here. Design:
+`local-harness/docs/plans/2026-09-03-install-targets-design.md`.
+
+This repo's side is two thin callers and one flag:
+
+- `local-harness/setup-local-harness.sh` — ensure the clone, then `make install-client`.
+- `local-harness/setup-local-harness-server.sh` — the same shape against `make install-server`,
+  gated on `SETUP_ENABLE_LOCAL_HARNESS_SERVER` (off by default; exactly one machine is ever the
+  server) and Linux-only. `TOTAL` 26 → 27.
+- `local-harness/qwen-settings.json` is **deleted**. Its `mcpServers` block named the harness's
+  own port, so the file belonged to that project; the macOS twin no longer reads its Linux
+  sibling by relative path. That is the sharing rule reaching its limit — a config asset that
+  describes another project's service is not a dotfile.
+
+One setting did not survive the move: `permissions.allow: ["Bash(mkdir *)"]`. The harness merges
+with `jq '.[0] * .[1]'`, and `*` *replaces* arrays rather than unioning them, so shipping an
+allow-list in the asset would reset a hand-edited one on every run. Because the asset carries no
+`permissions` key at all, one added by hand now survives forever.
+
 ## Still open
 
 ### pyenv install depends on unauthenticated GitHub
@@ -135,27 +158,15 @@ runs with a bare `PATH`. That guard is correct and should stay; the consequence
 is only that remote automation must use `bash -lc` (or `bash -ic`) rather than
 assuming the toolchain is on `PATH`.
 
+**It misled twice in one day (2026-09-03), which is the real cost.** The harness
+repo's install scripts had to resolve `cargo` by hand (`$CARGO` → `PATH` →
+`~/.cargo/bin/cargo`) because `ssh box 'make install-server'` cannot see it. Later
+`command -v node` over `ssh` found nothing on weebeastie and the first conclusion
+drawn was that *this repo's node step had failed* — it had not: four nvm-managed
+node versions were installed and `bash -lic` found them immediately. The failure
+mode is not a broken `PATH`, it is a **confident wrong diagnosis**, so the guard
+deserves a mention wherever a script reports a tool missing.
 
-### Local harness server install — done 2026-09-03
-Both halves are now `make` targets in the harness repo, next to the units and compose files it
-already owns, rather than bash re-implemented here. Design:
-`local-harness/docs/plans/2026-09-03-install-targets-design.md`.
-
-This repo's side is two thin callers and one flag:
-
-- `local-harness/setup-local-harness.sh` — ensure the clone, then `make install-client`.
-- `local-harness/setup-local-harness-server.sh` — the same shape against `make install-server`,
-  gated on `SETUP_ENABLE_LOCAL_HARNESS_SERVER` (off by default; exactly one machine is ever the
-  server) and Linux-only. `TOTAL` 26 → 27.
-- `local-harness/qwen-settings.json` is **deleted**. Its `mcpServers` block named the harness's
-  own port, so the file belonged to that project; the macOS twin no longer reads its Linux
-  sibling by relative path. That is the sharing rule reaching its limit — a config asset that
-  describes another project's service is not a dotfile.
-
-One setting did not survive the move: `permissions.allow: ["Bash(mkdir *)"]`. The harness merges
-with `jq '.[0] * .[1]'`, and `*` *replaces* arrays rather than unioning them, so shipping an
-allow-list in the asset would reset a hand-edited one on every run. Because the asset carries no
-`permissions` key at all, one added by hand now survives forever.
 
 ### Full idempotency
 Each script should check state thoroughly (version installed, config already
@@ -175,7 +186,11 @@ ahead of running this repo on a second machine assembled by hand over years:
    existed. Both fixed; the `mv …/*` also silently dropped dotfiles and is now
    `cp -a …/.`.
 3. **The nvm guard could never be true.** `is_installed nvm` tested for a binary,
-   but nvm is a shell function — so the installer re-ran on every pass.
+   but nvm is a shell function — so the installer re-ran on every pass. Confirmed
+   fixed on weebeastie 2026-09-03: the pre-fix script re-ran the nvm installer and
+   appended three `NVM_DIR` lines to the freshly deployed `~/.bashrc` (which
+   `setup-bash.sh` owns wholesale); the fixed one reports `nvm already installed,
+   skipping` and leaves the file alone.
 4. **Docker group membership was skipped on machines that already had Docker,**
    because `usermod -aG` sat inside the not-installed branch.
 
