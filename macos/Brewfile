@@ -103,7 +103,7 @@ brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-native-comp"]
 # which requires a Nerd Font for its glyphs.
 cask "font-hack-nerd-font"
 
-# Wallpaper — replaces `feh --bg-scale` in i3/150-copy-feh-background.sh
+# Wallpaper — replaces `feh --bg-scale` in i3/150-install-wallpaper.sh
 cask "desktoppr"                 # verify
 
 # ---------------------------------------------------------------------------

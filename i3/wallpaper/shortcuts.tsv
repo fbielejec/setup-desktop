@@ -1,0 +1,130 @@
+# Wallpaper cheat-sheet content.
+# Format:  section <TAB> chord <TAB> description
+#
+# i3 rows: `chord` is the bindsym key combination from i3/config/config, e.g.
+# `$mod+Shift+Left`. Spelling is normalised before comparing ($mod/Mod4 → super,
+# Mod1 → alt, Control → ctrl, case-insensitive, modifier order irrelevant), so
+# write it however reads best. generate-wallpaper.sh cross-checks every
+# default-mode binding in both directions: a chord listed here that is not
+# bound, or a binding not listed here, fails the build. Submodes (resize,
+# system) are described in the footer, not per key.
+#
+# EMACS-* rows are not checked. They come from github.com/fbielejec/emacs.d
+# (customizations/*.el, only the files init.el actually loads), a separate
+# repo that setup-emacs.sh fetches later in the run than this wallpaper step.
+
+FOCUS	$mod+Left	focus left
+FOCUS	$mod+Down	focus down
+FOCUS	$mod+Up	focus up
+FOCUS	$mod+Right	focus right
+FOCUS	$mod+p	focus parent
+FOCUS	$mod+Ctrl+space	focus tiling / floating
+
+MOVE	$mod+Shift+Left	move window left
+MOVE	$mod+Shift+Down	move window down
+MOVE	$mod+Shift+Up	move window up
+MOVE	$mod+Shift+Right	move window right
+
+WINDOW	$mod+Shift+0	close window
+WINDOW	$mod+Ctrl+Shift+k	close all in workspace
+WINDOW	$mod+Shift+space	float / tile
+WINDOW	$mod+Shift+b	toggle border
+WINDOW	$mod+r	resize mode
+WINDOW	$mod+Ctrl+Left	resize
+WINDOW	$mod+Ctrl+Down	resize
+WINDOW	$mod+Ctrl+Up	resize
+WINDOW	$mod+Ctrl+Right	resize
+
+LAYOUT	$mod+h	split horizontal
+LAYOUT	$mod+v	split vertical
+LAYOUT	$mod+e	toggle split orientation
+LAYOUT	$mod+s	stacking
+LAYOUT	$mod+z	tabbed
+LAYOUT	$mod+f	fullscreen
+
+WORKSPACE	$mod+1	workspace 1
+WORKSPACE	$mod+2	workspace 2
+WORKSPACE	$mod+3	workspace 3
+WORKSPACE	$mod+4	workspace 4
+WORKSPACE	$mod+5	workspace 5
+WORKSPACE	$mod+6	workspace 6
+WORKSPACE	$mod+7	workspace 7
+WORKSPACE	$mod+8	workspace 8
+WORKSPACE	$mod+9	workspace 9
+WORKSPACE	$mod+10	workspace 10
+WORKSPACE	$mod+Shift+1	send to workspace 1
+WORKSPACE	$mod+Shift+2	send to workspace 2
+WORKSPACE	$mod+Shift+3	send to workspace 3
+WORKSPACE	$mod+Shift+4	send to workspace 4
+WORKSPACE	$mod+Shift+5	send to workspace 5
+WORKSPACE	$mod+Shift+6	send to workspace 6
+WORKSPACE	$mod+Shift+7	send to workspace 7
+WORKSPACE	$mod+Shift+8	send to workspace 8
+WORKSPACE	$mod+Shift+9	send to workspace 9
+WORKSPACE	$mod+Shift+10	send to workspace 10
+WORKSPACE	$mod+Tab	last workspace
+WORKSPACE	Mod1+Tab	next workspace
+WORKSPACE	Mod1+Shift+Tab	previous workspace
+WORKSPACE	Mod1+Ctrl+Right	next workspace
+WORKSPACE	Mod1+Ctrl+Left	previous workspace
+
+LAUNCH	$mod+space	rofi
+LAUNCH	$mod+d	dmenu
+LAUNCH	Print	screenshot to ~
+LAUNCH	Ctrl+Print	screenshot (interactive)
+LAUNCH	Mod1+Ctrl+r	screen recorder
+
+NOTIFY	$mod+n	close notification
+NOTIFY	$mod+Shift+n	close all
+NOTIFY	$mod+grave	history
+
+SYSTEM	$mod+b	toggle bar
+SYSTEM	$mod+l	volume up
+SYSTEM	$mod+q	volume down
+SYSTEM	XF86AudioMute	mute
+SYSTEM	XF86MonBrightnessUp	brightness up
+SYSTEM	XF86MonBrightnessDown	brightness down
+SYSTEM	Ctrl+Mod1+l	lock screen
+SYSTEM	$mod+Pause	system mode
+SYSTEM	$mod+Shift+c	reload config
+SYSTEM	$mod+Shift+r	restart i3
+SYSTEM	$mod+Shift+e	exit i3
+
+EMACS	M-x	run command (smex)
+EMACS	C-x C-b	ibuffer
+EMACS	C-c ←↓↑→	move to window
+EMACS	S-←↓↑→	resize window
+EMACS	C-c o	jump to minibuffer
+EMACS	C-c p · s-p	projectile
+EMACS	C-s · C-r	regexp search fwd / back
+EMACS	C-M-s · C-M-r	literal search fwd / back
+EMACS	M-/	hippie expand
+EMACS	C-;	comment line
+EMACS	C-. · C-,	expand / contract region
+EMACS	C->	mark next like this
+EMACS	C-c m c	cursor on each line
+
+EMACS-ORG	C-c n f	find roam node
+EMACS-ORG	C-c n i	insert roam node
+EMACS-ORG	C-c n l	backlinks buffer
+EMACS-ORG	C-M-i	complete node link
+EMACS-ORG	M-. · M-,	follow link / back
+EMACS-ORG	f9 · f10	slide prev / next
+
+EMACS-RUST	M-?	find references  (+python)
+EMACS-RUST	M-j	imenu  (+python)
+EMACS-RUST	C-c C-c a	code action
+EMACS-RUST	C-c C-c r	rename
+EMACS-RUST	C-c C-c h	doc glance
+EMACS-RUST	C-c C-c l	list errors
+EMACS-RUST	C-c C-c e	expand macro
+EMACS-RUST	C-c C-c q	restart LSP
+
+EMACS-TS	M-. · M-,	definition / references
+EMACS-TS	C-c C-a	code action
+EMACS-TS	C-c C-r	rename
+EMACS-TS	C-c C-f	format buffer
+
+EMACS-GO	C-c C-c	build (docker)
+EMACS-GO	C-c C-t	test (docker)
+EMACS-GO	C-c C-r	run (docker)

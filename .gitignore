@@ -5,3 +5,6 @@ macos/Brewfile.lock.json
 
 # Generated wallpaper renders
 macos/wallpaper/out/
+
+# Generated wallpaper renders
+i3/wallpaper/out/

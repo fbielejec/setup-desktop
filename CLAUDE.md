@@ -35,15 +35,15 @@ run.sh                          # Master orchestrator - 27 steps, 24 enabled by 
 ├── git/setup-git.sh
 ├── ssh/setup-ssh.sh
 ├── docker/setup-docker.sh
+├── chrome/install-google-chrome.sh      # before i3: the wallpaper step renders with it
 ├── i3/120-install-i3.sh
 ├── i3/130-install-extra-software-needed-on-i3.sh
 ├── i3/140-copy-i3-files-to-config-i3-folder.sh
-├── i3/150-copy-feh-background.sh
+├── i3/150-install-wallpaper.sh    # renders i3/wallpaper/ → ~/.fehbg.png
 ├── rofi/setup-rofi.sh
 ├── conky/setup-conky.sh
 ├── bash/setup-bash.sh          # Deploys bashrc + ~/.bashrc.d/ snippets
 ├── emacs/setup-emacs.sh
-├── chrome/install-google-chrome.sh
 ├── gh/setup-gh.sh
 ├── claude-code/setup-claude-code.sh
 ├── local-harness/setup-local-harness.sh
@@ -72,7 +72,7 @@ Each directory = one component with its own `setup-*.sh` or `install-*.sh` scrip
 ### Desktop Environment
 | Dir      | Purpose           | Configs                                                                                             |
 |----------|-------------------|-----------------------------------------------------------------------------------------------------|
-| `i3/`    | i3 window manager | `config/config`, `config/i3status.conf`, `config/dunstrc`, `config/compton.conf`, `config/scripts/` |
+| `i3/`    | i3 window manager | `config/config`, `config/i3status.conf`, `config/dunstrc`, `config/compton.conf`, `config/scripts/`, `wallpaper/` |
 | `rofi/`  | App launcher      | `rofi/config.rasi`, `rofi/zenburn.rasi`, `rofi/finder.sh`, `rofi/files.sh`                          |
 | `conky/` | System monitor    | 4 themes: `meerkat`, `meerkat2`, `blacky`, `weebeastie`                                             |
 | `bash/`  | Shell config      | `bashrc`, `profile` (login shells), `bashrc.d/` (modular snippets), `alacritty.toml`                |
@@ -163,6 +163,13 @@ flag as its third argument.
   with no graphical session the daemon simply never starts, and syncing silently stops.
 - **i3 ecosystem**: rofi (launcher), conky (monitor), fonts (for conky glyphs), feh (wallpaper), dunst (notifications) - all interdependent
 - **Emacs compilation** needs build-essential, gcc (from applications)
+- **The wallpaper is a shortcut cheat-sheet** generated at run time by
+  `i3/wallpaper/generate-wallpaper.sh`: headless Chrome screenshots HTML rendered
+  from `shortcuts.tsv` at the largest xrandr mode. Every default-mode `bindsym` in
+  `i3/config/config` is cross-checked against the TSV both ways, so **adding or
+  removing an i3 binding means editing `shortcuts.tsv` too** or step 150 fails.
+  Emacs rows mirror the separate emacs.d repo and are not checked. With no browser
+  (Chrome disabled) it falls back to the static `i3/.fehbg.png`.
 
 ## Architecture (macOS)
 
