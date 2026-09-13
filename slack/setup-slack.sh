@@ -10,7 +10,7 @@ if is_installed slack; then
 fi
 
 log_info "Downloading Slack .deb package..."
-wget -O /tmp/slack.deb "https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb"
+wget -O /tmp/slack.deb "https://downloads.slack-edge.com/desktop-releases/linux/x64/${SETUP_SLACK_VERSION}/slack-desktop-${SETUP_SLACK_VERSION}-amd64.deb"
 sudo dpkg -i /tmp/slack.deb || sudo apt-get install -f -y
 rm -f /tmp/slack.deb
 

@@ -13,6 +13,7 @@ SETUP_GIT_USER="${SETUP_GIT_USER:-fbielejec}"
 # Pinned versions (empty = use latest/default)
 SETUP_JAVA_VERSION="21"
 SETUP_NODE_VERSION="stable"
+SETUP_SLACK_VERSION="4.52.155"
 
 # Synology Drive client. This is the *download-center* release string, which is
 # NOT what dpkg reports (dpkg says 8.2.0-20058 for this same build), so it
