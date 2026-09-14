@@ -24,11 +24,30 @@ mkdir -p "$OUT"
 SIZES=("$@")
 [ ${#SIZES[@]} -eq 0 ] && SIZES=(3456x2234 3024x1964 2880x1800)
 
+# Native pixel size of the main display, e.g. "3024x1964". system_profiler
+# prints "Resolution:" before "Main Display: Yes" within each display block.
+MAIN_SIZE="$(system_profiler SPDisplaysDataType 2>/dev/null | awk '
+    /Resolution:/     { r = $2 "x" $4 }
+    /Main Display: Yes/ { print r; exit }')"
+if [ -n "$MAIN_SIZE" ]; then
+    case " ${SIZES[*]} " in
+        *" $MAIN_SIZE "*) ;;
+        *) SIZES+=("$MAIN_SIZE") ;;
+    esac
+fi
+
 # --- browser ----------------------------------------------------------------
 BROWSER=""
 for b in chromium chromium-browser google-chrome google-chrome-stable; do
     command -v "$b" >/dev/null 2>&1 && { BROWSER="$b"; break; }
 done
+# Chrome comes from Jamf as an app bundle, which puts nothing on PATH.
+if [ -z "$BROWSER" ]; then
+    for b in "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+             "$HOME/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"; do
+        [ -x "$b" ] && { BROWSER="$b"; break; }
+    done
+fi
 [ -z "$BROWSER" ] && { log_error "Need chromium or google-chrome to render."; exit 1; }
 
 # --- build the keymap this wallpaper documents -------------------------------
@@ -91,6 +110,31 @@ done
 
 rm -f "$OUT/.in-config" "$OUT/.in-sheet" "$KEYMAP"
 
-log_info "Set one as the wallpaper:"
-log_info "  System Settings → Wallpaper → Add Photo, or:"
-log_info "  osascript -e 'tell application \"System Events\" to set picture of every desktop to \"<path>\"'"
+# --- set ---------------------------------------------------------------------
+# Copied out of the repo so the wallpaper survives the checkout moving, the way
+# the Linux side keeps ~/.fehbg.png. The name carries a content hash because
+# macOS caches the wallpaper by path: re-setting the same path after a rebuild
+# keeps showing the old image.
+SRC="$OUT/cheatsheet-${MAIN_SIZE}.png"
+if [ -z "$MAIN_SIZE" ] || [ ! -f "$SRC" ]; then
+    log_error "Could not detect the main display size; set one of the PNGs above by hand"
+    exit 0
+fi
+
+DEST_DIR="$HOME/.wallpaper"
+mkdir -p "$DEST_DIR"
+DEST="$DEST_DIR/cheatsheet-$(shasum "$SRC" | cut -c1-12).png"
+if [ ! -f "$DEST" ]; then
+    rm -f "$DEST_DIR"/cheatsheet-*.png
+    cp "$SRC" "$DEST"
+fi
+
+# Needs the Automation permission (terminal → System Events), not
+# Accessibility; macOS prompts for it on first use. Jamf can pin the wallpaper
+# with a profile, in which case this succeeds and is silently reverted.
+if osascript -e "tell application \"System Events\" to set picture of every desktop to POSIX file \"$DEST\"" >/dev/null; then
+    log_info "Wallpaper set: $DEST"
+else
+    log_error "Could not set the wallpaper (Automation permission denied?)"
+    log_error "  System Settings → Wallpaper → Add Photo → $DEST"
+fi

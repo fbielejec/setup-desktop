@@ -98,7 +98,7 @@ working toolchain — only the window-manager tier drops out.
 | Window borders | i3 `client.focused` | JankyBorders                |
 | Launcher       | rofi                | Alfred                      |
 | Clipboard      | parcellite          | Alfred                      |
-| Wallpaper      | feh                 | desktoppr                   |
+| Wallpaper      | feh                 | osascript (System Events)   |
 | Notifications  | dunst               | terminal-notifier           |
 | Containers     | Docker              | colima                      |
 | Emacs          | built from git      | `emacs-plus`                |

@@ -19,7 +19,6 @@ tap "d12frosted/emacs-plus"
 
 # Direct ports from install-applications.sh
 brew "cmake"
-brew "git"
 brew "autoconf"
 brew "automake"
 brew "libtool"
@@ -83,12 +82,6 @@ brew "terminal-notifier"
 # ---------------------------------------------------------------------------
 
 cask "alacritty"
-cask "keepassxc"                 # apt: keepassx, keepassxc
-cask "calibre"
-cask "transmission"              # apt: transmission-gtk
-cask "iina"                      # apt: celluloid (both are mpv frontends)
-cask "google-chrome"             # chrome/install-google-chrome.sh
-cask "slack"                     # slack/setup-slack.sh
 cask "mactex-no-gui"             # apt: texlive-full + texlive-xetex + fonts
                                  # ~4GB. Use "basictex" if you want minimal.
 
@@ -102,9 +95,6 @@ brew "d12frosted/emacs-plus/emacs-plus@31", args: ["with-native-comp"]
 # macOS if pointed at ~/Library/Fonts — so this is only needed for SketchyBar,
 # which requires a Nerd Font for its glyphs.
 cask "font-hack-nerd-font"
-
-# Wallpaper — replaces `feh --bg-scale` in i3/150-install-wallpaper.sh
-cask "desktoppr"                 # verify
 
 # ---------------------------------------------------------------------------
 # TIER 3 — window manager stack. All require the Accessibility permission.
@@ -147,12 +137,24 @@ cask "alfred"                      # replaces rofi + parcellite (clipboard)
 #   No macOS build, and not worth replacing:
 #     gftp              → use `lftp` if actually needed
 #     qnapi             → Polish subtitle downloader, no port
-#     audacious         → covered by iina
+#     celluloid, audacious → not needed; QuickTime covers the basics
+#     calibre           → not needed on the work machine
 #
 #   build-essential     → `xcode-select --install`, not a brew package
+#   desktoppr           → wallpaper/generate-wallpaper.sh sets the wallpaper
+#                         itself through System Events; nothing to install
 #
 #   DELIBERATELY OMITTED:
 #     nmap              → present in the Linux list, but a network scanner on a
 #                         crypto exchange's managed laptop is very likely on the
 #                         prohibited-software list. Request it explicitly with a
 #                         stated reason rather than installing it quietly.
+#     keepassxc         → 1Password is the company password manager
+#
+#   PROVIDED BY JAMF — installed at enrollment or from Self Service. A cask
+#   would either fail ("already an App at /Applications/...") or take over an
+#   app IT manages and updates:
+#     google-chrome     (the wallpaper generator renders with this copy)
+#     slack
+#     git               (Self Service+; the Xcode CLT copy is the fallback)
+#     zoom, 1password, okta-verify, globalprotect, cloudflare-warp

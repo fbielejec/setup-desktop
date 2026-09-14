@@ -11,10 +11,16 @@ if [ -z "$SETUP_USER_EMAIL" ]; then
     exit 1
 fi
 
-if ! is_installed git; then
-    require_brew
-    brew_install git
+# git comes from Jamf Self Service+, or from the Xcode Command Line Tools that
+# Homebrew already requires — not from brew. `is_installed git` cannot tell:
+# /usr/bin/git is a stub that exists even without the CLT and only opens the
+# install dialog, so test that git actually runs.
+if ! git --version >/dev/null 2>&1; then
+    log_error "git is not usable. Install it from Self Service+, or run:"
+    log_error "  xcode-select --install"
+    exit 1
 fi
+log_info "Using $(command -v git) ($(git --version))"
 
 git config --global user.name "$SETUP_USER_NAME"
 git config --global user.email "$SETUP_USER_EMAIL"

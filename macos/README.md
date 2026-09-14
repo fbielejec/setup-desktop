@@ -121,6 +121,11 @@ is `shortcuts.tsv`, cross-checked against the rendered AeroSpace keymap in both
 directions — an undocumented binding or a documented non-binding fails the
 build, so the wallpaper cannot drift out of date.
 
+It also renders at the main display's native resolution, copies that PNG to
+`~/.wallpaper/` and sets it through System Events. The first run triggers a
+macOS Automation prompt (terminal → System Events) — allow it. If Jamf pins the
+wallpaper with a profile, the change is silently reverted.
+
 ## Not ported
 
 - **conky** — desktop widgets with no macOS equivalent. The readouts that
