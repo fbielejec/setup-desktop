@@ -24,15 +24,21 @@ if ! is_installed claude; then
     npm install -g @anthropic-ai/claude-code
 fi
 
-# Deploy settings (hooks for dunst notifications) - merge to preserve existing keys
+# Deploy settings - merge to preserve keys /model and /config wrote locally.
+# The merge keeps every existing key, so drop the ones older versions of this
+# file put at the wrong level: a top-level `deny` is ignored (rules belong under
+# `permissions`), and `suggestedPrompts` was never a setting.
 mkdir -p "$HOME/.claude"
 if [ -f "$HOME/.claude/settings.json" ]; then
-    jq -s '.[0] * .[1]' "$HOME/.claude/settings.json" "$SCRIPT_DIR/settings.json" > "$HOME/.claude/settings.json.tmp"
+    jq -s '.[0] * .[1] | del(.deny, .suggestedPrompts)' "$HOME/.claude/settings.json" "$SCRIPT_DIR/settings.json" > "$HOME/.claude/settings.json.tmp"
     mv "$HOME/.claude/settings.json.tmp" "$HOME/.claude/settings.json"
     log_info "Merged Claude Code settings into ~/.claude/settings.json"
 else
     cp "$SCRIPT_DIR/settings.json" "$HOME/.claude/settings.json"
     log_info "Copied Claude Code settings to ~/.claude/settings.json"
 fi
+
+# Global instructions, loaded into every session.
+deploy_config "$SCRIPT_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 log_info "Claude Code setup complete"

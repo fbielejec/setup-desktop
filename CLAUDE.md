@@ -92,7 +92,7 @@ written relative to it. Do not flatten it.
 | `rust/`        | Rust toolchain + wasm32 | rustup (curl)                             |
 | `emacs/`       | Emacs editor            | Compiled from git source with native-comp |
 | `gh/`          | GitHub CLI              | apt (official repo)                       |
-| `claude-code/` | Claude Code CLI         | npm global install                        |
+| `claude-code/` | Claude Code CLI + `~/.claude/{settings.json,CLAUDE.md}` | npm global install |
 | `local-harness/` | Qwen-Code CLI + harness repo (client half) | npm + git clone         |
 | `sage/`        | SageMath (optional)     | Compiled from source                      |
 

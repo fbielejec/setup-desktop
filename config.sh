@@ -85,6 +85,6 @@ SETUP_ENABLE_SAGE="${SETUP_ENABLE_SAGE:-false}"
 # Off by default: only wanted on a machine that sees the hardware wallet.
 SETUP_ENABLE_LEDGER_LIVE="${SETUP_ENABLE_LEDGER_LIVE:-false}"
 
-# No Claude Code model setting here on purpose: bash/bashrc.d/claude.sh is
-# deployed verbatim into ~/.bashrc.d/, where this file does not exist, so it
-# cannot read a value from here. It owns ANTHROPIC_MODEL outright.1
+# No Claude Code settings here on purpose: all of them, the model included, live
+# in claude-code/settings.json. Keep ANTHROPIC_MODEL unset — it outranks the
+# `model` key, so any exported value silently beats whatever /model saves.

@@ -34,7 +34,7 @@ sed '/^[[:space:]]*\/\//d' "$SHARED" > "${BUILT}.stripped"
 # is rewritten rather than duplicated.
 HOOK_FILE="${TMPDIR:-/tmp}/claude-mac-hook.txt"
 cat > "$HOOK_FILE" <<'HOOK'
-NAME=$(jq -r '.name // empty' $HOME/.claude/sessions/$PPID.json 2>/dev/null); LABEL=${NAME:-$(basename $(pwd))}; afplay /System/Library/Sounds/Glass.aiff & terminal-notifier -title 'Claude Code' -subtitle "$LABEL" -message 'Needs your attention'
+NAME=$(jq -r '.name // empty' $HOME/.claude/sessions/$PPID.json 2>/dev/null); LABEL=${NAME:-$(basename "$PWD")}; afplay /System/Library/Sounds/Glass.aiff & terminal-notifier -title 'Claude Code' -subtitle "$LABEL" -message 'Needs your attention'
 HOOK
 
 jq --arg cmd "$(cat "$HOOK_FILE")" \
@@ -44,7 +44,9 @@ jq --arg cmd "$(cat "$HOOK_FILE")" \
 mkdir -p "$HOME/.claude"
 
 if [ -f "$HOME/.claude/settings.json" ]; then
-    jq -s '.[0] * .[1]' "$HOME/.claude/settings.json" "$BUILT" > "$HOME/.claude/settings.json.tmp"
+    # Stale keys from older versions of the shared file survive a merge; see
+    # claude-code/setup-claude-code.sh.
+    jq -s '.[0] * .[1] | del(.deny, .suggestedPrompts)' "$HOME/.claude/settings.json" "$BUILT" > "$HOME/.claude/settings.json.tmp"
     mv "$HOME/.claude/settings.json.tmp" "$HOME/.claude/settings.json"
     log_info "Merged Claude Code settings into ~/.claude/settings.json"
 else
@@ -53,6 +55,8 @@ else
 fi
 
 rm -f "${BUILT}.stripped" "$HOOK_FILE"
+
+deploy_config "$REPO_DIR/claude-code/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
 if ! is_installed terminal-notifier; then
     log_error "terminal-notifier missing — notifications will fail silently."
